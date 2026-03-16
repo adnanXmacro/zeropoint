@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZeroPoint LTD &mdash; Engineering Digital Growth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E50914;--red-d:#b0060f;--glow:rgba(229,9,20,.35);
+  --w:#fff;--g1:#e8e8ec;--g2:#c4c4cc;--g4:#8888a0;--g6:#444458;
+  --dk:#07070e;--dk2:#0d0d1a;--dk3:#131324;
+  --gl:rgba(255,255,255,.04);--glb:rgba(255,255,255,.085);--glh:rgba(255,255,255,.07);
+  --fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--dk);color:var(--w);font-family:var(--fb);overflow-x:hidden;cursor:none}
+::selection{background:var(--red);color:#fff}
+a{color:inherit;text-decoration:none}
+
+/* CURSOR */
+#cur,#curR{position:fixed;pointer-events:none;z-index:99999;border-radius:50%;transform:translate(-50%,-50%);transition:width .15s,height .15s}
+#cur{width:10px;height:10px;background:var(--red)}
+#curR{width:34px;height:34px;border:1.5px solid rgba(229,9,20,.5);transition:width .2s,height .2s,border-color .2s}
+#cur.h{width:5px;height:5px}
+#curR.h{width:48px;height:48px;border-color:var(--red)}
+
+/* CANVAS */
+#bgc{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* LOADER */
+#ldr{position:fixed;inset:0;background:var(--dk);z-index:100000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .7s,visibility .7s}
+#ldr.out{opacity:0;visibility:hidden;pointer-events:none}
+.ldr-logo{font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-.02em}
+.ldr-logo b{color:var(--red)}
+.ldr-bar-w{width:200px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.ldr-bar{height:100%;background:var(--red);border-radius:2px;animation:lp 1.5s ease forwards}
+@keyframes lp{from{width:0}to{width:100%}}
+.ldr-txt{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--g4)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(7,7,14,.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--glb)}
+.nlogo{font-family:var(--fd);font-size:1.2rem;font-weight:800;letter-spacing:-.02em;color:var(--w);cursor:pointer}
+.nlogo b{color:var(--red)}
+.nlinks{display:flex;align-items:center;gap:32px;list-style:none}
+.nlinks a{font-size:.875rem;font-weight:500;color:var(--g2);letter-spacing:.02em;transition:color .2s;position:relative;cursor:pointer}
+.nlinks a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--red);transition:width .3s}
+.nlinks a:hover,.nlinks a.on{color:#fff}
+.nlinks a:hover::after,.nlinks a.on::after{width:100%}
+#nav-right{display:flex;align-items:center;gap:10px}
+.ncta{background:var(--red);color:#fff;padding:9px 20px;border-radius:7px;font-weight:600;font-size:.85rem;box-shadow:0 0 20px var(--glow);cursor:pointer;border:none;font-family:var(--fb);transition:background .2s,transform .2s,box-shadow .2s}
+.ncta:hover{background:var(--red-d);transform:translateY(-1px);box-shadow:0 0 35px var(--glow)}
+.nubtn{display:flex;align-items:center;gap:8px;background:var(--gl);border:1px solid var(--glb);border-radius:8px;padding:7px 14px;cursor:pointer;transition:background .2s;font-family:var(--fb);color:#fff;font-size:.85rem;font-weight:500}
+.nubtn:hover{background:var(--glh)}
+.nav-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--red),#6b000a);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:800;font-family:var(--fd);flex-shrink:0}
+.hmbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hmbg span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:.3s}
+.mobmenu{display:none;position:fixed;top:68px;left:0;right:0;background:rgba(7,7,14,.97);backdrop-filter:blur(20px);z-index:999;padding:20px;flex-direction:column;gap:0;border-bottom:1px solid var(--glb)}
+.mobmenu.open{display:flex}
+.mobmenu a{color:var(--g2);font-size:.95rem;font-weight:500;padding:12px 0;border-bottom:1px solid var(--glb);cursor:pointer;display:block}
+.mobmenu a:last-child{border-bottom:none;color:var(--red);font-weight:700}
+
+/* USER DROPDOWN */
+.uddw{position:relative}
+.udd{position:absolute;top:calc(100% + 8px);right:0;background:var(--dk2);border:1px solid var(--glb);border-radius:12px;padding:8px;min-width:200px;display:none;z-index:2000;box-shadow:0 16px 50px rgba(0,0,0,.6)}
+.udd.open{display:block}
+.udd-hd{padding:10px 12px 12px;border-bottom:1px solid var(--glb);margin-bottom:6px}
+.udd-name{font-weight:700;font-size:.9rem;font-family:var(--fd)}
+.udd-email{font-size:.72rem;color:var(--g4);margin-top:2px;word-break:break-all}
+.udd-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;cursor:pointer;transition:background .2s;font-size:.85rem;color:var(--g2);background:none;border:none;width:100%;text-align:left;font-family:var(--fb)}
+.udd-item:hover{background:var(--gl)}
+.udd-item.danger{color:#ff6b6b}
+.udd-item.danger:hover{background:rgba(229,9,20,.1)}
+.udd-sep{height:1px;background:var(--glb);margin:6px 0}
+
+/* AUTH OVERLAY */
+#auth-ov{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:opacity .3s,visibility .3s}
+#auth-ov.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.amod{background:var(--dk2);border:1px solid var(--glb);border-radius:20px;padding:44px 40px;width:100%;max-width:420px;position:relative;overflow:hidden;max-height:90vh;overflow-y:auto}
+.amod::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),transparent)}
+.acls{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--g4);font-size:1.3rem;cursor:pointer;transition:color .2s;line-height:1;padding:4px}
+.acls:hover{color:#fff}
+.alogo{font-family:var(--fd);font-size:1.3rem;font-weight:800;margin-bottom:6px}
+.alogo b{color:var(--red)}
+.asub{color:var(--g4);font-size:.875rem;margin-bottom:28px;font-weight:300}
+.atabs{display:flex;background:rgba(255,255,255,.06);border-radius:8px;padding:3px;margin-bottom:24px}
+.atab{flex:1;padding:8px;border-radius:6px;border:none;background:none;color:var(--g4);font-size:.875rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--fb)}
+.atab.on{background:var(--red);color:#fff}
+.aerr{background:rgba(229,9,20,.12);border:1px solid rgba(229,9,20,.3);color:#ff8080;border-radius:7px;padding:10px 14px;font-size:.8rem;margin-bottom:14px;display:none}
+.aerr.show{display:block}
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px}
+.fi{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--glb);border-radius:8px;padding:12px 15px;color:#fff;font-size:.9rem;font-family:var(--fb);outline:none;transition:border-color .2s,box-shadow .2s}
+.fi:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(229,9,20,.12)}
+.fi::placeholder{color:var(--g6)}
+.abtn{width:100%;padding:13px;background:var(--red);border:none;border-radius:8px;color:#fff;font-family:var(--fd);font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s,box-shadow .2s,transform .2s;box-shadow:0 0 20px var(--glow);margin-top:4px}
+.abtn:hover{background:var(--red-d);box-shadow:0 0 35px var(--glow);transform:translateY(-1px)}
+.adiv{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--g6);font-size:.72rem}
+.adiv::before,.adiv::after{content:'';flex:1;height:1px;background:var(--glb)}
+.demo-note{background:rgba(255,255,255,.04);border:1px solid var(--glb);border-radius:8px;padding:12px;font-size:.75rem;color:var(--g4);text-align:center}
+.demo-note b{color:var(--g2)}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* PAGES */
+.page{display:none;min-height:100vh;position:relative;z-index:1}
+.page.active{display:block}
+
+/* SHARED */
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sec{padding:90px 0}
+.slbl{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.sttl{font-family:var(--fd);font-size:clamp(1.9rem,3.8vw,2.9rem);font-weight:700;line-height:1.15;letter-spacing:-.025em;margin-bottom:14px}
+.ssub{color:var(--g4);font-size:1rem;line-height:1.7;font-weight:300;max-width:500px}
+.shd{margin-bottom:56px}
+
+/* GLASS CARD */
+.gc{background:var(--gl);border:1px solid var(--glb);border-radius:16px;padding:32px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:background .3s,border-color .3s,transform .3s,box-shadow .3s;position:relative;overflow:hidden}
+.gc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+.gc:hover{background:var(--glh);border-color:rgba(229,9,20,.3);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 28px rgba(229,9,20,.1)}
+
+/* BUTTONS */
+.btnp{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;padding:13px 26px;border-radius:8px;font-weight:600;font-size:.9rem;border:none;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 0 24px var(--glow);font-family:var(--fb)}
+.btnp:hover{background:var(--red-d);transform:translateY(-2px);box-shadow:0 0 45px var(--glow)}
+.btno{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;padding:13px 26px;border-radius:8px;font-weight:600;font-size:.9rem;border:1px solid var(--glb);cursor:pointer;transition:background .2s,border-color .2s,transform .2s;font-family:var(--fb)}
+.btno:hover{background:var(--glh);border-color:rgba(255,255,255,.18);transform:translateY(-2px)}
+.btnw{background:#fff;color:var(--red);padding:13px 30px;border-radius:8px;font-weight:700;font-size:.9rem;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;display:inline-flex;align-items:center;gap:8px;font-family:var(--fd)}
+.btnw:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+
+/* REVEAL */
+.rev{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.rev.vis{opacity:1;transform:none}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:68px;position:relative;overflow:hidden}
+.hbadge{display:inline-flex;align-items:center;gap:8px;background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.28);color:var(--red);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:26px;animation:fiu .6s ease forwards;opacity:0}
+.hbadge::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;animation:pulse 2s infinite}
+h1.hh{font-family:var(--fd);font-size:clamp(2.8rem,6.5vw,5.6rem);font-weight:800;line-height:1.0;letter-spacing:-.03em;margin-bottom:22px;animation:fiu .6s ease .1s forwards;opacity:0}
+h1.hh em{font-style:normal;color:var(--red)}
+.hsub{font-size:1.1rem;color:var(--g4);line-height:1.7;max-width:500px;margin-bottom:38px;font-weight:300;animation:fiu .6s ease .2s forwards;opacity:0}
+.hbtns{display:flex;gap:14px;flex-wrap:wrap;animation:fiu .6s ease .3s forwards;opacity:0}
+.fshp{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(229,9,20,.13),transparent 70%);animation:flt 7s ease-in-out infinite;pointer-events:none}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes fiu{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.scrl{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--g6);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;animation:fi 1s .8s ease forwards;opacity:0}
+.sln{width:1px;height:38px;background:linear-gradient(to bottom,var(--red),transparent);animation:sline 1.6s ease-in-out infinite}
+@keyframes sline{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* HOME SERVICES GRID */
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+.sico{font-size:1.4rem;width:48px;height:48px;background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.22);border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;transition:background .3s,box-shadow .3s}
+.gc:hover .sico{background:rgba(229,9,20,.18);box-shadow:0 0 18px rgba(229,9,20,.28)}
+.sttlc{font-family:var(--fd);font-size:1.05rem;font-weight:700;margin-bottom:8px}
+.sdsc{color:var(--g4);font-size:.875rem;line-height:1.6;font-weight:300}
+
+/* STATS */
+.stats-s{padding:72px 0;border-top:1px solid var(--glb);border-bottom:1px solid var(--glb)}
+.stats-g{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.stn{font-family:var(--fd);font-size:clamp(2.2rem,4.5vw,3.6rem);font-weight:800;color:#fff;letter-spacing:-.03em;display:block}
+.stn span{color:var(--red)}
+.stl{color:var(--g4);font-size:.875rem;font-weight:300;margin-top:5px;display:block}
+
+/* FEATURES */
+.fgg{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
+.ficard{display:flex;gap:14px;background:var(--gl);border:1px solid var(--glb);border-radius:12px;padding:22px;transition:background .3s,border-color .3s}
+.ficard:hover{background:var(--glh);border-color:rgba(229,9,20,.2)}
+.fiico{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+.fittl{font-family:var(--fd);font-weight:700;margin-bottom:5px;font-size:.95rem}
+.fidsc{color:var(--g4);font-size:.84rem;line-height:1.6;font-weight:300}
+
+/* TESTIMONIALS */
+.tslid{overflow:hidden}
+.ttrk{display:flex;gap:22px;transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
+.tc{min-width:calc(50% - 11px);background:var(--gl);border:1px solid var(--glb);border-radius:16px;padding:32px;backdrop-filter:blur(12px);flex-shrink:0}
+.tcst{color:#FFB800;font-size:.85rem;margin-bottom:14px}
+.tctx{color:var(--g2);font-size:.95rem;line-height:1.75;font-weight:300;margin-bottom:22px;font-style:italic}
+.tcau{display:flex;align-items:center;gap:11px}
+.tcav{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--red),#6b000a);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;font-family:var(--fd);flex-shrink:0}
+.tcnm{font-weight:600;font-size:.9rem}
+.tcrl{color:var(--g4);font-size:.75rem}
+.slbtns{display:flex;gap:9px;margin-top:28px}
+.slbtn{width:42px;height:42px;border-radius:50%;border:1px solid var(--glb);background:var(--gl);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,border-color .2s;font-size:.95rem}
+.slbtn:hover{background:var(--red);border-color:var(--red)}
+
+/* CTA BANNER */
+.ctaban{background:linear-gradient(135deg,var(--red) 0%,#900510 100%);border-radius:20px;padding:76px 56px;text-align:center;position:relative;overflow:hidden}
+.ctaban::before{content:'';position:absolute;top:-60%;left:-60%;width:220%;height:220%;background:radial-gradient(circle,rgba(255,255,255,.07),transparent 50%)}
+.ctaban h2{font-family:var(--fd);font-size:clamp(1.8rem,3.8vw,2.8rem);font-weight:800;letter-spacing:-.025em;margin-bottom:14px;position:relative}
+.ctaban p{font-size:1.05rem;opacity:.82;margin-bottom:32px;font-weight:300;position:relative}
+
+/* PAGE HERO */
+.ph{padding:140px 0 72px;text-align:center;position:relative}
+.ph h1{font-family:var(--fd);font-size:clamp(2.3rem,5vw,3.8rem);font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
+.ph p{color:var(--g4);font-size:1.05rem;font-weight:300}
+
+/* SERVICES */
+.sdg{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:26px}
+.sdc{background:var(--gl);border:1px solid var(--glb);border-radius:20px;padding:36px;backdrop-filter:blur(14px);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;cursor:pointer}
+.sdc::after{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(circle at 75% 20%,rgba(229,9,20,.07),transparent 60%);opacity:0;transition:opacity .3s}
+.sdc:hover{transform:translateY(-8px);box-shadow:0 30px 80px rgba(0,0,0,.4),0 0 40px rgba(229,9,20,.1);border-color:rgba(229,9,20,.38)}
+.sdc:hover::after{opacity:1}
+.sdico{font-size:2.8rem;margin-bottom:18px;display:block}
+.sdtl{font-family:var(--fd);font-size:1.35rem;font-weight:800;margin-bottom:10px}
+.sddsc{color:var(--g4);font-size:.9rem;line-height:1.7;font-weight:300;margin-bottom:22px}
+.sdfl{list-style:none;margin-bottom:26px;display:flex;flex-direction:column;gap:7px}
+.sdfl li{color:var(--g2);font-size:.84rem;display:flex;align-items:center;gap:9px}
+.sdfl li::before{content:'';width:5px;height:5px;background:var(--red);border-radius:50%;flex-shrink:0}
+.btnpl{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--red);border:1px solid rgba(229,9,20,.38);padding:9px 18px;border-radius:6px;font-size:.84rem;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s;font-family:var(--fb)}
+.btnpl:hover{background:rgba(229,9,20,.1);border-color:var(--red)}
+
+/* PRICING */
+.ptabs{display:flex;gap:7px;margin-bottom:52px;flex-wrap:wrap}
+.ptab{padding:9px 20px;border-radius:8px;border:1px solid var(--glb);background:var(--gl);color:var(--g4);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--fb)}
+.ptab.on{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 0 20px var(--glow)}
+.ppnl{display:none}.ppnl.on{display:block}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:22px}
+.pcard{background:var(--gl);border:1px solid var(--glb);border-radius:20px;padding:36px 32px;backdrop-filter:blur(14px);position:relative;transition:transform .3s,box-shadow .3s}
+.pcard:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.pcard.feat{border-color:var(--red);box-shadow:0 0 40px rgba(229,9,20,.18);animation:fglo 3s ease-in-out infinite}
+@keyframes fglo{0%,100%{box-shadow:0 0 40px rgba(229,9,20,.18)}50%{box-shadow:0 0 60px rgba(229,9,20,.32)}}
+.pbadge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 13px;border-radius:100px;white-space:nowrap}
+.ptier{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:7px}
+.pprice{font-family:var(--fd);font-size:2.8rem;font-weight:800;letter-spacing:-.03em;margin-bottom:3px}
+.pprice span{font-size:.95rem;font-weight:400;color:var(--g4)}
+.pdesc{color:var(--g4);font-size:.84rem;margin-bottom:26px;font-weight:300}
+.pfl{list-style:none;margin-bottom:28px;display:flex;flex-direction:column;gap:10px}
+.pfl li{display:flex;align-items:center;gap:9px;font-size:.875rem;color:var(--g2)}
+.pfl li .ck{color:var(--red);font-size:.75rem;flex-shrink:0}
+.pfl li.dim{color:var(--g6)}
+.pfl li.dim .ck{color:var(--g6)}
+.btnpc{width:100%;padding:12px;border-radius:8px;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--fb);border:1px solid var(--glb);background:var(--gl);color:#fff}
+.btnpc:hover{background:var(--glh);border-color:rgba(255,255,255,.18)}
+.btnpc.pr{background:var(--red);border-color:var(--red);box-shadow:0 0 18px var(--glow)}
+.btnpc.pr:hover{background:var(--red-d);box-shadow:0 0 30px var(--glow)}
+
+/* BUNDLE BUILDER */
+.bldlay{display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start}
+.bldstl{font-family:var(--fd);font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--g4);margin-bottom:12px}
+.bldgrp{margin-bottom:26px}
+.bldsvc{background:var(--gl);border:1px solid var(--glb);border-radius:12px;padding:18px;margin-bottom:10px;cursor:pointer;transition:border-color .2s,background .2s;user-select:none}
+.bldsvc.sel{border-color:var(--red);background:rgba(229,9,20,.05)}
+.bldhdr{display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+.bldnm{font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:9px}
+.tgl{width:42px;height:23px;background:rgba(255,255,255,.1);border-radius:100px;position:relative;transition:background .2s;flex-shrink:0}
+.bldsvc.sel .tgl{background:var(--red)}
+.tgl::after{content:'';position:absolute;top:3px;left:3px;width:17px;height:17px;background:#fff;border-radius:50%;transition:transform .2s}
+.bldsvc.sel .tgl::after{transform:translateX(19px)}
+.bldtiers{margin-top:14px;display:none;gap:7px;pointer-events:all}
+.bldsvc.sel .bldtiers{display:flex}
+.tbtn{flex:1;padding:7px 4px;border-radius:6px;border:1px solid var(--glb);background:transparent;color:var(--g4);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--fb);text-align:center;line-height:1.4}
+.tbtn.on{background:var(--red);border-color:var(--red);color:#fff}
+.sumcard{background:var(--gl);border:1px solid var(--glb);border-radius:16px;padding:28px;backdrop-filter:blur(14px);position:sticky;top:88px}
+.sumttl{font-family:var(--fd);font-size:1.1rem;font-weight:700;margin-bottom:22px}
+.sumempty{color:var(--g4);font-size:.875rem;text-align:center;padding:20px 0;font-weight:300}
+.sumitem{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--glb)}
+.sumitem:last-child{border-bottom:none}
+.suminm{font-size:.875rem;font-weight:500}
+.sumitr{font-size:.72rem;color:var(--g4)}
+.sumipr{font-size:.875rem;font-weight:700;color:var(--red);white-space:nowrap}
+.sumdiv{height:1px;background:var(--glb);margin:14px 0}
+.sumtot{display:flex;justify-content:space-between;align-items:center}
+.sumtotlbl{font-size:.84rem;color:var(--g4)}
+.sumtotp{font-family:var(--fd);font-size:1.9rem;font-weight:800}
+.sumnote{font-size:.68rem;color:var(--g6);margin-top:4px;text-align:right}
+.btnpur{width:100%;padding:13px;background:var(--red);border:none;border-radius:8px;color:#fff;font-family:var(--fd);font-size:.95rem;font-weight:700;cursor:pointer;margin-top:18px;transition:all .2s;box-shadow:0 0 18px var(--glow)}
+.btnpur:hover{background:var(--red-d);box-shadow:0 0 35px var(--glow);transform:translateY(-1px)}
+.btnpur:disabled{opacity:.38;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ABOUT */
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-bottom:90px}
+.avis{height:380px;border-radius:20px;overflow:hidden;background:var(--dk3);position:relative}
+.avisi{position:absolute;inset:0;background:linear-gradient(135deg,rgba(229,9,20,.13),transparent 60%);display:flex;align-items:center;justify-content:center}
+.abigt{font-family:var(--fd);font-size:7rem;font-weight:800;color:rgba(229,9,20,.07);line-height:1;user-select:none}
+.astatov{position:absolute;bottom:22px;left:22px;background:rgba(7,7,14,.88);backdrop-filter:blur(12px);border:1px solid var(--glb);border-radius:11px;padding:14px 18px}
+.astn{font-family:var(--fd);font-size:1.9rem;font-weight:800;color:var(--red)}
+.astl{font-size:.72rem;color:var(--g4)}
+.missg{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:90px}
+.missc{background:var(--gl);border:1px solid var(--glb);border-radius:16px;padding:32px;backdrop-filter:blur(14px)}
+.missc h3{font-family:var(--fd);font-size:1.3rem;font-weight:700;margin-bottom:10px}
+.missc p{color:var(--g4);line-height:1.7;font-weight:300}
+.teamg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px;margin-bottom:90px}
+.teamc{background:var(--gl);border:1px solid var(--glb);border-radius:16px;padding:26px;text-align:center;backdrop-filter:blur(14px);transition:transform .3s,border-color .3s}
+.teamc:hover{transform:translateY(-4px);border-color:rgba(229,9,20,.28)}
+.teamav{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--red),#6b000a);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1.6rem;font-weight:800;margin:0 auto 14px;border:2px solid rgba(229,9,20,.28)}
+.teamnm{font-family:var(--fd);font-size:1rem;font-weight:700;margin-bottom:3px}
+.teamrl{color:var(--red);font-size:.72rem;font-weight:700;letter-spacing:.05em;margin-bottom:10px}
+.teambio{color:var(--g4);font-size:.78rem;line-height:1.6;font-weight:300}
+.tl{position:relative;padding-left:36px}
+.tl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--red),transparent)}
+.tli{position:relative;margin-bottom:44px}
+.tli::before{content:'';position:absolute;left:-40px;top:4px;width:9px;height:9px;background:var(--red);border-radius:50%;box-shadow:0 0 10px var(--glow)}
+.tlyr{font-family:var(--fd);font-size:.72rem;font-weight:700;color:var(--red);letter-spacing:.1em;margin-bottom:5px}
+.tlttl{font-family:var(--fd);font-size:1.05rem;font-weight:700;margin-bottom:7px}
+.tldsc{color:var(--g4);font-size:.875rem;line-height:1.6;font-weight:300}
+
+/* CONTACT */
+.conlay{display:grid;grid-template-columns:1fr 1.4fr;gap:56px;align-items:start}
+.conii{display:flex;gap:14px;margin-bottom:24px}
+.conico{width:42px;height:42px;background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.22);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.conlbl{font-size:.68rem;color:var(--g4);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.conval{font-size:.9rem;font-weight:500}
+.socls{display:flex;gap:10px;margin-top:28px}
+.socl{width:38px;height:38px;border-radius:8px;border:1px solid var(--glb);background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--g2);cursor:pointer;transition:background .2s,border-color .2s,color .2s;font-style:normal}
+.socl:hover{background:var(--red);border-color:var(--red);color:#fff}
+.confc{background:var(--gl);border:1px solid var(--glb);border-radius:20px;padding:40px;backdrop-filter:blur(14px)}
+.mapw{margin-top:38px;border-radius:14px;overflow:hidden;border:1px solid var(--glb);height:220px}
+.mapw iframe{width:100%;height:100%;border:none}
+
+/* DASHBOARD */
+.dashl{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 68px);margin-top:68px}
+.sidebar{background:var(--dk2);border-right:1px solid var(--glb);padding:20px 14px;position:sticky;top:68px;height:calc(100vh - 68px);overflow-y:auto}
+.sblbl{font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g6);padding:0 10px;margin-bottom:5px;margin-top:16px;display:block}
+.sbitem{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .2s;color:var(--g2);font-size:.85rem;font-weight:500;background:none;border:none;width:100%;text-align:left;font-family:var(--fb)}
+.sbitem:hover{background:var(--gl)}
+.sbitem.on{background:rgba(229,9,20,.12);color:#fff;border-left:2px solid var(--red);margin-left:-2px;padding-left:10px}
+.sbico{font-size:.95rem;width:20px;text-align:center;flex-shrink:0}
+.dashmain{padding:36px;background:var(--dk);overflow-y:auto}
+.dashhd{margin-bottom:32px}
+.dashwel{font-family:var(--fd);font-size:1.6rem;font-weight:800;letter-spacing:-.02em}
+.dashsub{color:var(--g4);font-size:.9rem;margin-top:4px;font-weight:300}
+.dashgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:28px}
+.dstat{background:var(--gl);border:1px solid var(--glb);border-radius:14px;padding:22px;backdrop-filter:blur(12px)}
+.dstatv{font-family:var(--fd);font-size:2rem;font-weight:800;margin-bottom:4px}
+.dstatv span{color:var(--red)}
+.dstatl{color:var(--g4);font-size:.78rem;font-weight:300}
+.dstatc{font-size:.72rem;margin-top:8px}
+.up{color:#4ade80}.dn{color:#f87171}
+.d2col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.dw{background:var(--gl);border:1px solid var(--glb);border-radius:14px;padding:24px;backdrop-filter:blur(12px)}
+.dwttl{font-family:var(--fd);font-size:.95rem;font-weight:700;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center}
+.dwttl span{font-size:.68rem;color:var(--g4);font-weight:400;font-family:var(--fb)}
+.actitem{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--glb)}
+.actitem:last-child{border-bottom:none}
+.actico{width:32px;height:32px;border-radius:8px;background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.2);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.acttxt{font-size:.84rem;font-weight:500;margin-bottom:2px}
+.acttime{font-size:.7rem;color:var(--g4)}
+.projitem{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--glb)}
+.projitem:last-child{border-bottom:none}
+.projnm{font-size:.875rem;font-weight:600;margin-bottom:3px}
+.projtype{font-size:.7rem;color:var(--g4)}
+.pbdg{padding:3px 10px;border-radius:100px;font-size:.65rem;font-weight:700}
+.live{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.25)}
+.prog{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.25)}
+.rev2{background:rgba(229,9,20,.12);color:#ff8080;border:1px solid rgba(229,9,20,.25)}
+.barw{margin-top:8px}
+.barr{margin-bottom:14px}
+.bart{display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:5px;color:var(--g2)}
+.barbg{height:6px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden}
+.barf{height:100%;border-radius:100px;background:var(--red);transition:width 1.2s ease}
+.invtbl{width:100%;border-collapse:collapse;font-size:.84rem}
+.invtbl th{text-align:left;padding:10px 0;color:var(--g4);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--glb)}
+.invtbl td{padding:12px 0;border-bottom:1px solid var(--glb);color:var(--g2)}
+.invtbl tr:last-child td{border-bottom:none}
+.invpd{color:#4ade80}.invpn{color:#fbbf24}
+.dpnl{display:none}.dpnl.on{display:block}
+
+/* CHATBOT */
+#chatfab{position:fixed;bottom:32px;right:32px;width:58px;height:58px;border-radius:50%;background:var(--red);border:none;cursor:pointer;z-index:5000;display:flex;align-items:center;justify-content:center;box-shadow:0 0 28px var(--glow),0 4px 20px rgba(0,0,0,.4);transition:transform .2s,box-shadow .2s;animation:fabpop .5s .3s cubic-bezier(.175,.885,.32,1.275) both}
+@keyframes fabpop{from{transform:scale(0)}to{transform:scale(1)}}
+#chatfab:hover{transform:scale(1.08);box-shadow:0 0 45px var(--glow),0 6px 28px rgba(0,0,0,.5)}
+.fabico{font-size:1.5rem;transition:transform .3s;display:block}
+#chatfab.open .fabico{transform:rotate(90deg)}
+.chatdot{position:absolute;top:-3px;right:-3px;width:16px;height:16px;background:#4ade80;border-radius:50%;border:2px solid var(--dk);animation:pulse 2s infinite}
+#chatwin{position:fixed;bottom:102px;right:32px;width:380px;height:560px;background:var(--dk2);border:1px solid var(--glb);border-radius:20px;z-index:4999;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 40px rgba(229,9,20,.1);transform:scale(.85) translateY(20px);opacity:0;pointer-events:none;transition:transform .3s cubic-bezier(.175,.885,.32,1.275),opacity .3s}
+#chatwin.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+.chathd{background:linear-gradient(135deg,rgba(229,9,20,.2),rgba(229,9,20,.04));border-bottom:1px solid var(--glb);padding:16px 18px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.chathdav{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--red),#6b000a);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;position:relative}
+.chatsdot{position:absolute;bottom:0;right:0;width:10px;height:10px;background:#4ade80;border-radius:50%;border:2px solid var(--dk2)}
+.chathdnm{font-family:var(--fd);font-weight:700;font-size:.95rem}
+.chathdst{font-size:.7rem;color:#4ade80;font-weight:500}
+.chathdcls{background:none;border:none;color:var(--g4);cursor:pointer;font-size:1.1rem;transition:color .2s;padding:4px;margin-left:auto}
+.chathdcls:hover{color:#fff}
+.chatmsgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.chatmsgs::-webkit-scrollbar{width:3px}
+.chatmsgs::-webkit-scrollbar-thumb{background:var(--glb);border-radius:3px}
+.msg{display:flex;gap:9px;align-items:flex-end}
+.msg.usr{flex-direction:row-reverse}
+.msgav{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--red),#6b000a);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;font-family:var(--fd);flex-shrink:0}
+.msgav.bot{background:linear-gradient(135deg,rgba(229,9,20,.25),rgba(229,9,20,.08));border:1px solid rgba(229,9,20,.3)}
+.msgbub{max-width:82%;padding:11px 15px;border-radius:16px;font-size:.86rem;line-height:1.55}
+.msg.bot .msgbub{background:var(--dk3);border:1px solid var(--glb);border-bottom-left-radius:4px;color:var(--g1)}
+.msg.usr .msgbub{background:var(--red);border-bottom-right-radius:4px;color:#fff}
+.msgt{font-size:.62rem;color:var(--g6);margin-top:4px;display:block}
+.typing{display:flex;gap:5px;align-items:center;padding:11px 15px;background:var(--dk3);border:1px solid var(--glb);border-radius:16px;border-bottom-left-radius:4px;width:fit-content}
+.tdot{width:7px;height:7px;border-radius:50%;background:var(--g4);animation:td .8s ease-in-out infinite}
+.tdot:nth-child(2){animation-delay:.15s}
+.tdot:nth-child(3){animation-delay:.3s}
+@keyframes td{0%,80%,100%{transform:scale(.8);opacity:.5}40%{transform:scale(1);opacity:1}}
+.chatft{border-top:1px solid var(--glb);padding:12px 14px;display:flex;gap:9px;align-items:flex-end;flex-shrink:0}
+.chatinpw{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--glb);border-radius:12px;padding:10px 14px;display:flex;align-items:flex-end;transition:border-color .2s}
+.chatinpw:focus-within{border-color:rgba(229,9,20,.4)}
+.chatinp{flex:1;background:none;border:none;outline:none;color:#fff;font-family:var(--fb);font-size:.875rem;resize:none;max-height:100px;line-height:1.5}
+.chatinp::placeholder{color:var(--g6)}
+.chatsend{width:40px;height:40px;border-radius:10px;background:var(--red);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;flex-shrink:0;font-size:1rem;color:#fff}
+.chatsend:hover{background:var(--red-d);transform:scale(1.06)}
+.chatsend:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.chatqk{display:flex;gap:6px;padding:0 14px 10px;flex-wrap:wrap;flex-shrink:0}
+.qchip{padding:5px 12px;border-radius:100px;border:1px solid var(--glb);background:var(--gl);color:var(--g2);font-size:.7rem;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s;font-family:var(--fb)}
+.qchip:hover{background:rgba(229,9,20,.12);border-color:rgba(229,9,20,.3);color:#fff}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dk3);border:1px solid var(--glb);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:11px;z-index:90000;opacity:0;transition:transform .4s cubic-bezier(.175,.885,.32,1.275),opacity .4s;backdrop-filter:blur(14px);min-width:280px;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toasttxt{font-size:.875rem;font-weight:600}
+.toastsub{font-size:.72rem;color:var(--g4);margin-top:2px}
+
+/* FOOTER */
+footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px;position:relative;z-index:1}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:52px;margin-bottom:52px}
+.fdesc{color:var(--g4);font-size:.875rem;line-height:1.7;margin-top:10px;font-weight:300;max-width:260px}
+.fsoc{display:flex;gap:9px;margin-top:20px}
+.fhd{font-family:var(--fd);font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px;color:var(--g2)}
+.fls{list-style:none;display:flex;flex-direction:column;gap:10px}
+.fls a{color:var(--g4);font-size:.875rem;font-weight:300;transition:color .2s;cursor:pointer;display:block}
+.fls a:hover{color:#fff}
+.fci{display:flex;align-items:flex-start;gap:9px;margin-bottom:12px;color:var(--g4);font-size:.84rem;font-weight:300}
+.fbot{padding-top:28px;border-top:1px solid var(--glb);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.fbot p{color:var(--g6);font-size:.78rem}
+.fbot b{color:var(--red)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:0 20px}
+  .nlinks{display:none}
+  .hmbg{display:flex}
+  .fgrid{grid-template-columns:1fr 1fr;gap:36px}
+  .agrid,.missg,.conlay{grid-template-columns:1fr}
+  .bldlay{grid-template-columns:1fr}
+  .dashl{grid-template-columns:1fr;margin-top:68px}
+  .sidebar{display:none}
+  .stats-g{grid-template-columns:1fr;gap:20px}
+  .tc{min-width:100%}
+  .d2col{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .fgrid{grid-template-columns:1fr}
+  .sec{padding:60px 0}
+  .ctaban{padding:44px 24px}
+  .frow{grid-template-columns:1fr}
+  #chatwin{width:calc(100vw - 24px);right:12px;bottom:88px}
+  #chatfab{bottom:20px;right:20px}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="curR"></div>
+
+<!-- LOADER -->
+<div id="ldr">
+  <div class="ldr-logo">Zero<b>Point</b> LTD</div>
+  <div class="ldr-bar-w"><div class="ldr-bar"></div></div>
+  <div class="ldr-txt">Initialising systems...</div>
+</div>
+
+<canvas id="bgc"></canvas>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div id="t-ico" style="font-size:1.2rem">&#10003;</div>
+  <div><div class="toasttxt" id="t-txt"></div><div class="toastsub" id="t-sub"></div></div>
+</div>
+
+<!-- AUTH OVERLAY -->
+<div id="auth-ov" class="hidden">
+  <div class="amod">
+    <button class="acls" onclick="closeAuth()">&#10005;</button>
+    <div class="alogo">Zero<b>Point</b></div>
+    <div class="asub" id="auth-sub">Welcome back. Sign in to your account.</div>
+    <div class="atabs">
+      <button class="atab on" id="atab-li" onclick="switchTab('li')">Sign In</button>
+      <button class="atab" id="atab-reg" onclick="switchTab('reg')">Create Account</button>
+    </div>
+    <div class="aerr" id="aerr"></div>
+    <div id="form-li">
+      <div class="fg"><label>Email Address</label><input class="fi" type="email" id="li-em" placeholder="you&#64;company.com" autocomplete="email"></div>
+      <div class="fg"><label>Password</label><input class="fi" type="password" id="li-pw" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" autocomplete="current-password"></div>
+      <button class="abtn" onclick="doLogin()">Sign In &#8594;</button>
+      <div class="adiv">or use demo account</div>
+      <div class="demo-note">Email: <b>demo&#64;zeropoint.ltd</b> &nbsp;/&nbsp; Password: <b>demo1234</b></div>
+    </div>
+    <div id="form-reg" style="display:none">
+      <div class="frow">
+        <div class="fg"><label>First Name</label><input class="fi" type="text" id="reg-fn" placeholder="Alex" autocomplete="given-name"></div>
+        <div class="fg"><label>Last Name</label><input class="fi" type="text" id="reg-ln" placeholder="Harper" autocomplete="family-name"></div>
+      </div>
+      <div class="fg"><label>Email Address</label><input class="fi" type="email" id="reg-em" placeholder="you&#64;company.com" autocomplete="email"></div>
+      <div class="fg"><label>Company (Optional)</label><input class="fi" type="text" id="reg-co" placeholder="Your Company"></div>
+      <div class="fg"><label>Password (8+ chars)</label><input class="fi" type="password" id="reg-pw" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" autocomplete="new-password"></div>
+      <button class="abtn" onclick="doRegister()">Create Account &#8594;</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <span class="nlogo" onclick="nav('home')">Zero<b>Point</b></span>
+  <ul class="nlinks">
+    <li><a onclick="nav('home')" data-p="home">Home</a></li>
+    <li><a onclick="nav('services')" data-p="services">Services</a></li>
+    <li><a onclick="nav('pricing')" data-p="pricing">Pricing</a></li>
+    <li><a onclick="nav('about')" data-p="about">About</a></li>
+    <li><a onclick="nav('contact')" data-p="contact">Contact</a></li>
+  </ul>
+  <div id="nav-right">
+    <button class="ncta" onclick="openAuth()">Get Started</button>
+  </div>
+  <button class="hmbg" onclick="toggleMob()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobmenu" id="mobmenu">
+  <a onclick="nav('home');toggleMob()">Home</a>
+  <a onclick="nav('services');toggleMob()">Services</a>
+  <a onclick="nav('pricing');toggleMob()">Pricing</a>
+  <a onclick="nav('about');toggleMob()">About</a>
+  <a onclick="nav('contact');toggleMob()">Contact</a>
+  <a onclick="openAuth();toggleMob()">Get Started &#8594;</a>
+</div>
+
+<!-- ═══ HOME ═══ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hbadge">&#128640; Premium Digital Agency</div>
+      <h1 class="hh">Engineering<br><em>Digital Growth</em></h1>
+      <p class="hsub">We craft high-performance websites, data-driven SEO, and bold social campaigns that transform your digital presence — measurably.</p>
+      <div class="hbtns">
+        <button class="btnp" onclick="openAuth()">Get Started &#8594;</button>
+        <button class="btno" onclick="nav('services')">View Services</button>
+      </div>
+    </div>
+    <div class="fshp" style="width:480px;height:480px;right:-180px;top:60px;animation-duration:8s"></div>
+    <div class="fshp" style="width:280px;height:280px;left:-80px;bottom:80px;animation-duration:10s;animation-delay:-4s;opacity:.6"></div>
+    <div class="scrl"><div class="sln"></div>Scroll</div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="shd rev">
+        <div class="slbl">What We Do</div>
+        <h2 class="sttl">Services Built for Modern Businesses</h2>
+        <p class="ssub">End-to-end digital solutions delivering measurable growth and sustainable results.</p>
+      </div>
+      <div class="sg">
+        <div class="gc rev"><div class="sico">&#127760;</div><div class="sttlc">Website Design &amp; Dev</div><div class="sdsc">Blazing-fast, pixel-perfect websites engineered to convert visitors into loyal customers.</div></div>
+        <div class="gc rev" style="transition-delay:.09s"><div class="sico">&#128200;</div><div class="sttlc">SEO Management</div><div class="sdsc">Data-driven search optimisation that puts you on page one and keeps you there.</div></div>
+        <div class="gc rev" style="transition-delay:.18s"><div class="sico">&#128241;</div><div class="sttlc">Social Media Marketing</div><div class="sdsc">Compelling content strategies that build communities and drive real engagement.</div></div>
+        <div class="gc rev" style="transition-delay:.27s"><div class="sico">&#128452;</div><div class="sttlc">Data Management</div><div class="sdsc">Intelligent data pipelines and analytics infrastructure for smarter decisions.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-s">
+    <div class="wrap">
+      <div class="stats-g">
+        <div style="text-align:center" class="rev"><span class="stn"><span class="cnt" data-t="200">0</span><span>+</span></span><span class="stl">Projects Delivered</span></div>
+        <div style="text-align:center" class="rev" style="transition-delay:.1s"><span class="stn"><span class="cnt" data-t="150">0</span><span>+</span></span><span class="stl">Clients Worldwide</span></div>
+        <div style="text-align:center" class="rev" style="transition-delay:.2s"><span class="stn"><span class="cnt" data-t="99">0</span><span>%</span></span><span class="stl">Client Satisfaction</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="shd rev">
+        <div class="slbl">Why ZeroPoint</div>
+        <h2 class="sttl">Built Different. Built Better.</h2>
+        <p class="ssub">We don't just deliver projects — we forge long-term partnerships anchored in performance.</p>
+      </div>
+      <div class="fgg">
+        <div class="ficard rev"><div class="fiico">&#9889;</div><div><div class="fittl">Lightning Fast Delivery</div><div class="fidsc">Agile workflows ensure your projects ship on time, every time.</div></div></div>
+        <div class="ficard rev" style="transition-delay:.09s"><div class="fiico">&#127919;</div><div><div class="fittl">Data-First Strategy</div><div class="fidsc">Every decision backed by analytics, ensuring maximum ROI.</div></div></div>
+        <div class="ficard rev" style="transition-delay:.18s"><div class="fiico">&#128274;</div><div><div class="fittl">Enterprise Security</div><div class="fidsc">Bank-level security practices applied to every project.</div></div></div>
+        <div class="ficard rev" style="transition-delay:.27s"><div class="fiico">&#127757;</div><div><div class="fittl">Global Reach</div><div class="fidsc">Multilingual teams across time zones, around-the-clock.</div></div></div>
+        <div class="ficard rev" style="transition-delay:.09s"><div class="fiico">&#129309;</div><div><div class="fittl">Dedicated Account Manager</div><div class="fidsc">One expert who knows your business inside and out.</div></div></div>
+        <div class="ficard rev" style="transition-delay:.18s"><div class="fiico">&#128202;</div><div><div class="fittl">Transparent Reporting</div><div class="fidsc">Real-time dashboards so you always know what's working.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="shd rev"><div class="slbl">Testimonials</div><h2 class="sttl">What Our Clients Say</h2></div>
+      <div class="tslid rev">
+        <div class="ttrk" id="ttrk">
+          <div class="tc"><div class="tcst">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="tctx">"ZeroPoint transformed our online presence. Traffic increased 340% in 6 months and our conversion rate doubled. Best investment we've ever made."</p><div class="tcau"><div class="tcav">JM</div><div><div class="tcnm">James Mitchell</div><div class="tcrl">CEO, TechFlow Inc.</div></div></div></div>
+          <div class="tc"><div class="tcst">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="tctx">"The team delivered a stunning website ahead of schedule. Their attention to detail and technical expertise is absolutely unmatched in the industry."</p><div class="tcau"><div class="tcav">SK</div><div><div class="tcnm">Sarah Kim</div><div class="tcrl">Founder, Luminary Brands</div></div></div></div>
+          <div class="tc"><div class="tcst">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="tctx">"Our SEO rankings jumped from page 5 to #1 within 3 months. ZeroPoint's data-driven approach is genuinely impressive — the results speak for themselves."</p><div class="tcau"><div class="tcav">DP</div><div><div class="tcnm">Daniel Park</div><div class="tcrl">CMO, NovaStar Retail</div></div></div></div>
+          <div class="tc"><div class="tcst">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="tctx">"Working with ZeroPoint felt like having an elite in-house team. Their social campaigns drove 80K new followers in two months. Phenomenal ROI."</p><div class="tcau"><div class="tcav">AL</div><div><div class="tcnm">Ava Laurent</div><div class="tcrl">Brand Director, &#201;clat Fashion</div></div></div></div>
+        </div>
+      </div>
+      <div class="slbtns"><button class="slbtn" onclick="slide(-1)">&#8592;</button><button class="slbtn" onclick="slide(1)">&#8594;</button></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:0;padding-bottom:110px">
+    <div class="wrap"><div class="ctaban rev"><h2>Let's Build Your Digital Future</h2><p>Join 150+ businesses scaling their growth with ZeroPoint LTD</p><button class="btnw" onclick="nav('contact')">Start Your Project &#8594;</button></div></div>
+  </section>
+</div>
+
+<!-- ═══ SERVICES ═══ -->
+<div class="page" id="page-services">
+  <div class="ph"><div class="wrap"><div class="slbl" style="text-align:center">Our Expertise</div><h1>Services That <span style="color:var(--red)">Deliver</span></h1><p>Premium digital solutions engineered for measurable, lasting results</p></div></div>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="sdg">
+        <div class="sdc rev" onclick="nav('pricing');setPTab('web')"><span class="sdico">&#127760;</span><div class="sdtl">Website Design &amp; Development</div><div class="sddsc">High-performance websites that turn visitors into loyal customers — from concept to launch.</div><ul class="sdfl"><li>Custom UI/UX Design</li><li>React, Next.js &amp; modern stacks</li><li>Mobile-first, fully responsive</li><li>Core Web Vitals optimisation</li><li>CMS integration</li></ul><button class="btnpl" onclick="event.stopPropagation();nav('pricing');setPTab('web')">View Plans &#8594;</button></div>
+        <div class="sdc rev" style="transition-delay:.1s" onclick="nav('pricing');setPTab('seo')"><span class="sdico">&#128200;</span><div class="sdtl">SEO Management</div><div class="sddsc">Data-driven search optimisation that builds sustainable organic traffic and dominates competitors.</div><ul class="sdfl"><li>Technical SEO audits</li><li>Keyword research &amp; strategy</li><li>On-page &amp; off-page optimisation</li><li>Authority link building</li><li>Monthly analytics reports</li></ul><button class="btnpl" onclick="event.stopPropagation();nav('pricing');setPTab('seo')">View Plans &#8594;</button></div>
+        <div class="sdc rev" style="transition-delay:.2s" onclick="nav('pricing');setPTab('social')"><span class="sdico">&#128241;</span><div class="sdtl">Social Media Marketing</div><div class="sddsc">Strategic content creation and community management that builds genuine brand presence.</div><ul class="sdfl"><li>Platform strategy &amp; setup</li><li>Content calendar &amp; creation</li><li>Paid social advertising</li><li>Influencer partnerships</li><li>Community management</li></ul><button class="btnpl" onclick="event.stopPropagation();nav('pricing');setPTab('social')">View Plans &#8594;</button></div>
+        <div class="sdc rev" style="transition-delay:.3s" onclick="nav('pricing')"><span class="sdico">&#128452;</span><div class="sdtl">Data Management Solutions</div><div class="sddsc">From database architecture to real-time analytics — the data infrastructure your business needs to scale.</div><ul class="sdfl"><li>Database design &amp; architecture</li><li>ETL pipelines &amp; automation</li><li>BI dashboards</li><li>Data security &amp; compliance</li><li>Cloud migration support</li></ul><button class="btnpl" onclick="event.stopPropagation();nav('pricing')">View Plans &#8594;</button></div>
+      </div>
+    </div>
+  </section>
+  <section class="sec" style="padding-top:0;padding-bottom:110px"><div class="wrap"><div class="ctaban rev"><h2>Ready to Get Started?</h2><p>Build a custom package tailored to your exact needs</p><button class="btnw" onclick="nav('pricing');setPTab('bundle')">Build Your Bundle &#8594;</button></div></div></section>
+</div>
+
+<!-- ═══ PRICING ═══ -->
+<div class="page" id="page-pricing">
+  <div class="ph"><div class="wrap"><div class="slbl" style="text-align:center">Transparent Pricing</div><h1>Plans for Every <span style="color:var(--red)">Ambition</span></h1><p>No hidden fees. No surprises. Clear value.</p></div></div>
+  <section class="sec" style="padding-top:0;padding-bottom:110px">
+    <div class="wrap">
+      <div class="ptabs rev">
+        <button class="ptab on" id="ptab-web" onclick="setPTab('web')">&#127760; Website</button>
+        <button class="ptab" id="ptab-seo" onclick="setPTab('seo')">&#128200; SEO</button>
+        <button class="ptab" id="ptab-social" onclick="setPTab('social')">&#128241; Social Media</button>
+        <button class="ptab" id="ptab-bundle" onclick="setPTab('bundle')">&#10024; Custom Bundle</button>
+      </div>
+      <div class="ppnl on rev" id="ppnl-web">
+        <div class="pgrid">
+          <div class="pcard"><div class="ptier">Starter</div><div class="pprice">&#163;499<span> one-time</span></div><div class="pdesc">Perfect for small businesses &amp; landing pages</div><ul class="pfl"><li><span class="ck">&#10004;</span>Up to 5 Pages</li><li><span class="ck">&#10004;</span>Mobile Responsive</li><li><span class="ck">&#10004;</span>Basic SEO Setup</li><li><span class="ck">&#10004;</span>Contact Form</li><li><span class="ck">&#10004;</span>30-day Support</li><li class="dim"><span class="ck">&#10007;</span>Custom Animations</li><li class="dim"><span class="ck">&#10007;</span>E-commerce</li></ul><button class="btnpc" onclick="buyPlan('Website Starter','&#163;499')">Get Started</button></div>
+          <div class="pcard feat"><div class="pbadge">Most Popular</div><div class="ptier">Business</div><div class="pprice">&#163;1,499<span> one-time</span></div><div class="pdesc">Ideal for growing businesses that need impact</div><ul class="pfl"><li><span class="ck">&#10004;</span>Up to 15 Pages</li><li><span class="ck">&#10004;</span>Custom Animations</li><li><span class="ck">&#10004;</span>Advanced SEO</li><li><span class="ck">&#10004;</span>CMS Integration</li><li><span class="ck">&#10004;</span>90-day Support</li><li><span class="ck">&#10004;</span>Performance Optimisation</li><li class="dim"><span class="ck">&#10007;</span>E-commerce</li></ul><button class="btnpc pr" onclick="buyPlan('Website Business','&#163;1,499')">Get Started</button></div>
+          <div class="pcard"><div class="ptier">Enterprise</div><div class="pprice">&#163;3,999<span> one-time</span></div><div class="pdesc">Full-scale solution for ambitious businesses</div><ul class="pfl"><li><span class="ck">&#10004;</span>Unlimited Pages</li><li><span class="ck">&#10004;</span>E-commerce Store</li><li><span class="ck">&#10004;</span>Custom Integrations</li><li><span class="ck">&#10004;</span>Dedicated Designer</li><li><span class="ck">&#10004;</span>1-year Support</li><li><span class="ck">&#10004;</span>Speed Optimisation</li><li><span class="ck">&#10004;</span>Priority Queue</li></ul><button class="btnpc" onclick="buyPlan('Website Enterprise','&#163;3,999')">Get Started</button></div>
+        </div>
+      </div>
+      <div class="ppnl rev" id="ppnl-seo">
+        <div class="pgrid">
+          <div class="pcard"><div class="ptier">Basic</div><div class="pprice">&#163;299<span>/mo</span></div><div class="pdesc">Foundation SEO for new businesses</div><ul class="pfl"><li><span class="ck">&#10004;</span>10 Target Keywords</li><li><span class="ck">&#10004;</span>On-page Optimisation</li><li><span class="ck">&#10004;</span>Monthly Report</li><li><span class="ck">&#10004;</span>Technical Audit</li><li class="dim"><span class="ck">&#10007;</span>Link Building</li><li class="dim"><span class="ck">&#10007;</span>Content Creation</li></ul><button class="btnpc" onclick="buyPlan('SEO Basic','&#163;299/mo')">Get Started</button></div>
+          <div class="pcard feat"><div class="pbadge">Best Value</div><div class="ptier">Growth</div><div class="pprice">&#163;699<span>/mo</span></div><div class="pdesc">Serious SEO for scaling businesses</div><ul class="pfl"><li><span class="ck">&#10004;</span>30 Target Keywords</li><li><span class="ck">&#10004;</span>Full On/Off-page SEO</li><li><span class="ck">&#10004;</span>Link Building (5/mo)</li><li><span class="ck">&#10004;</span>4 Blog Articles</li><li><span class="ck">&#10004;</span>Bi-weekly Reports</li><li><span class="ck">&#10004;</span>Competitor Analysis</li><li class="dim"><span class="ck">&#10007;</span>Dedicated Manager</li></ul><button class="btnpc pr" onclick="buyPlan('SEO Growth','&#163;699/mo')">Get Started</button></div>
+          <div class="pcard"><div class="ptier">Pro</div><div class="pprice">&#163;1,299<span>/mo</span></div><div class="pdesc">Dominate your market</div><ul class="pfl"><li><span class="ck">&#10004;</span>Unlimited Keywords</li><li><span class="ck">&#10004;</span>Link Building (20/mo)</li><li><span class="ck">&#10004;</span>12 Blog Articles</li><li><span class="ck">&#10004;</span>Dedicated Manager</li><li><span class="ck">&#10004;</span>Weekly Reports</li><li><span class="ck">&#10004;</span>PR &amp; Authority Building</li><li><span class="ck">&#10004;</span>Priority Support</li></ul><button class="btnpc" onclick="buyPlan('SEO Pro','&#163;1,299/mo')">Get Started</button></div>
+        </div>
+      </div>
+      <div class="ppnl rev" id="ppnl-social">
+        <div class="pgrid">
+          <div class="pcard"><div class="ptier">Starter</div><div class="pprice">&#163;399<span>/mo</span></div><div class="pdesc">Establish your social presence</div><ul class="pfl"><li><span class="ck">&#10004;</span>2 Platforms</li><li><span class="ck">&#10004;</span>12 Posts/Month</li><li><span class="ck">&#10004;</span>Basic Graphics</li><li><span class="ck">&#10004;</span>Monthly Report</li><li class="dim"><span class="ck">&#10007;</span>Paid Ads Management</li><li class="dim"><span class="ck">&#10007;</span>Video Content</li></ul><button class="btnpc" onclick="buyPlan('Social Starter','&#163;399/mo')">Get Started</button></div>
+          <div class="pcard feat"><div class="pbadge">Recommended</div><div class="ptier">Brand Growth</div><div class="pprice">&#163;899<span>/mo</span></div><div class="pdesc">Build a loyal, engaged audience</div><ul class="pfl"><li><span class="ck">&#10004;</span>4 Platforms</li><li><span class="ck">&#10004;</span>30 Posts/Month</li><li><span class="ck">&#10004;</span>Custom Graphics + Video</li><li><span class="ck">&#10004;</span>Paid Ads (&#163;500 budget)</li><li><span class="ck">&#10004;</span>Bi-weekly Reports</li><li><span class="ck">&#10004;</span>Community Management</li><li class="dim"><span class="ck">&#10007;</span>Influencer Campaigns</li></ul><button class="btnpc pr" onclick="buyPlan('Social Brand Growth','&#163;899/mo')">Get Started</button></div>
+          <div class="pcard"><div class="ptier">Premium</div><div class="pprice">&#163;1,799<span>/mo</span></div><div class="pdesc">Full-service social media domination</div><ul class="pfl"><li><span class="ck">&#10004;</span>All Platforms</li><li><span class="ck">&#10004;</span>Daily Content</li><li><span class="ck">&#10004;</span>Influencer Campaigns</li><li><span class="ck">&#10004;</span>Paid Ads (&#163;2,500 budget)</li><li><span class="ck">&#10004;</span>Weekly Reports</li><li><span class="ck">&#10004;</span>Dedicated Social Team</li><li><span class="ck">&#10004;</span>Crisis Management</li></ul><button class="btnpc" onclick="buyPlan('Social Premium','&#163;1,799/mo')">Get Started</button></div>
+        </div>
+      </div>
+      <!-- BUNDLE BUILDER -->
+      <div class="ppnl" id="ppnl-bundle">
+        <div class="bldlay">
+          <div>
+            <div class="bldgrp rev">
+              <div class="bldstl">&#127760; Website Design</div>
+              <div class="bldsvc" id="bsvc-web" onclick="toggleBld('web')">
+                <div class="bldhdr"><div class="bldnm">&#127760; Website Design &amp; Development</div><div class="tgl"></div></div>
+                <div class="bldtiers">
+                  <button class="tbtn on" onclick="setTier(event,'web','Starter',499)">Starter<br><small>&#163;499</small></button>
+                  <button class="tbtn" onclick="setTier(event,'web','Business',1499)">Business<br><small>&#163;1,499</small></button>
+                  <button class="tbtn" onclick="setTier(event,'web','Enterprise',3999)">Enterprise<br><small>&#163;3,999</small></button>
+                </div>
+              </div>
+            </div>
+            <div class="bldgrp rev" style="transition-delay:.08s">
+              <div class="bldstl">&#128200; SEO Management</div>
+              <div class="bldsvc" id="bsvc-seo" onclick="toggleBld('seo')">
+                <div class="bldhdr"><div class="bldnm">&#128200; SEO Management</div><div class="tgl"></div></div>
+                <div class="bldtiers">
+                  <button class="tbtn on" onclick="setTier(event,'seo','Basic',299)">Basic<br><small>&#163;299/mo</small></button>
+                  <button class="tbtn" onclick="setTier(event,'seo','Growth',699)">Growth<br><small>&#163;699/mo</small></button>
+                  <button class="tbtn" onclick="setTier(event,'seo','Pro',1299)">Pro<br><small>&#163;1,299/mo</small></button>
+                </div>
+              </div>
+            </div>
+            <div class="bldgrp rev" style="transition-delay:.16s">
+              <div class="bldstl">&#128241; Social Media</div>
+              <div class="bldsvc" id="bsvc-social" onclick="toggleBld('social')">
+                <div class="bldhdr"><div class="bldnm">&#128241; Social Media Marketing</div><div class="tgl"></div></div>
+                <div class="bldtiers">
+                  <button class="tbtn on" onclick="setTier(event,'social','Starter',399)">Starter<br><small>&#163;399/mo</small></button>
+                  <button class="tbtn" onclick="setTier(event,'social','Brand Growth',899)">Brand Growth<br><small>&#163;899/mo</small></button>
+                  <button class="tbtn" onclick="setTier(event,'social','Premium',1799)">Premium<br><small>&#163;1,799/mo</small></button>
+                </div>
+              </div>
+            </div>
+            <div class="bldgrp rev" style="transition-delay:.24s">
+              <div class="bldstl">&#128452; Data Management</div>
+              <div class="bldsvc" id="bsvc-data" onclick="toggleBld('data')">
+                <div class="bldhdr"><div class="bldnm">&#128452; Data Management Solutions</div><div class="tgl"></div></div>
+                <div class="bldtiers">
+                  <button class="tbtn on" onclick="setTier(event,'data','Basic',599)">Basic<br><small>&#163;599/mo</small></button>
+                  <button class="tbtn" onclick="setTier(event,'data','Advanced',1199)">Advanced<br><small>&#163;1,199/mo</small></button>
+                  <button class="tbtn" onclick="setTier(event,'data','Enterprise',2499)">Enterprise<br><small>&#163;2,499/mo</small></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sumcard rev">
+            <div class="sumttl">&#10024; Your Bundle</div>
+            <div id="sum-body"><div class="sumempty">Select services on the left to build your package.</div></div>
+            <div class="sumdiv"></div>
+            <div class="sumtot"><div><div class="sumtotlbl">Estimated Total</div><div class="sumnote">*Recurring services billed monthly</div></div><div class="sumtotp" id="sum-total">&#163;0</div></div>
+            <button class="btnpur" id="btn-pur" onclick="bundlePurchase()" disabled>Select a Service to Continue</button>
+            <div style="margin-top:12px;text-align:center;font-size:.68rem;color:var(--g6)">Multi-service bundle includes 10% discount</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<div class="page" id="page-about">
+  <div class="ph"><div class="wrap"><div class="slbl" style="text-align:center">Our Story</div><h1>Born From <span style="color:var(--red)">Ambition</span></h1><p>A team of digital pioneers redefining what's possible online</p></div></div>
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="agrid rev">
+        <div class="avis"><div class="avisi"><div class="abigt">ZP</div></div><div class="astatov"><div class="astn">2019</div><div class="astl">Year Founded</div></div></div>
+        <div>
+          <div class="slbl">Who We Are</div>
+          <h2 class="sttl" style="margin-bottom:18px">A Collective of Digital Craftspeople</h2>
+          <p style="color:var(--g4);line-height:1.8;font-weight:300;margin-bottom:16px">ZeroPoint LTD was founded in 2019 with a singular mission: create digital experiences that don't just look beautiful, but drive real, measurable business outcomes.</p>
+          <p style="color:var(--g4);line-height:1.8;font-weight:300;margin-bottom:16px">What started as a two-person studio has grown into a full-service agency of 40+ specialists, delivering award-winning work for clients across Europe, North America, and Asia.</p>
+          <p style="color:var(--g4);line-height:1.8;font-weight:300">We believe in radical transparency, obsessive craft, and partnerships that go far beyond the brief.</p>
+        </div>
+      </div>
+      <div class="shd rev" style="margin-bottom:36px"><div class="slbl">Values</div><h2 class="sttl">Mission &amp; Vision</h2></div>
+      <div class="missg rev">
+        <div class="missc"><div style="font-size:2rem;margin-bottom:14px">&#127919;</div><h3>Our Mission</h3><p>To empower businesses of every size with world-class digital capabilities — making enterprise-level strategy accessible to ambitious founders.</p></div>
+        <div class="missc"><div style="font-size:2rem;margin-bottom:14px">&#128301;</div><h3>Our Vision</h3><p>A world where every business has the digital tools it needs to thrive — where the barrier between idea and scale is zero.</p></div>
+      </div>
+      <div class="shd rev"><div class="slbl">The People</div><h2 class="sttl">Meet Our Team</h2></div>
+      <div class="teamg">
+        <div class="teamc rev"><div class="teamav">AH</div><div class="teamnm">Alex Harper</div><div class="teamrl">CEO &amp; Founder</div><div class="teambio">10+ years building digital products. Former Google engineer turned agency founder.</div></div>
+        <div class="teamc rev" style="transition-delay:.08s"><div class="teamav">ML</div><div class="teamnm">Maya Liu</div><div class="teamrl">Head of Design</div><div class="teambio">Award-winning designer with a passion for interfaces that feel inevitable.</div></div>
+        <div class="teamc rev" style="transition-delay:.16s"><div class="teamav">JR</div><div class="teamnm">James Reed</div><div class="teamrl">Lead Developer</div><div class="teambio">Full-stack architect who has built platforms used by millions worldwide.</div></div>
+        <div class="teamc rev" style="transition-delay:.24s"><div class="teamav">SR</div><div class="teamnm">Sofia Russo</div><div class="teamrl">SEO Director</div><div class="teambio">Data obsessive who has taken 80+ businesses to #1 on Google.</div></div>
+        <div class="teamc rev" style="transition-delay:.32s"><div class="teamav">TM</div><div class="teamnm">Tom Marsh</div><div class="teamrl">Social Media Lead</div><div class="teambio">Viral content strategist behind campaigns that reached 100M+ people.</div></div>
+        <div class="teamc rev" style="transition-delay:.4s"><div class="teamav">NK</div><div class="teamnm">Nina Khan</div><div class="teamrl">Data Lead</div><div class="teambio">PhD in data science. Turns raw numbers into competitive advantages.</div></div>
+      </div>
+      <div class="shd rev"><div class="slbl">Journey</div><h2 class="sttl">How We Got Here</h2></div>
+      <div class="tl">
+        <div class="tli rev"><div class="tlyr">2019</div><div class="tlttl">Founded in London</div><div class="tldsc">ZeroPoint LTD was born from a vision to create digital experiences that truly move the needle for businesses.</div></div>
+        <div class="tli rev" style="transition-delay:.1s"><div class="tlyr">2020</div><div class="tlttl">First 50 Clients</div><div class="tldsc">Navigating a global pandemic, we helped 50+ businesses pivot online — our reputation forged in fire.</div></div>
+        <div class="tli rev" style="transition-delay:.2s"><div class="tlyr">2021</div><div class="tlttl">Expanded to 3 Countries</div><div class="tldsc">Opened offices in Amsterdam and Dubai. Grew the team to 20 specialists. Won our first industry award.</div></div>
+        <div class="tli rev" style="transition-delay:.3s"><div class="tlyr">2022</div><div class="tlttl">Launched Data Division</div><div class="tldsc">Introduced comprehensive data management services, becoming a true end-to-end digital partner.</div></div>
+        <div class="tli rev" style="transition-delay:.4s"><div class="tlyr">2024</div><div class="tlttl">200+ Projects Milestone</div><div class="tldsc">Celebrated over 200 successful projects with a client retention rate of 94%.</div></div>
+        <div class="tli rev" style="transition-delay:.5s"><div class="tlyr">2025</div><div class="tlttl">Today &amp; Beyond</div><div class="tldsc">40+ team members, 150+ active clients, and an ambitious roadmap to redefine what a digital agency can be.</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══ CONTACT ═══ -->
+<div class="page" id="page-contact">
+  <div class="ph"><div class="wrap"><div class="slbl" style="text-align:center">Get In Touch</div><h1>Let's Build Something <span style="color:var(--red)">Great</span></h1><p>Tell us about your project — we'll respond within 24 hours</p></div></div>
+  <section class="sec" style="padding-top:0;padding-bottom:110px">
+    <div class="wrap">
+      <div class="conlay">
+        <div class="rev">
+          <div class="slbl" style="margin-bottom:28px">Contact Information</div>
+          <div class="conii"><div class="conico">&#128231;</div><div><div class="conlbl">Email</div><div class="conval">hello&#64;zeropoint.ltd</div></div></div>
+          <div class="conii"><div class="conico">&#128222;</div><div><div class="conlbl">Phone</div><div class="conval">+44 20 7946 0321</div></div></div>
+          <div class="conii"><div class="conico">&#128205;</div><div><div class="conlbl">Office</div><div class="conval">1 Canada Square, Canary Wharf<br>London, E14 5AB</div></div></div>
+          <div class="conii"><div class="conico">&#128336;</div><div><div class="conlbl">Hours</div><div class="conval">Mon&#8211;Fri: 9:00 &#8211; 18:00 GMT</div></div></div>
+          <div class="slbl" style="margin-top:36px;margin-bottom:14px">Follow Us</div>
+          <div class="socls">
+            <span class="socl" title="LinkedIn">in</span>
+            <span class="socl" title="X/Twitter">&#120143;</span>
+            <span class="socl" title="Instagram">&#128247;</span>
+            <span class="socl" title="Facebook">f</span>
+          </div>
+          <div class="mapw"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.8!2d-0.0177!3d51.5055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487602b5c97d3659%3A0x7a61c3a2!2sCanary%20Wharf!5e0!3m2!1sen!2suk!4v1700000000000" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        </div>
+        <div class="confc rev" style="transition-delay:.12s">
+          <div style="margin-bottom:24px"><div class="slbl">Send a Message</div><h3 style="font-family:var(--fd);font-size:1.4rem;font-weight:700;margin-top:5px">Start Your Project</h3></div>
+          <div class="frow">
+            <div class="fg"><label>First Name</label><input class="fi" type="text" placeholder="Alex" id="cf-fn" autocomplete="given-name"></div>
+            <div class="fg"><label>Last Name</label><input class="fi" type="text" placeholder="Harper" id="cf-ln" autocomplete="family-name"></div>
+          </div>
+          <div class="fg"><label>Email</label><input class="fi" type="email" placeholder="alex&#64;company.com" id="cf-em" autocomplete="email"></div>
+          <div class="fg"><label>Company (Optional)</label><input class="fi" type="text" placeholder="Your Company" id="cf-co"></div>
+          <div class="fg"><label>Service</label>
+            <select class="fi" id="cf-sv" style="cursor:pointer">
+              <option value="">Select a service...</option>
+              <option>Website Design &amp; Development</option>
+              <option>SEO Management</option>
+              <option>Social Media Marketing</option>
+              <option>Data Management</option>
+              <option>Custom Bundle</option>
+            </select>
+          </div>
+          <div class="fg"><label>Message</label><textarea class="fi" style="min-height:120px;resize:vertical" placeholder="Tell us about your project, timeline, and budget..." id="cf-msg"></textarea></div>
+          <button class="btnp" style="width:100%;justify-content:center" onclick="submitContact()">Send Message &#8594;</button>
+          <div style="margin-top:12px;text-align:center;font-size:.7rem;color:var(--g6)">We respond within 24 hours. No spam, ever.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="page" id="page-dashboard">
+  <div class="dashl">
+    <div class="sidebar">
+      <span class="sblbl">Overview</span>
+      <button class="sbitem on" id="sb-overview" onclick="showPanel('overview')"><span class="sbico">&#127968;</span> Dashboard</button>
+      <button class="sbitem" id="sb-projects" onclick="showPanel('projects')"><span class="sbico">&#128193;</span> My Projects</button>
+      <button class="sbitem" id="sb-analytics" onclick="showPanel('analytics')"><span class="sbico">&#128202;</span> Analytics</button>
+      <span class="sblbl">Services</span>
+      <button class="sbitem" id="sb-seo" onclick="showPanel('seo')"><span class="sbico">&#128200;</span> SEO Reports</button>
+      <button class="sbitem" id="sb-social" onclick="showPanel('social')"><span class="sbico">&#128241;</span> Social Media</button>
+      <span class="sblbl">Account</span>
+      <button class="sbitem" id="sb-invoices" onclick="showPanel('invoices')"><span class="sbico">&#129534;</span> Invoices</button>
+      <button class="sbitem" id="sb-settings" onclick="showPanel('settings')"><span class="sbico">&#9881;</span> Settings</button>
+      <button class="sbitem" id="sb-support" onclick="showPanel('support')"><span class="sbico">&#128172;</span> Support</button>
+    </div>
+    <div class="dashmain">
+
+      <div class="dpnl on" id="dp-overview">
+        <div class="dashhd"><div class="dashwel" id="dash-greet">Good morning &#128075;</div><div class="dashsub">Here's what's happening with your projects today.</div></div>
+        <div class="dashgrid">
+          <div class="dstat"><div class="dstatv"><span>3</span></div><div class="dstatl">Active Projects</div><div class="dstatc up">&#8593; 1 this month</div></div>
+          <div class="dstat"><div class="dstatv">12,<span>4</span>K</div><div class="dstatl">Monthly Traffic</div><div class="dstatc up">&#8593; 23% vs last month</div></div>
+          <div class="dstat"><div class="dstatv"><span>#4</span></div><div class="dstatl">Avg. SEO Ranking</div><div class="dstatc up">&#8593; 6 positions</div></div>
+          <div class="dstat"><div class="dstatv"><span>&#163;</span>2.1K</div><div class="dstatl">Monthly Spend</div><div class="dstatc dn">No change</div></div>
+        </div>
+        <div class="d2col">
+          <div class="dw"><div class="dwttl">Recent Activity <span>Last 7 days</span></div>
+            <div class="actitem"><div class="actico">&#127760;</div><div><div class="acttxt">Website redesign — Phase 2 complete</div><div class="acttime">2 hours ago</div></div></div>
+            <div class="actitem"><div class="actico">&#128200;</div><div><div class="acttxt">SEO report published for March 2025</div><div class="acttime">Yesterday</div></div></div>
+            <div class="actitem"><div class="actico">&#128241;</div><div><div class="acttxt">Social campaign launched: Spring 2025</div><div class="acttime">3 days ago</div></div></div>
+            <div class="actitem"><div class="actico">&#129534;</div><div><div class="acttxt">Invoice #INV-0042 paid — &#163;1,299</div><div class="acttime">5 days ago</div></div></div>
+          </div>
+          <div class="dw"><div class="dwttl">Active Projects <span><a onclick="showPanel('projects')" style="color:var(--red);cursor:pointer">View all</a></span></div>
+            <div class="projitem"><div><div class="projnm">E-commerce Redesign</div><div class="projtype">Website Design</div></div><span class="pbdg prog">In Progress</span></div>
+            <div class="projitem"><div><div class="projnm">Q2 SEO Campaign</div><div class="projtype">SEO Management</div></div><span class="pbdg live">Live</span></div>
+            <div class="projitem"><div><div class="projnm">Spring Social Push</div><div class="projtype">Social Media</div></div><span class="pbdg live">Live</span></div>
+            <div class="projitem"><div><div class="projnm">Data Pipeline v2</div><div class="projtype">Data Management</div></div><span class="pbdg rev2">In Review</span></div>
+          </div>
+        </div>
+        <div class="dw"><div class="dwttl">Traffic Sources <span>Last 30 days</span></div>
+          <div class="barw">
+            <div class="barr"><div class="bart"><span>Organic Search</span><span>6,240 visits</span></div><div class="barbg"><div class="barf" style="width:72%"></div></div></div>
+            <div class="barr"><div class="bart"><span>Direct</span><span>3,180 visits</span></div><div class="barbg"><div class="barf" style="width:37%"></div></div></div>
+            <div class="barr"><div class="bart"><span>Social Media</span><span>2,320 visits</span></div><div class="barbg"><div class="barf" style="width:27%"></div></div></div>
+            <div class="barr"><div class="bart"><span>Referral</span><span>660 visits</span></div><div class="barbg"><div class="barf" style="width:8%"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dpnl" id="dp-projects">
+        <div class="dashhd"><div class="dashwel">My Projects</div><div class="dashsub">All active and completed projects in one place.</div></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
+          <div class="dw"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-family:var(--fd)">E-commerce Redesign</b><span class="pbdg prog">In Progress</span></div><p style="color:var(--g4);font-size:.84rem;margin-bottom:14px">Complete website overhaul with custom product pages, checkout optimisation, and mobile-first design.</p><div class="barr"><div class="bart"><small>Progress</small><small>68%</small></div><div class="barbg"><div class="barf" style="width:68%"></div></div></div><div style="margin-top:10px;font-size:.7rem;color:var(--g6)">Est. completion: Apr 15, 2025</div></div>
+          <div class="dw"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-family:var(--fd)">Q2 SEO Campaign</b><span class="pbdg live">Live</span></div><p style="color:var(--g4);font-size:.84rem;margin-bottom:14px">Full SEO Growth plan — 30 keywords tracked, link building in progress, monthly reporting active.</p><div class="barr"><div class="bart"><small>Month Progress</small><small>45%</small></div><div class="barbg"><div class="barf" style="width:45%"></div></div></div><div style="margin-top:10px;font-size:.7rem;color:var(--g6)">Renews: May 1, 2025</div></div>
+          <div class="dw"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-family:var(--fd)">Spring Social Push</b><span class="pbdg live">Live</span></div><p style="color:var(--g4);font-size:.84rem;margin-bottom:14px">Brand Growth social plan — 4 platforms, 30 posts/month, paid ads running across Meta and TikTok.</p><div class="barr"><div class="bart"><small>Content Published</small><small>18/30</small></div><div class="barbg"><div class="barf" style="width:60%"></div></div></div><div style="margin-top:10px;font-size:.7rem;color:var(--g6)">Renews: Apr 1, 2025</div></div>
+          <div class="dw"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-family:var(--fd)">Data Pipeline v2</b><span class="pbdg rev2">In Review</span></div><p style="color:var(--g4);font-size:.84rem;margin-bottom:14px">ETL pipeline rebuild connecting Shopify, HubSpot, and Google Analytics into a unified BI dashboard.</p><div class="barr"><div class="bart"><small>Progress</small><small>92%</small></div><div class="barbg"><div class="barf" style="width:92%"></div></div></div><div style="margin-top:10px;font-size:.7rem;color:var(--g6)">Review deadline: Mar 28, 2025</div></div>
+        </div>
+      </div>
+
+      <div class="dpnl" id="dp-analytics">
+        <div class="dashhd"><div class="dashwel">Analytics</div><div class="dashsub">Performance metrics across all active services.</div></div>
+        <div class="dashgrid">
+          <div class="dstat"><div class="dstatv"><span>12</span>.4K</div><div class="dstatl">Total Sessions</div><div class="dstatc up">&#8593; 23%</div></div>
+          <div class="dstat"><div class="dstatv"><span>3</span>.2%</div><div class="dstatl">Conversion Rate</div><div class="dstatc up">&#8593; 0.4%</div></div>
+          <div class="dstat"><div class="dstatv"><span>2</span>:34</div><div class="dstatl">Avg. Session Duration</div><div class="dstatc up">&#8593; 18s</div></div>
+          <div class="dstat"><div class="dstatv"><span>38</span>%</div><div class="dstatl">Bounce Rate</div><div class="dstatc up">&#8595; 5% (good)</div></div>
+        </div>
+        <div class="d2col" style="margin-top:18px">
+          <div class="dw"><div class="dwttl">SEO Rankings</div><div class="barw"><div class="barr"><div class="bart"><span>digital agency london</span><span style="color:#4ade80">#3</span></div><div class="barbg"><div class="barf" style="width:85%"></div></div></div><div class="barr"><div class="bart"><span>web design uk</span><span style="color:#fbbf24">#7</span></div><div class="barbg"><div class="barf" style="width:65%"></div></div></div><div class="barr"><div class="bart"><span>seo management service</span><span style="color:#4ade80">#4</span></div><div class="barbg"><div class="barf" style="width:75%"></div></div></div><div class="barr"><div class="bart"><span>social media marketing</span><span style="color:#f87171">#12</span></div><div class="barbg"><div class="barf" style="width:40%"></div></div></div></div></div>
+          <div class="dw"><div class="dwttl">Social Media <span>This month</span></div><div class="barw"><div class="barr"><div class="bart"><span>Instagram</span><span>4,820 reach</span></div><div class="barbg"><div class="barf" style="width:82%"></div></div></div><div class="barr"><div class="bart"><span>LinkedIn</span><span>2,140 reach</span></div><div class="barbg"><div class="barf" style="width:36%"></div></div></div><div class="barr"><div class="bart"><span>TikTok</span><span>9,600 reach</span></div><div class="barbg"><div class="barf" style="width:100%"></div></div></div><div class="barr"><div class="bart"><span>Facebook</span><span>1,280 reach</span></div><div class="barbg"><div class="barf" style="width:22%"></div></div></div></div></div>
+        </div>
+      </div>
+
+      <div class="dpnl" id="dp-seo">
+        <div class="dashhd"><div class="dashwel">SEO Reports</div><div class="dashsub">Your search engine performance and optimisation progress.</div></div>
+        <div class="dashgrid">
+          <div class="dstat"><div class="dstatv"><span>#4</span></div><div class="dstatl">Avg. Position</div><div class="dstatc up">&#8593; 6 spots</div></div>
+          <div class="dstat"><div class="dstatv"><span>30</span></div><div class="dstatl">Keywords Tracked</div><div class="dstatc up">&#8593; 5 new</div></div>
+          <div class="dstat"><div class="dstatv"><span>47</span></div><div class="dstatl">Backlinks Built</div><div class="dstatc up">&#8593; 12 this month</div></div>
+          <div class="dstat"><div class="dstatv"><span>94</span></div><div class="dstatl">Domain Authority</div><div class="dstatc up">&#8593; 2 pts</div></div>
+        </div>
+        <div class="dw" style="margin-top:18px"><div class="dwttl">Keyword Rankings <span>Top keywords</span></div><div class="barw"><div class="barr"><div class="bart"><span>digital agency london</span><span style="color:#4ade80">#3 &#8593;2</span></div><div class="barbg"><div class="barf" style="width:88%"></div></div></div><div class="barr"><div class="bart"><span>seo management service</span><span style="color:#4ade80">#4 &#8593;3</span></div><div class="barbg"><div class="barf" style="width:78%"></div></div></div><div class="barr"><div class="bart"><span>web design agency uk</span><span style="color:#fbbf24">#7 &#8594;</span></div><div class="barbg"><div class="barf" style="width:62%"></div></div></div><div class="barr"><div class="bart"><span>ecommerce website design</span><span style="color:#4ade80">#9 &#8593;5</span></div><div class="barbg"><div class="barf" style="width:50%"></div></div></div><div class="barr"><div class="bart"><span>social media marketing agency</span><span style="color:#f87171">#14 &#8595;1</span></div><div class="barbg"><div class="barf" style="width:35%"></div></div></div></div></div>
+      </div>
+
+      <div class="dpnl" id="dp-social">
+        <div class="dashhd"><div class="dashwel">Social Media</div><div class="dashsub">Content performance and audience growth.</div></div>
+        <div class="dashgrid">
+          <div class="dstat"><div class="dstatv"><span>18</span>/30</div><div class="dstatl">Posts Published</div><div class="dstatc up">On track</div></div>
+          <div class="dstat"><div class="dstatv"><span>+</span>1.2K</div><div class="dstatl">New Followers</div><div class="dstatc up">&#8593; 38% vs last</div></div>
+          <div class="dstat"><div class="dstatv"><span>4</span>.8%</div><div class="dstatl">Engagement Rate</div><div class="dstatc up">&#8593; 0.6%</div></div>
+          <div class="dstat"><div class="dstatv"><span>&#163;</span>420</div><div class="dstatl">Ad Spend Used</div><div class="dstatc dn">&#163;80 remaining</div></div>
+        </div>
+        <div class="dw" style="margin-top:18px"><div class="dwttl">Top Performing Posts</div>
+          <div class="actitem"><div class="actico">&#128247;</div><div><div class="acttxt">Instagram: "Behind the scenes at ZeroPoint" — 4,200 likes, 312 comments</div><div class="acttime">Mar 14, 2025</div></div></div>
+          <div class="actitem"><div class="actico">&#127926;</div><div><div class="acttxt">TikTok: "How we built a #1 ranking website" — 22K views, 890 likes</div><div class="acttime">Mar 10, 2025</div></div></div>
+          <div class="actitem"><div class="actico">&#128188;</div><div><div class="acttxt">LinkedIn: "5 SEO mistakes costing you traffic" — 1,840 impressions, 280 clicks</div><div class="acttime">Mar 8, 2025</div></div></div>
+        </div>
+      </div>
+
+      <div class="dpnl" id="dp-invoices">
+        <div class="dashhd"><div class="dashwel">Invoices</div><div class="dashsub">Your billing history and upcoming payments.</div></div>
+        <div class="dw"><table class="invtbl"><thead><tr><th>Invoice</th><th>Service</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead><tbody>
+          <tr><td>#INV-0045</td><td>SEO Growth Plan</td><td>&#163;699</td><td>Mar 1, 2025</td><td class="invpd">&#10004; Paid</td></tr>
+          <tr><td>#INV-0044</td><td>Social Brand Growth</td><td>&#163;899</td><td>Mar 1, 2025</td><td class="invpd">&#10004; Paid</td></tr>
+          <tr><td>#INV-0043</td><td>Data Pipeline v2</td><td>&#163;520</td><td>Feb 22, 2025</td><td class="invpn">&#8987; Pending</td></tr>
+          <tr><td>#INV-0042</td><td>SEO Growth Plan</td><td>&#163;699</td><td>Feb 1, 2025</td><td class="invpd">&#10004; Paid</td></tr>
+          <tr><td>#INV-0041</td><td>Website Business Plan</td><td>&#163;1,499</td><td>Jan 15, 2025</td><td class="invpd">&#10004; Paid</td></tr>
+        </tbody></table></div>
+      </div>
+
+      <div class="dpnl" id="dp-settings">
+        <div class="dashhd"><div class="dashwel">Account Settings</div><div class="dashsub">Manage your profile and notification preferences.</div></div>
+        <div class="d2col">
+          <div class="dw"><div class="dwttl">Profile Information</div>
+            <div class="fg" style="margin-bottom:16px"><label style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px;display:block">Display Name</label><input class="fi" id="set-name" placeholder="Your name"></div>
+            <div class="fg" style="margin-bottom:16px"><label style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px;display:block">Email</label><input class="fi" id="set-email" placeholder="you&#64;company.com" autocomplete="email"></div>
+            <div class="fg" style="margin-bottom:16px"><label style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px;display:block">Company</label><input class="fi" id="set-company" placeholder="Your Company"></div>
+            <button class="btnp" style="margin-top:8px" onclick="saveSettings()">Save Changes</button>
+          </div>
+          <div class="dw"><div class="dwttl">Notifications</div>
+            <div style="display:flex;flex-direction:column;gap:18px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><div style="font-weight:600;font-size:.875rem">Project Updates</div><div style="color:var(--g4);font-size:.78rem">Get notified when milestones are reached</div></div>
+                <div class="tgl" id="ntgl-1" style="cursor:pointer;background:var(--red)" onclick="toggleNotif('ntgl-1',true)"><div style="position:absolute;top:3px;left:3px;width:17px;height:17px;background:#fff;border-radius:50%;transition:transform .2s;transform:translateX(19px)"></div></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><div style="font-weight:600;font-size:.875rem">Invoice Reminders</div><div style="color:var(--g4);font-size:.78rem">Receive invoice and payment alerts</div></div>
+                <div class="tgl" id="ntgl-2" style="cursor:pointer;background:var(--red)" onclick="toggleNotif('ntgl-2',true)"><div style="position:absolute;top:3px;left:3px;width:17px;height:17px;background:#fff;border-radius:50%;transition:transform .2s;transform:translateX(19px)"></div></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><div style="font-weight:600;font-size:.875rem">SEO Reports</div><div style="color:var(--g4);font-size:.78rem">Monthly SEO performance digests</div></div>
+                <div class="tgl" id="ntgl-3" style="cursor:pointer" onclick="toggleNotif('ntgl-3',false)"><div style="position:absolute;top:3px;left:3px;width:17px;height:17px;background:#fff;border-radius:50%;transition:transform .2s"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dpnl" id="dp-support">
+        <div class="dashhd"><div class="dashwel">Support</div><div class="dashsub">Need help? Our team is here for you.</div></div>
+        <div class="d2col">
+          <div class="dw"><div class="dwttl">Open a Ticket</div>
+            <div class="fg" style="margin-bottom:16px"><label style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px;display:block">Subject</label><input class="fi" id="tkt-subj" placeholder="Describe your issue briefly"></div>
+            <div class="fg" style="margin-bottom:16px"><label style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px;display:block">Priority</label><select class="fi" id="tkt-pri" style="cursor:pointer"><option>Low</option><option selected>Medium</option><option>High</option><option>Urgent</option></select></div>
+            <div class="fg" style="margin-bottom:16px"><label style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px;display:block">Message</label><textarea class="fi" id="tkt-msg" style="min-height:100px;resize:vertical" placeholder="Describe your issue in detail..."></textarea></div>
+            <button class="btnp" onclick="submitTicket()">Submit Ticket &#8594;</button>
+          </div>
+          <div class="dw"><div class="dwttl">Quick Contacts</div>
+            <div class="actitem"><div class="actico">&#128100;</div><div><div class="acttxt">Alex Harper — Your Account Manager</div><div class="acttime">alex&#64;zeropoint.ltd &middot; +44 7700 900123</div></div></div>
+            <div class="actitem"><div class="actico">&#128222;</div><div><div class="acttxt">Emergency Support Line</div><div class="acttime">+44 20 7946 0321 &middot; Available 24/7</div></div></div>
+            <div class="actitem"><div class="actico">&#128172;</div><div><div class="acttxt">Live Chat — ZeroBot AI</div><div class="acttime">Click the chat bubble bottom-right for instant help</div></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CHATBOT ═══ -->
+<button id="chatfab" onclick="toggleChat()">
+  <div class="chatdot"></div>
+  <span class="fabico">&#128172;</span>
+</button>
+<div id="chatwin">
+  <div class="chathd">
+    <div class="chathdav">&#129302;<div class="chatsdot"></div></div>
+    <div><div class="chathdnm">ZeroBot</div><div class="chathdst">&#9679; Online &mdash; AI Assistant</div></div>
+    <button class="chathdcls" onclick="toggleChat()">&#10005;</button>
+  </div>
+  <div class="chatmsgs" id="chatmsgs"></div>
+  <div class="chatqk" id="chatqk">
+    <button class="qchip" onclick="qsend('What services do you offer?')">Services</button>
+    <button class="qchip" onclick="qsend('Tell me about pricing')">Pricing</button>
+    <button class="qchip" onclick="qsend('How do I get started?')">Get Started</button>
+    <button class="qchip" onclick="qsend('I need a new website')">New Website</button>
+  </div>
+  <div class="chatft">
+    <div class="chatinpw">
+      <textarea class="chatinp" id="chatinp" placeholder="Ask ZeroBot anything..." rows="1" onkeydown="chatKey(event)"></textarea>
+    </div>
+    <button class="chatsend" id="chatsend" onclick="sendMsg()">&#10148;</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div style="font-family:var(--fd);font-size:1.2rem;font-weight:800">Zero<b style="color:var(--red)">Point</b> LTD</div>
+        <div class="fdesc">We engineer digital growth for ambitious businesses. Premium design, data-driven strategy, measurable results.</div>
+        <div class="fsoc">
+          <span class="socl" style="font-size:.75rem;font-weight:700">in</span>
+          <span class="socl">&#120143;</span>
+          <span class="socl">&#128247;</span>
+          <span class="socl" style="font-size:.75rem;font-weight:700">f</span>
+        </div>
+      </div>
+      <div>
+        <div class="fhd">Quick Links</div>
+        <ul class="fls"><li><a onclick="nav('home')">Home</a></li><li><a onclick="nav('services')">Services</a></li><li><a onclick="nav('pricing')">Pricing</a></li><li><a onclick="nav('about')">About</a></li><li><a onclick="nav('contact')">Contact</a></li></ul>
+      </div>
+      <div>
+        <div class="fhd">Services</div>
+        <ul class="fls"><li><a onclick="nav('services')">Website Design</a></li><li><a onclick="nav('services')">SEO Management</a></li><li><a onclick="nav('services')">Social Media</a></li><li><a onclick="nav('services')">Data Management</a></li><li><a onclick="nav('pricing');setPTab('bundle')">Custom Bundle</a></li></ul>
+      </div>
+      <div>
+        <div class="fhd">Contact</div>
+        <div class="fci">&#128231; hello&#64;zeropoint.ltd</div>
+        <div class="fci">&#128222; +44 20 7946 0321</div>
+        <div class="fci">&#128205; 1 Canada Square,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;London E14 5AB</div>
+      </div>
+    </div>
+    <div class="fbot"><p>&copy; 2025 <b>ZeroPoint LTD</b>. All rights reserved.</p><p>Crafted with precision. Built for growth.</p></div>
+  </div>
+</footer>
+
+<script>
+// ── CURSOR ──────────────────────────────────────────
+const C=document.getElementById('cur'),CR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;C.style.left=mx+'px';C.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;CR.style.left=rx+'px';CR.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.addEventListener('mouseover',e=>{const h=!!e.target.closest('a,button,.gc,.sdc,.pcard,.teamc,.bldsvc,.qchip');C.classList.toggle('h',h);CR.classList.toggle('h',h)});
+
+// ── CANVAS ──────────────────────────────────────────
+const cv=document.getElementById('bgc'),cx=cv.getContext('2d');
+let W,H,ps=[],pmx=0,pmy=0;
+function rz(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+rz();addEventListener('resize',rz);
+addEventListener('mousemove',e=>{pmx=e.clientX;pmy=e.clientY});
+class P{constructor(){this.init()}init(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.28;this.vy=(Math.random()-.5)*.28;this.s=Math.random()*1.4+.5;this.o=Math.random()*.45+.08;this.bo=this.o}tick(){this.x+=this.vx;this.y+=this.vy;const dx=pmx-this.x,dy=pmy-this.y,d=Math.hypot(dx,dy);if(d<90){this.x-=dx*.003;this.y-=dy*.003;this.o=Math.min(this.bo*3,.8)}else this.o+=(this.bo-this.o)*.05;if(this.x<0||this.x>W)this.vx*=-1;if(this.y<0||this.y>H)this.vy*=-1}draw(){cx.beginPath();cx.arc(this.x,this.y,this.s,0,Math.PI*2);cx.fillStyle=`rgba(229,9,20,${this.o})`;cx.fill()}}
+for(let i=0;i<110;i++)ps.push(new P);
+(function frame(){cx.clearRect(0,0,W,H);ps.forEach((p,i)=>{p.tick();p.draw();ps.slice(i+1).forEach(q=>{const d=Math.hypot(p.x-q.x,p.y-q.y);if(d<95){cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(q.x,q.y);cx.strokeStyle=`rgba(229,9,20,${(1-d/95)*.1})`;cx.lineWidth=.5;cx.stroke()}})});requestAnimationFrame(frame)})();
+
+// ── LOADER ──────────────────────────────────────────
+addEventListener('load',()=>setTimeout(()=>{document.getElementById('ldr').classList.add('out');runCounters()},1500));
+
+// ── AUTH ────────────────────────────────────────────
+const UK='zp_users_v2',SK='zp_sess_v2';
+let CU=null;
+function getUsers(){try{return JSON.parse(localStorage.getItem(UK)||'[]')}catch{return[]}}
+function setUsers(u){try{localStorage.setItem(UK,JSON.stringify(u))}catch{}}
+function getSess(){try{return JSON.parse(localStorage.getItem(SK)||'null')}catch{return null}}
+function setSess(u){try{localStorage.setItem(SK,JSON.stringify(u))}catch{}}
+function delSess(){try{localStorage.removeItem(SK)}catch{}}
+
+// Seed demo user
+(()=>{const u=getUsers();if(!u.find(x=>x.email==='demo@zeropoint.ltd')){u.push({email:'demo@zeropoint.ltd',pw:'demo1234',name:'Demo User',company:'ZeroPoint Demo',initials:'DU'});setUsers(u)}})();
+
+function openAuth(){document.getElementById('auth-ov').classList.remove('hidden');switchTab('li');clearAuthErr()}
+function closeAuth(){document.getElementById('auth-ov').classList.add('hidden')}
+document.getElementById('auth-ov').addEventListener('click',e=>{if(e.target.id==='auth-ov')closeAuth()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAuth()});
+
+function switchTab(t){
+  document.getElementById('atab-li').classList.toggle('on',t==='li');
+  document.getElementById('atab-reg').classList.toggle('on',t==='reg');
+  document.getElementById('form-li').style.display=t==='li'?'block':'none';
+  document.getElementById('form-reg').style.display=t==='reg'?'block':'none';
+  document.getElementById('auth-sub').textContent=t==='li'?'Welcome back. Sign in to your account.':'Create your client account below.';
+  clearAuthErr();
+}
+function showAuthErr(m){const e=document.getElementById('aerr');e.textContent=m;e.classList.add('show')}
+function clearAuthErr(){document.getElementById('aerr').classList.remove('show')}
+
+function doLogin(){
+  const em=document.getElementById('li-em').value.trim().toLowerCase();
+  const pw=document.getElementById('li-pw').value;
+  if(!em||!pw){showAuthErr('Please enter your email and password.');return}
+  const u=getUsers().find(x=>x.email===em&&x.pw===pw);
+  if(!u){showAuthErr('Incorrect email or password. Try: demo@zeropoint.ltd / demo1234');return}
+  loginUser(u,false);
+}
+function doRegister(){
+  const fn=document.getElementById('reg-fn').value.trim();
+  const ln=document.getElementById('reg-ln').value.trim();
+  const em=document.getElementById('reg-em').value.trim().toLowerCase();
+  const pw=document.getElementById('reg-pw').value;
+  const co=document.getElementById('reg-co').value.trim();
+  if(!fn||!em||!pw){showAuthErr('First name, email and password are required.');return}
+  if(pw.length<8){showAuthErr('Password must be at least 8 characters.');return}
+  if(!/\S+@\S+\.\S+/.test(em)){showAuthErr('Please enter a valid email address.');return}
+  const users=getUsers();
+  if(users.find(x=>x.email===em)){showAuthErr('This email is already registered. Please sign in.');return}
+  const initials=(fn[0]+(ln?ln[0]:'')).toUpperCase();
+  const nu={email:em,pw,name:fn+(ln?' '+ln:''),company:co,initials};
+  users.push(nu);setUsers(users);
+  showToast('&#127881;','Account Created!','Welcome to ZeroPoint, '+fn+'!');
+  loginUser(nu,true);
+}
+function loginUser(user,isNew){
+  CU=user;setSess(user);closeAuth();renderNav(user);
+  if(!isNew)showToast('&#10003;','Welcome back, '+user.name.split(' ')[0]+'!','Your dashboard is ready.');
+  setTimeout(()=>nav('dashboard'),500);
+}
+function logout(){CU=null;delSess();renderNavGuest();nav('home');showToast('&#128075;','Signed Out','See you next time!')}
+
+function renderNav(u){
+  document.getElementById('nav-right').innerHTML=
+    '<div class="uddw">'+
+    '<button class="nubtn" onclick="toggleDD()">'+
+    '<div class="nav-av">'+esc(u.initials||u.name[0])+'</div>'+
+    esc(u.name.split(' ')[0])+' &#9660;</button>'+
+    '<div class="udd" id="udd">'+
+    '<div class="udd-hd"><div class="udd-name">'+esc(u.name)+'</div><div class="udd-email">'+esc(u.email)+'</div></div>'+
+    '<button class="udd-item" onclick="nav(\'dashboard\');closeDD()">&#127968; Dashboard</button>'+
+    '<button class="udd-item" onclick="showPanel(\'projects\');nav(\'dashboard\');closeDD()">&#128193; My Projects</button>'+
+    '<button class="udd-item" onclick="showPanel(\'settings\');nav(\'dashboard\');closeDD()">&#9881; Settings</button>'+
+    '<div class="udd-sep"></div>'+
+    '<button class="udd-item danger" onclick="logout()">&#8594; Sign Out</button>'+
+    '</div></div>';
+}
+function renderNavGuest(){document.getElementById('nav-right').innerHTML='<button class="ncta" onclick="openAuth()">Get Started</button>'}
+function toggleDD(){document.getElementById('udd')?.classList.toggle('open')}
+function closeDD(){document.getElementById('udd')?.classList.remove('open')}
+document.addEventListener('click',e=>{if(!e.target.closest('.uddw'))closeDD()});
+
+// Restore session
+(()=>{const s=getSess();if(s){CU=s;renderNav(s)}})();
+
+// ── ROUTER ──────────────────────────────────────────
+function nav(pg){
+  if(pg==='dashboard'&&!CU){openAuth();return}
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el=document.getElementById('page-'+pg);
+  if(!el)return;
+  el.classList.add('active');
+  scrollTo({top:0,behavior:'smooth'});
+  document.querySelectorAll('.nlinks a').forEach(a=>a.classList.toggle('on',a.dataset.p===pg));
+  document.querySelector('footer').style.display=pg==='dashboard'?'none':'block';
+  setTimeout(initReveal,80);
+  if(pg==='home')runCounters();
+  if(pg==='dashboard'&&CU){
+    const h=new Date().getHours();
+    document.getElementById('dash-greet').innerHTML=(h<12?'Good morning':h<18?'Good afternoon':'Good evening')+' '+esc(CU.name.split(' ')[0])+' &#128075;';
+    document.getElementById('set-name').value=CU.name||'';
+    document.getElementById('set-email').value=CU.email||'';
+    document.getElementById('set-company').value=CU.company||'';
+  }
+}
+function toggleMob(){document.getElementById('mobmenu').classList.toggle('open')}
+
+// ── SCROLL REVEAL ────────────────────────────────────
+function initReveal(){
+  const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.1});
+  document.querySelectorAll('.page.active .rev').forEach(el=>obs.observe(el));
+}
+addEventListener('load',initReveal);
+
+// ── COUNTERS ─────────────────────────────────────────
+function runCounters(){
+  document.querySelectorAll('.cnt').forEach(el=>{
+    const t=+el.dataset.t;let n=0;
+    const step=t/55;
+    const tm=setInterval(()=>{n=Math.min(n+step,t);el.textContent=Math.floor(n);if(n>=t)clearInterval(tm)},22);
+  });
+}
+
+// ── TESTIMONIALS ─────────────────────────────────────
+let tIdx=0;
+function slide(d){
+  const tr=document.getElementById('ttrk');
+  if(!tr)return;
+  const vis=innerWidth<960?1:2;
+  const max=tr.children.length-vis;
+  tIdx=Math.max(0,Math.min(tIdx+d,max));
+  const w=tr.parentElement.offsetWidth/vis+11;
+  tr.style.transform=`translateX(-${tIdx*w}px)`;
+}
+
+// ── PRICING TABS ─────────────────────────────────────
+function setPTab(t){
+  ['web','seo','social','bundle'].forEach(x=>{
+    document.getElementById('ptab-'+x)?.classList.toggle('on',x===t);
+    document.getElementById('ppnl-'+x)?.classList.toggle('on',x===t);
+  });
+}
+
+// ── BUNDLE BUILDER ───────────────────────────────────
+const BS={web:{on:false,tier:'Starter',price:499},seo:{on:false,tier:'Basic',price:299},social:{on:false,tier:'Starter',price:399},data:{on:false,tier:'Basic',price:599}};
+const BICO={web:'&#127760;',seo:'&#128200;',social:'&#128241;',data:'&#128452;'};
+const BNMS={web:'Website Design',seo:'SEO Management',social:'Social Media',data:'Data Management'};
+
+function toggleBld(k){
+  BS[k].on=!BS[k].on;
+  document.getElementById('bsvc-'+k).classList.toggle('sel',BS[k].on);
+  updateSummary();
+}
+function setTier(e,k,tier,price){
+  e.stopPropagation();
+  BS[k].tier=tier;BS[k].price=price;
+  document.querySelectorAll('#bsvc-'+k+' .tbtn').forEach(b=>b.classList.remove('on'));
+  e.currentTarget.classList.add('on');
+  updateSummary();
+}
+function updateSummary(){
+  const active=Object.keys(BS).filter(k=>BS[k].on);
+  const disc=active.length>1?.1:0;
+  const body=document.getElementById('sum-body');
+  const btn=document.getElementById('btn-pur');
+  if(!active.length){
+    body.innerHTML='<div class="sumempty">Select services on the left to build your package.</div>';
+    document.getElementById('sum-total').textContent='&#163;0';
+    btn.disabled=true;btn.textContent='Select a Service to Continue';
+    return;
+  }
+  let total=0,html='<div>';
+  active.forEach(k=>{
+    const p=Math.round(BS[k].price*(1-disc));total+=p;
+    html+='<div class="sumitem"><div><div class="suminm">'+BICO[k]+' '+BNMS[k]+'</div><div class="sumitr">'+BS[k].tier+' plan</div></div><div class="sumipr">&#163;'+p.toLocaleString()+'</div></div>';
+  });
+  html+='</div>';
+  if(disc>0)html+='<div style="font-size:.7rem;color:var(--red);text-align:right;margin-bottom:4px">&#10003; 10% bundle discount applied</div>';
+  body.innerHTML=html;
+  document.getElementById('sum-total').textContent='&#163;'+total.toLocaleString();
+  btn.disabled=false;btn.textContent='Purchase Bundle &#8594;';
+}
+function bundlePurchase(){
+  if(!CU){openAuth();return}
+  showToast('&#127881;','Bundle Request Sent!','Your account manager will contact you within 24 hours.');
+}
+
+// ── BUY PLAN ─────────────────────────────────────────
+function buyPlan(name,price){
+  if(!CU){openAuth();return}
+  showToast('&#10003;',name+' Selected','We\'ll reach out shortly. Price: '+price);
+}
+
+// ── CONTACT FORM ─────────────────────────────────────
+function submitContact(){
+  const fn=document.getElementById('cf-fn').value.trim();
+  const em=document.getElementById('cf-em').value.trim();
+  const msg=document.getElementById('cf-msg').value.trim();
+  if(!fn||!em||!msg){showToast('&#9888;','Missing Fields','Please fill in name, email, and message.');return}
+  if(!/\S+@\S+\.\S+/.test(em)){showToast('&#9888;','Invalid Email','Please enter a valid email address.');return}
+  showToast('&#10003;','Message Sent!','Thanks '+fn+'! We\'ll reply within 24 hours.');
+  ['cf-fn','cf-ln','cf-em','cf-co','cf-msg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
+}
+
+// ── DASHBOARD PANELS ─────────────────────────────────
+function showPanel(id){
+  document.querySelectorAll('.dpnl').forEach(p=>p.classList.remove('on'));
+  document.getElementById('dp-'+id)?.classList.add('on');
+  document.querySelectorAll('.sbitem').forEach(b=>b.classList.remove('on'));
+  document.getElementById('sb-'+id)?.classList.add('on');
+  if(id==='settings'&&CU){
+    document.getElementById('set-name').value=CU.name||'';
+    document.getElementById('set-email').value=CU.email||'';
+    document.getElementById('set-company').value=CU.company||'';
+  }
+}
+function saveSettings(){
+  if(!CU)return;
+  const nm=document.getElementById('set-name').value.trim();
+  const em=document.getElementById('set-email').value.trim();
+  const co=document.getElementById('set-company').value.trim();
+  if(!nm){showToast('&#9888;','Name Required','Please enter a display name.');return}
+  CU.name=nm;CU.company=co;
+  if(em)CU.email=em;
+  CU.initials=(nm.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2));
+  setSess(CU);
+  const users=getUsers();
+  const idx=users.findIndex(u=>u.email===CU.email||u.initials===CU.initials);
+  if(idx>-1){users[idx]=CU;setUsers(users)}
+  renderNav(CU);
+  showToast('&#10003;','Settings Saved','Your profile has been updated.');
+}
+function toggleNotif(id,initial){
+  const el=document.getElementById(id);if(!el)return;
+  const isOn=el.dataset.on==='1'||(initial&&!el.dataset.on);
+  el.dataset.on=isOn?'0':'1';
+  el.style.background=isOn?'rgba(255,255,255,.1)':'var(--red)';
+  el.firstElementChild.style.transform=isOn?'':'translateX(19px)';
+}
+function submitTicket(){
+  const s=document.getElementById('tkt-subj').value.trim();
+  const m=document.getElementById('tkt-msg').value.trim();
+  if(!s||!m){showToast('&#9888;','Missing Fields','Please fill in the subject and message.');return}
+  showToast('&#10003;','Ticket Submitted','We\'ll reply within 4 business hours.');
+  document.getElementById('tkt-subj').value='';
+  document.getElementById('tkt-msg').value='';
+}
+
+// ── TOAST ────────────────────────────────────────────
+let tTimer;
+function showToast(ico,txt,sub){
+  const el=document.getElementById('toast');
+  document.getElementById('t-ico').innerHTML=ico;
+  document.getElementById('t-txt').textContent=txt;
+  document.getElementById('t-sub').textContent=sub||'';
+  el.classList.add('show');
+  clearTimeout(tTimer);
+  tTimer=setTimeout(()=>el.classList.remove('show'),4200);
+}
+
+// ── CHATBOT ──────────────────────────────────────────
+let chatOpen=false,chatHist=[],chatBusy=false;
+
+const SYS=`You are ZeroBot, the friendly AI assistant for ZeroPoint LTD — a premium digital agency in London.
+
+Services & Pricing:
+- Website Design: Starter £499, Business £1,499, Enterprise £3,999 (one-time)
+- SEO Management: Basic £299/mo, Growth £699/mo, Pro £1,299/mo
+- Social Media Marketing: Starter £399/mo, Brand Growth £899/mo, Premium £1,799/mo
+- Data Management: Basic £599/mo, Advanced £1,199/mo, Enterprise £2,499/mo
+- Bundle discount: 10% off when combining multiple services
+
+Company: Founded 2019, London. 200+ projects, 150+ clients, 99% satisfaction. 40+ team members in London, Amsterdam, Dubai. CEO: Alex Harper.
+
+Personality: Warm, professional, concise. Help users explore services, pricing, next steps. Keep replies to 2-3 short paragraphs. Use **bold** for emphasis. End with a helpful question when appropriate.`;
+
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('chatwin').classList.toggle('open',chatOpen);
+  document.getElementById('chatfab').classList.toggle('open',chatOpen);
+  if(chatOpen&&!chatHist.length){
+    addBot("Hey there! &#128075; I'm **ZeroBot**, ZeroPoint's AI assistant.\n\nI can help you explore our services, pricing, or anything else about working with us. What can I help you with?");
+    document.querySelector('.chatdot')?.remove();
+  }
+}
+
+function addBot(txt){
+  const el=document.getElementById('chatmsgs');
+  const d=document.createElement('div');d.className='msg bot';
+  d.innerHTML='<div class="msgav bot">&#129302;</div><div><div class="msgbub">'+mdRender(txt)+'</div><span class="msgt">'+now()+'</span></div>';
+  el.appendChild(d);el.scrollTop=el.scrollHeight;
+}
+function addUser(txt){
+  const el=document.getElementById('chatmsgs');
+  const d=document.createElement('div');d.className='msg usr';
+  d.innerHTML='<div class="msgav">'+esc(CU?CU.initials:'U')+'</div><div><div class="msgbub">'+esc(txt)+'</div><span class="msgt" style="text-align:right;display:block">'+now()+'</span></div>';
+  el.appendChild(d);el.scrollTop=el.scrollHeight;
+}
+function showTyping(){
+  const el=document.getElementById('chatmsgs');
+  const d=document.createElement('div');d.className='msg bot';d.id='typing';
+  d.innerHTML='<div class="msgav bot">&#129302;</div><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>';
+  el.appendChild(d);el.scrollTop=el.scrollHeight;
+}
+function hideTyping(){document.getElementById('typing')?.remove()}
+
+function qsend(t){document.getElementById('chatinp').value=t;sendMsg();document.getElementById('chatqk').style.display='none'}
+function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg()}}
+document.getElementById('chatinp').addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'});
+
+async function sendMsg(){
+  const inp=document.getElementById('chatinp');
+  const txt=inp.value.trim();
+  if(!txt||chatBusy)return;
+  inp.value='';inp.style.height='auto';
+  chatBusy=true;document.getElementById('chatsend').disabled=true;
+  addUser(txt);
+  chatHist.push({role:'user',content:txt});
+  showTyping();
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:SYS,messages:chatHist})
+    });
+    const j=await r.json();
+    hideTyping();
+    const reply=j.content?.[0]?.text||"Sorry, I couldn't connect. Please try again or contact us at hello@zeropoint.ltd";
+    chatHist.push({role:'assistant',content:reply});
+    addBot(reply);
+  }catch(e){
+    hideTyping();
+    addBot("I'm having trouble connecting right now. Please try again or reach us directly at hello&#64;zeropoint.ltd &#128231;");
+  }
+  chatBusy=false;document.getElementById('chatsend').disabled=false;
+}
+
+// ── HELPERS ──────────────────────────────────────────
+function esc(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML}
+function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+function mdRender(t){return esc(t).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>')}
+</script>
+</body>
+</html>
