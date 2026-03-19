@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZeroPoint Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--red:#E50914;--rd:#b0060f;--glow:rgba(229,9,20,.3);--dk:#07070e;--dk2:#0d0d1a;--dk3:#131324;--gl:rgba(255,255,255,.04);--glb:rgba(255,255,255,.08);--glh:rgba(255,255,255,.07);--g2:#c4c4cc;--g4:#8888a0;--g6:#444458;--fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;--green:#4ade80;--yellow:#fbbf24;--blue:#60a5fa;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--dk);color:#fff;font-family:var(--fb);overflow-x:hidden}
+/* LOGIN */
+#login-screen{position:fixed;inset:0;z-index:1000;background:var(--dk);display:flex;align-items:center;justify-content:center}
+#login-screen.hidden{display:none}
+.login-card{background:var(--dk2);border:1px solid var(--glb);border-radius:20px;padding:48px 44px;width:100%;max-width:400px;position:relative;overflow:hidden}
+.login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),transparent)}
+.login-logo{font-family:var(--fd);font-size:1.4rem;font-weight:800;margin-bottom:4px}
+.login-logo b{color:var(--red)}
+.login-sub{color:var(--g4);font-size:.8rem;margin-bottom:32px;font-weight:300;letter-spacing:.05em;text-transform:uppercase}
+.lg{margin-bottom:18px}
+.lg label{display:block;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px}
+.li{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--glb);border-radius:8px;padding:12px 15px;color:#fff;font-size:.9rem;font-family:var(--fb);outline:none;transition:border-color .2s}
+.li:focus{border-color:var(--red)}
+.li::placeholder{color:var(--g6)}
+.lerr{background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.3);color:#ff8080;border-radius:7px;padding:10px 14px;font-size:.8rem;margin-bottom:14px;display:none}
+.lerr.show{display:block}
+.lbtn{width:100%;padding:13px;background:var(--red);border:none;border-radius:8px;color:#fff;font-family:var(--fd);font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;box-shadow:0 0 20px var(--glow)}
+.lbtn:hover{background:var(--rd)}
+/* LAYOUT */
+#admin-app{display:none;height:100vh;grid-template-columns:260px 1fr;grid-template-rows:64px 1fr}
+#admin-app.show{display:grid}
+/* TOP BAR */
+.topbar{grid-column:1/-1;background:rgba(7,7,14,.9);border-bottom:1px solid var(--glb);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.topbar-logo{font-family:var(--fd);font-size:1.1rem;font-weight:800}
+.topbar-logo b{color:var(--red)}
+.topbar-badge{background:rgba(229,9,20,.15);border:1px solid rgba(229,9,20,.3);color:var(--red);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:100px}
+.topbar-right{display:flex;align-items:center;gap:14px}
+.topbar-user{font-size:.84rem;color:var(--g4)}
+.topbar-user b{color:#fff}
+.logout-btn{background:none;border:1px solid var(--glb);color:var(--g4);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.8rem;font-family:var(--fb);transition:all .2s}
+.logout-btn:hover{border-color:var(--red);color:var(--red)}
+/* SIDEBAR */
+.admsidebar{background:var(--dk2);border-right:1px solid var(--glb);padding:20px 14px;overflow-y:auto}
+.sidesec{font-size:.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g6);padding:0 12px;margin:18px 0 6px;display:block}
+.sideitem{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .2s;color:var(--g2);font-size:.875rem;font-weight:500;background:none;border:none;width:100%;text-align:left;font-family:var(--fb)}
+.sideitem:hover{background:var(--gl)}
+.sideitem.on{background:rgba(229,9,20,.12);color:#fff;border-left:2px solid var(--red);margin-left:-2px;padding-left:10px}
+.sideitem svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.side-badge{margin-left:auto;background:var(--red);color:#fff;font-size:.6rem;font-weight:700;padding:2px 6px;border-radius:100px;min-width:18px;text-align:center}
+/* MAIN */
+.admmain{overflow-y:auto;padding:32px;background:var(--dk)}
+.panel{display:none}.panel.on{display:block}
+/* SECTION HEADER */
+.phead{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.pttl{font-family:var(--fd);font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.psub{color:var(--g4);font-size:.875rem;margin-top:3px;font-weight:300}
+/* STAT CARDS */
+.statrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px}
+.scard{background:var(--gl);border:1px solid var(--glb);border-radius:14px;padding:20px;backdrop-filter:blur(12px)}
+.scard-val{font-family:var(--fd);font-size:2rem;font-weight:800;margin-bottom:4px}
+.scard-val span{color:var(--red)}
+.scard-lbl{color:var(--g4);font-size:.75rem;font-weight:300}
+.up{color:var(--green)}.dn{color:#f87171}.neu{color:var(--g4)}
+/* TABLE */
+.tcard{background:var(--gl);border:1px solid var(--glb);border-radius:14px;overflow:hidden;backdrop-filter:blur(12px)}
+.tcard-head{padding:18px 22px;border-bottom:1px solid var(--glb);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tcard-ttl{font-family:var(--fd);font-size:.95rem;font-weight:700}
+.tbl{width:100%;border-collapse:collapse;font-size:.84rem}
+.tbl th{text-align:left;padding:12px 22px;color:var(--g4);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--glb);background:rgba(255,255,255,.02)}
+.tbl td{padding:14px 22px;border-bottom:1px solid var(--glb);color:var(--g2);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+.bdg{padding:3px 10px;border-radius:100px;font-size:.65rem;font-weight:700;white-space:nowrap}
+.bdg-green{background:rgba(74,222,128,.12);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+.bdg-yellow{background:rgba(251,191,36,.12);color:var(--yellow);border:1px solid rgba(251,191,36,.25)}
+.bdg-red{background:rgba(229,9,20,.12);color:#ff8080;border:1px solid rgba(229,9,20,.25)}
+.bdg-blue{background:rgba(96,165,250,.12);color:var(--blue);border:1px solid rgba(96,165,250,.25)}
+/* BUTTONS */
+.action-btn{background:none;border:1px solid var(--glb);color:var(--g4);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.75rem;font-family:var(--fb);transition:all .2s;margin-right:4px;white-space:nowrap}
+.action-btn:hover{border-color:var(--red);color:var(--red)}
+.action-btn.ok:hover{border-color:var(--green);color:var(--green)}
+.action-btn.danger:hover{border-color:#f87171;color:#f87171}
+.add-btn{display:inline-flex;align-items:center;gap:6px;background:var(--red);border:none;color:#fff;padding:9px 18px;border-radius:7px;cursor:pointer;font-size:.84rem;font-weight:600;font-family:var(--fb);transition:background .2s;box-shadow:0 0 14px var(--glow)}
+.add-btn:hover{background:var(--rd)}
+.refresh-btn{display:inline-flex;align-items:center;gap:6px;background:var(--gl);border:1px solid var(--glb);color:var(--g2);padding:7px 14px;border-radius:7px;cursor:pointer;font-size:.8rem;font-family:var(--fb);transition:all .2s}
+.refresh-btn:hover{border-color:rgba(229,9,20,.3);color:#fff}
+.refresh-btn svg,.add-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* SEARCH */
+.search-bar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.search-inp{flex:1;min-width:200px;background:rgba(255,255,255,.05);border:1px solid var(--glb);border-radius:8px;padding:10px 14px;color:#fff;font-size:.875rem;font-family:var(--fb);outline:none;transition:border-color .2s}
+.search-inp:focus{border-color:var(--red)}
+.search-inp::placeholder{color:var(--g6)}
+/* MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);z-index:5000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;padding:20px}
+.modal-ov.open{opacity:1;visibility:visible}
+.modal{background:var(--dk2);border:1px solid var(--glb);border-radius:16px;padding:36px;width:100%;max-width:540px;position:relative;max-height:92vh;overflow-y:auto}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),transparent)}
+.modal-ttl{font-family:var(--fd);font-size:1.2rem;font-weight:700;margin-bottom:20px}
+.modal-close{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--g4);font-size:1.2rem;cursor:pointer;transition:color .2s;line-height:1}
+.modal-close:hover{color:#fff}
+.mfg{margin-bottom:16px}
+.mfg label{display:block;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px}
+.mfi{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--glb);border-radius:8px;padding:11px 14px;color:#fff;font-size:.875rem;font-family:var(--fb);outline:none;transition:border-color .2s}
+.mfi:focus{border-color:var(--red)}
+.mfi::placeholder{color:var(--g6)}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-btns{display:flex;gap:10px;margin-top:20px}
+.mbtn{flex:1;padding:11px;border-radius:8px;font-size:.875rem;font-weight:600;cursor:pointer;font-family:var(--fb);transition:all .2s}
+.mbtn-p{background:var(--red);border:none;color:#fff;box-shadow:0 0 16px var(--glow)}
+.mbtn-p:hover{background:var(--rd)}
+.mbtn-o{background:none;border:1px solid var(--glb);color:var(--g2)}
+.mbtn-o:hover{background:var(--gl)}
+/* PRODUCT GRID */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:24px}
+.prod-card{background:var(--gl);border:1px solid var(--glb);border-radius:12px;padding:20px;transition:border-color .2s;position:relative}
+.prod-card:hover{border-color:rgba(229,9,20,.3)}
+.prod-featured-tag{position:absolute;top:12px;right:12px;font-size:.6rem;font-weight:700;color:var(--red);background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.25);padding:2px 8px;border-radius:100px}
+.prod-cat{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g4);margin-bottom:4px}
+.prod-name{font-family:var(--fd);font-size:1rem;font-weight:700;margin-bottom:3px}
+.prod-price{font-family:var(--fd);font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:6px}
+.prod-price small{font-size:.75rem;font-weight:400;color:var(--g4)}
+.prod-desc{color:var(--g4);font-size:.78rem;margin-bottom:12px}
+.prod-actions{display:flex;gap:6px}
+/* SERVICE GRID */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px}
+.svc-card{background:var(--gl);border:1px solid var(--glb);border-radius:12px;padding:22px;transition:border-color .2s}
+.svc-card:hover{border-color:rgba(229,9,20,.3)}
+.svc-key{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:4px}
+.svc-name{font-family:var(--fd);font-size:1.05rem;font-weight:700;margin-bottom:6px}
+.svc-desc{color:var(--g4);font-size:.8rem;line-height:1.6;margin-bottom:12px}
+.svc-feats{list-style:none;margin-bottom:14px}
+.svc-feats li{color:var(--g2);font-size:.75rem;padding:2px 0;display:flex;gap:7px;align-items:flex-start}
+.svc-feats li::before{content:'';width:4px;height:4px;background:var(--red);border-radius:50%;flex-shrink:0;margin-top:5px}
+.svc-actions{display:flex;gap:6px}
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--dk3);border:1px solid var(--glb);border-radius:10px;padding:12px 18px;display:flex;align-items:center;gap:10px;z-index:9000;opacity:0;transition:transform .3s cubic-bezier(.175,.885,.32,1.275),opacity .3s;min-width:260px}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast-txt{font-size:.875rem;font-weight:600}
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--g4);gap:10px;font-size:.875rem}
+.spin{width:18px;height:18px;border:2px solid var(--glb);border-top-color:var(--red);border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* 2COL */
+.d2col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.dw{background:var(--gl);border:1px solid var(--glb);border-radius:14px;padding:24px;backdrop-filter:blur(12px)}
+.dwttl{font-family:var(--fd);font-size:.95rem;font-weight:700;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center}
+.dwttl span{font-size:.68rem;color:var(--g4);font-weight:400;font-family:var(--fb)}
+@media(max-width:768px){#admin-app{grid-template-columns:1fr;grid-template-rows:64px auto 1fr}.admsidebar{display:none}.admmain{padding:20px}.d2col{grid-template-columns:1fr}.mrow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">Zero<b>Point</b></div>
+    <div class="login-sub">Admin Access Only</div>
+    <div class="lerr" id="lerr"></div>
+    <div class="lg"><label>Username</label><input class="li" type="text" id="adm-user" placeholder="Username" autocomplete="off"></div>
+    <div class="lg"><label>Password</label><input class="li" type="password" id="adm-pass" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" autocomplete="current-password"></div>
+    <button class="lbtn" onclick="doAdminLogin()">Access Admin Panel &#8594;</button>
+  </div>
+</div>
+
+<!-- ADMIN APP -->
+<div id="admin-app">
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div class="topbar-logo">Zero<b>Point</b></div>
+      <div class="topbar-badge">Admin Panel</div>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-user">Signed in as <b>Adnan</b></div>
+      <button class="logout-btn" onclick="adminLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="admsidebar">
+    <span class="sidesec">Overview</span>
+    <button class="sideitem on" id="si-dash" onclick="showPanel('dash')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</button>
+    <span class="sidesec">Customers</span>
+    <button class="sideitem" id="si-customers" onclick="showPanel('customers')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>All Customers <span class="side-badge" id="cust-badge">0</span></button>
+    <button class="sideitem" id="si-enquiries" onclick="showPanel('enquiries')"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Enquiries <span class="side-badge" id="enq-badge">0</span></button>
+    <span class="sidesec">Orders</span>
+    <button class="sideitem" id="si-orders" onclick="showPanel('orders')"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Orders <span class="side-badge" id="ord-badge">0</span></button>
+    <button class="sideitem" id="si-tickets" onclick="showPanel('tickets')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Support Tickets <span class="side-badge" id="tkt-badge">0</span></button>
+    <span class="sidesec">Catalogue</span>
+    <button class="sideitem" id="si-services" onclick="showPanel('services')"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Manage Services</button>
+    <button class="sideitem" id="si-products" onclick="showPanel('products')"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Manage Plans</button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="admmain">
+
+    <!-- DASHBOARD -->
+    <div class="panel on" id="panel-dash">
+      <div class="phead">
+        <div><div class="pttl">Dashboard</div><div class="psub">Live overview of ZeroPoint LTD</div></div>
+        <button class="refresh-btn" onclick="loadAll()"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Refresh</button>
+      </div>
+      <div class="statrow">
+        <div class="scard"><div class="scard-val" id="ds-cust">&#8212;</div><div class="scard-lbl">Total Customers</div></div>
+        <div class="scard"><div class="scard-val" id="ds-orders">&#8212;</div><div class="scard-lbl">Total Orders</div></div>
+        <div class="scard"><div class="scard-val" id="ds-enq">&#8212;</div><div class="scard-lbl">Enquiries</div></div>
+        <div class="scard"><div class="scard-val" id="ds-rev">&#8212;</div><div class="scard-lbl">Est. Revenue</div></div>
+      </div>
+      <div class="d2col">
+        <div class="tcard">
+          <div class="tcard-head"><div class="tcard-ttl">Recent Customers</div><button class="action-btn" onclick="showPanel('customers')">View All</button></div>
+          <div id="recent-customers"><div class="loading"><div class="spin"></div>Loading...</div></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard-head"><div class="tcard-ttl">Recent Orders</div><button class="action-btn" onclick="showPanel('orders')">View All</button></div>
+          <div id="recent-orders"><div class="loading"><div class="spin"></div>Loading...</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOMERS -->
+    <div class="panel" id="panel-customers">
+      <div class="phead"><div><div class="pttl">Customers</div><div class="psub">All registered accounts</div></div></div>
+      <div class="search-bar"><input class="search-inp" type="text" placeholder="Search by name or email..." id="cust-search" oninput="filterCustomers()"></div>
+      <div class="tcard">
+        <div class="tcard-head"><div class="tcard-ttl">All Customers</div><span id="cust-count" style="font-size:.8rem;color:var(--g4)"></span></div>
+        <div id="customers-table"><div class="loading"><div class="spin"></div>Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- ENQUIRIES -->
+    <div class="panel" id="panel-enquiries">
+      <div class="phead"><div><div class="pttl">Enquiries</div><div class="psub">Contact form submissions</div></div></div>
+      <div class="tcard">
+        <div class="tcard-head"><div class="tcard-ttl">All Enquiries</div><span id="enq-count" style="font-size:.8rem;color:var(--g4)"></span></div>
+        <div id="enquiries-table"><div class="loading"><div class="spin"></div>Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="panel" id="panel-orders">
+      <div class="phead"><div><div class="pttl">Orders</div><div class="psub">Plan purchases and bundle requests</div></div></div>
+      <div class="tcard">
+        <div class="tcard-head"><div class="tcard-ttl">All Orders</div><span id="ord-count" style="font-size:.8rem;color:var(--g4)"></span></div>
+        <div id="orders-table"><div class="loading"><div class="spin"></div>Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- SUPPORT TICKETS -->
+    <div class="panel" id="panel-tickets">
+      <div class="phead"><div><div class="pttl">Support Tickets</div><div class="psub">Customer support requests</div></div></div>
+      <div class="tcard">
+        <div class="tcard-head"><div class="tcard-ttl">All Tickets</div><span id="tkt-count" style="font-size:.8rem;color:var(--g4)"></span></div>
+        <div id="tickets-table"><div class="loading"><div class="spin"></div>Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- SERVICES MANAGER -->
+    <div class="panel" id="panel-services">
+      <div class="phead">
+        <div>
+          <div class="pttl">Manage Services</div>
+          <div class="psub">Add, edit, and remove service categories. Changes appear live on the website.</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="refresh-btn" onclick="loadServices()"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Refresh</button>
+          <button class="add-btn" onclick="openSvcModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Service</button>
+        </div>
+      </div>
+      <div style="background:rgba(229,9,20,.07);border:1px solid rgba(229,9,20,.2);border-radius:10px;padding:12px 16px;margin-bottom:22px;font-size:.84rem;color:var(--g2)">
+        <b style="color:var(--red)">&#9432; Live Connection:</b> Services saved here appear immediately on the main website's Services page. The Service Key must match the product's <code style="background:rgba(255,255,255,.06);padding:1px 6px;border-radius:4px">service_key</code> field for plans to link correctly.
+      </div>
+      <div id="services-grid-admin"><div class="loading"><div class="spin"></div>Loading services...</div></div>
+    </div>
+
+    <!-- PRODUCTS / PLANS MANAGER -->
+    <div class="panel" id="panel-products">
+      <div class="phead">
+        <div>
+          <div class="pttl">Manage Plans</div>
+          <div class="psub">Add, edit, and remove pricing plans. Changes appear live on the Pricing page.</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="refresh-btn" onclick="loadProducts()"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Refresh</button>
+          <button class="add-btn" onclick="openProdModal()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Plan</button>
+        </div>
+      </div>
+      <div style="background:rgba(229,9,20,.07);border:1px solid rgba(229,9,20,.2);border-radius:10px;padding:12px 16px;margin-bottom:22px;font-size:.84rem;color:var(--g2)">
+        <b style="color:var(--red)">&#9432; Live Connection:</b> Plans saved here appear immediately on the main website's Pricing page and Bundle Builder. The <code style="background:rgba(255,255,255,.06);padding:1px 6px;border-radius:4px">service_key</code> must match a Service ID (e.g. <b>web</b>, <b>seo</b>, <b>social</b>, <b>data</b>).
+      </div>
+      <div id="products-grid-admin"><div class="loading"><div class="spin"></div>Loading plans...</div></div>
+    </div>
+
+  </div><!-- /admmain -->
+</div><!-- /admin-app -->
+
+<!-- SERVICE MODAL -->
+<div class="modal-ov" id="svc-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeSvcModal()">&#10005;</button>
+    <div class="modal-ttl" id="svc-modal-ttl">Add Service</div>
+    <input type="hidden" id="svc-edit-id">
+    <div class="mrow">
+      <div class="mfg"><label>Service Name</label><input class="mfi" type="text" id="svc-name" placeholder="e.g. Website Design &amp; Development"></div>
+      <div class="mfg"><label>Service Key (ID)</label><input class="mfi" type="text" id="svc-key" placeholder="e.g. web" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')"></div>
+    </div>
+    <div class="mfg"><label>Short Description</label><input class="mfi" type="text" id="svc-desc" placeholder="One sentence describing this service"></div>
+    <div class="mfg"><label>Features (one per line — shown on Services page)</label><textarea class="mfi" id="svc-features" rows="6" placeholder="Custom UI/UX Design&#10;Mobile-first Development&#10;SEO Setup&#10;30-day Support"></textarea></div>
+    <div class="mrow">
+      <div class="mfg"><label>Icon Key</label><select class="mfi" id="svc-icon"><option value="web">web (browser window)</option><option value="seo">seo (line chart)</option><option value="social">social (chat bubble)</option><option value="data">data (database)</option><option value="default">default (clock)</option></select></div>
+      <div class="mfg"><label>Sort Order</label><input class="mfi" type="number" id="svc-order" placeholder="1" min="1"></div>
+    </div>
+    <div class="mfg" style="display:flex;align-items:center;gap:10px">
+      <input type="checkbox" id="svc-active" checked style="width:16px;height:16px;accent-color:var(--red)">
+      <label for="svc-active" style="font-size:.875rem;color:var(--g2);cursor:pointer;text-transform:none;letter-spacing:0">Active (visible on website)</label>
+    </div>
+    <div class="modal-btns">
+      <button class="mbtn mbtn-o" onclick="closeSvcModal()">Cancel</button>
+      <button class="mbtn mbtn-p" onclick="saveService()">Save Service</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-ov" id="prod-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeProdModal()">&#10005;</button>
+    <div class="modal-ttl" id="prod-modal-ttl">Add Plan</div>
+    <input type="hidden" id="prod-edit-id">
+    <div class="mrow">
+      <div class="mfg"><label>Service Key</label><input class="mfi" type="text" id="prod-svckey" placeholder="e.g. web, seo, social, data" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')"></div>
+      <div class="mfg"><label>Plan Name (Tier)</label><input class="mfi" type="text" id="prod-name" placeholder="e.g. Starter, Business, Pro"></div>
+    </div>
+    <div class="mrow">
+      <div class="mfg"><label>Price (&#163;)</label><input class="mfi" type="number" id="prod-price" placeholder="499" min="0"></div>
+      <div class="mfg"><label>Billing</label><select class="mfi" id="prod-billing"><option value="one-time">One-time</option><option value="monthly">Monthly</option></select></div>
+    </div>
+    <div class="mfg"><label>Short Description</label><input class="mfi" type="text" id="prod-desc" placeholder="Who this plan is best for"></div>
+    <div class="mfg"><label>Features (one per line)</label><textarea class="mfi" id="prod-features" rows="6" placeholder="Up to 5 Pages&#10;Mobile Responsive&#10;Basic SEO Setup&#10;Contact Form&#10;30-day Support"></textarea></div>
+    <div class="mfg" style="display:flex;align-items:center;gap:10px">
+      <input type="checkbox" id="prod-featured" style="width:16px;height:16px;accent-color:var(--red)">
+      <label for="prod-featured" style="font-size:.875rem;color:var(--g2);cursor:pointer;text-transform:none;letter-spacing:0">Mark as Featured / Most Popular (highlighted with glow)</label>
+    </div>
+    <div class="mfg" style="display:flex;align-items:center;gap:10px">
+      <input type="checkbox" id="prod-active" checked style="width:16px;height:16px;accent-color:var(--red)">
+      <label for="prod-active" style="font-size:.875rem;color:var(--g2);cursor:pointer;text-transform:none;letter-spacing:0">Active (visible on website)</label>
+    </div>
+    <div class="modal-btns">
+      <button class="mbtn mbtn-o" onclick="closeProdModal()">Cancel</button>
+      <button class="mbtn mbtn-p" onclick="saveProduct()">Save Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><div id="t-ico" style="font-size:1.1rem"></div><div class="toast-txt" id="t-txt"></div></div>
+
+<script>
+// ── SUPABASE ─────────────────────────────────────────
+const SB_URL='https://xojfmgklzjarsyelasaq.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvamZtZ2tsemphcnN5ZWxhc2FxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2ODQxMDAsImV4cCI6MjA4OTI2MDEwMH0.UZ-ecq413qvHsbQW96Bc1M7xgZIayrs1ODqAeBWDJhw';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+
+// ── ADMIN AUTH ────────────────────────────────────────
+const ADMIN_USER='Adnan', ADMIN_PASS='1110', ADMIN_KEY='zp_admin_v1';
+if(sessionStorage.getItem(ADMIN_KEY)==='ok') showApp();
+document.getElementById('adm-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('adm-pass').focus()});
+document.getElementById('adm-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doAdminLogin()});
+
+function doAdminLogin(){
+  const u=document.getElementById('adm-user').value.trim();
+  const p=document.getElementById('adm-pass').value;
+  const err=document.getElementById('lerr');
+  if(u!==ADMIN_USER||p!==ADMIN_PASS){err.textContent='Invalid credentials.';err.classList.add('show');return}
+  sessionStorage.setItem(ADMIN_KEY,'ok');
+  showApp();
+}
+function showApp(){
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('admin-app').classList.add('show');
+  loadAll();
+}
+function adminLogout(){
+  sessionStorage.removeItem(ADMIN_KEY);
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('admin-app').classList.remove('show');
+  document.getElementById('adm-user').value='';
+  document.getElementById('adm-pass').value='';
+}
+
+// ── PANEL ROUTER ──────────────────────────────────────
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('panel-'+id)?.classList.add('on');
+  document.querySelectorAll('.sideitem').forEach(b=>b.classList.remove('on'));
+  document.getElementById('si-'+id)?.classList.add('on');
+  if(id==='customers') loadCustomers();
+  else if(id==='enquiries') loadEnquiries();
+  else if(id==='orders') loadOrders();
+  else if(id==='tickets') loadTickets();
+  else if(id==='services') loadServices();
+  else if(id==='products') loadProducts();
+}
+
+// ── LOAD ALL (dashboard) ──────────────────────────────
+async function loadAll(){
+  await Promise.all([loadDashStats(), loadRecentCustomers(), loadRecentOrders()]);
+}
+
+async function loadDashStats(){
+  const[{count:nc},{count:no},{count:ne},{data:od}]=await Promise.all([
+    sb.from('customers').select('*',{count:'exact',head:true}),
+    sb.from('orders').select('*',{count:'exact',head:true}),
+    sb.from('contact_submissions').select('*',{count:'exact',head:true}),
+    sb.from('orders').select('total')
+  ]);
+  const{count:nt}=await sb.from('tickets').select('*',{count:'exact',head:true}).eq('status','open');
+  document.getElementById('ds-cust').innerHTML=`<span>${nc||0}</span>`;
+  document.getElementById('ds-orders').innerHTML=`<span>${no||0}</span>`;
+  document.getElementById('ds-enq').innerHTML=`<span>${ne||0}</span>`;
+  const rev=(od||[]).reduce((s,r)=>s+(r.total||0),0);
+  document.getElementById('ds-rev').innerHTML=`&#163;<span>${(rev||0).toLocaleString()}</span>`;
+  document.getElementById('cust-badge').textContent=nc||0;
+  document.getElementById('enq-badge').textContent=ne||0;
+  document.getElementById('ord-badge').textContent=no||0;
+  document.getElementById('tkt-badge').textContent=nt||0;
+}
+
+async function loadRecentCustomers(){
+  const{data}=await sb.from('customers').select('*').order('joined',{ascending:false}).limit(5);
+  const el=document.getElementById('recent-customers');
+  if(!data?.length){el.innerHTML='<div style="padding:28px;text-align:center;color:var(--g4);font-size:.875rem">No customers yet</div>';return}
+  el.innerHTML='<table class="tbl"><thead><tr><th>Name</th><th>Email</th><th>Joined</th></tr></thead><tbody>'+
+    data.map(c=>`<tr><td><b>${esc(c.name||'—')}</b></td><td>${esc(c.email)}</td><td>${fmtDate(c.joined)}</td></tr>`).join('')+
+    '</tbody></table>';
+}
+
+async function loadRecentOrders(){
+  const{data}=await sb.from('orders').select('*').order('created_at',{ascending:false}).limit(5);
+  const el=document.getElementById('recent-orders');
+  if(!data?.length){el.innerHTML='<div style="padding:28px;text-align:center;color:var(--g4);font-size:.875rem">No orders yet</div>';return}
+  el.innerHTML='<table class="tbl"><thead><tr><th>Email</th><th>Items</th><th>Amount</th><th>Status</th></tr></thead><tbody>'+
+    data.map(o=>`<tr><td>${esc(o.customer_email||'—')}</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(o.items||'—')}</td><td>&#163;${(o.total||0).toLocaleString()}</td><td>${statusBadge(o.status)}</td></tr>`).join('')+
+    '</tbody></table>';
+}
+
+// ── CUSTOMERS ─────────────────────────────────────────
+let allCustomers=[];
+async function loadCustomers(){
+  const{data}=await sb.from('customers').select('*').order('joined',{ascending:false});
+  allCustomers=data||[];
+  document.getElementById('cust-count').textContent=allCustomers.length+' total';
+  renderCustomers(allCustomers);
+}
+function renderCustomers(data){
+  const el=document.getElementById('customers-table');
+  if(!data?.length){el.innerHTML='<div style="padding:40px;text-align:center;color:var(--g4)">No customers found</div>';return}
+  el.innerHTML='<table class="tbl"><thead><tr><th>Name</th><th>Email</th><th>Company</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead><tbody>'+
+    data.map(c=>`<tr><td><b>${esc(c.name||'—')}</b></td><td>${esc(c.email)}</td><td>${esc(c.company||'—')}</td><td>${statusBadge(c.status||'active')}</td><td>${fmtDate(c.joined)}</td><td>
+      <button class="action-btn danger" onclick="deleteRow('customers','${c.id}',loadCustomers)">Delete</button>
+    </td></tr>`).join('')+'</tbody></table>';
+}
+function filterCustomers(){
+  const q=document.getElementById('cust-search').value.toLowerCase();
+  renderCustomers(allCustomers.filter(c=>(c.name||'').toLowerCase().includes(q)||(c.email||'').toLowerCase().includes(q)));
+}
+
+// ── ENQUIRIES ─────────────────────────────────────────
+async function loadEnquiries(){
+  const{data}=await sb.from('contact_submissions').select('*').order('created_at',{ascending:false});
+  document.getElementById('enq-count').textContent=(data?.length||0)+' total';
+  const el=document.getElementById('enquiries-table');
+  if(!data?.length){el.innerHTML='<div style="padding:40px;text-align:center;color:var(--g4)">No enquiries yet</div>';return}
+  el.innerHTML='<table class="tbl"><thead><tr><th>Name</th><th>Email</th><th>Company</th><th>Service</th><th>Message</th><th>Date</th><th>Actions</th></tr></thead><tbody>'+
+    data.map(e=>`<tr><td><b>${esc(e.name||'—')}</b></td><td>${esc(e.email)}</td><td>${esc(e.company||'—')}</td><td>${esc(e.service||'—')}</td>
+      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(e.message||'')}">${esc((e.message||'').slice(0,60))}${(e.message||'').length>60?'...':''}</td>
+      <td>${fmtDate(e.created_at)}</td><td><button class="action-btn danger" onclick="deleteRow('contact_submissions','${e.id}',loadEnquiries)">Delete</button></td></tr>`).join('')+'</tbody></table>';
+}
+
+// ── ORDERS ────────────────────────────────────────────
+async function loadOrders(){
+  const{data}=await sb.from('orders').select('*').order('created_at',{ascending:false});
+  document.getElementById('ord-count').textContent=(data?.length||0)+' total';
+  const el=document.getElementById('orders-table');
+  if(!data?.length){el.innerHTML='<div style="padding:40px;text-align:center;color:var(--g4)">No orders yet</div>';return}
+  el.innerHTML='<table class="tbl"><thead><tr><th>Email</th><th>Items</th><th>Amount</th><th>Type</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>'+
+    data.map(o=>`<tr><td>${esc(o.customer_email||'—')}</td><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(o.items||'—')}</td>
+      <td><b>&#163;${(o.total||0).toLocaleString()}</b></td><td><span class="bdg bdg-blue">${esc(o.type||'—')}</span></td><td>${statusBadge(o.status)}</td>
+      <td>${fmtDate(o.created_at)}</td><td>
+        <button class="action-btn ok" onclick="updateStatus('orders','${o.id}','completed',loadOrders)">Done</button>
+        <button class="action-btn danger" onclick="deleteRow('orders','${o.id}',loadOrders)">Delete</button>
+      </td></tr>`).join('')+'</tbody></table>';
+}
+
+// ── TICKETS ───────────────────────────────────────────
+async function loadTickets(){
+  const{data}=await sb.from('tickets').select('*').order('created_at',{ascending:false});
+  document.getElementById('tkt-count').textContent=(data?.length||0)+' total';
+  const el=document.getElementById('tickets-table');
+  if(!data?.length){el.innerHTML='<div style="padding:40px;text-align:center;color:var(--g4)">No tickets yet</div>';return}
+  el.innerHTML='<table class="tbl"><thead><tr><th>Email</th><th>Subject</th><th>Priority</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>'+
+    data.map(t=>`<tr><td>${esc(t.customer_email||'—')}</td><td>${esc(t.subject||'—')}</td><td>${priorityBadge(t.priority)}</td><td>${statusBadge(t.status)}</td>
+      <td>${fmtDate(t.created_at)}</td><td>
+        <button class="action-btn ok" onclick="updateStatus('tickets','${t.id}','resolved',loadTickets)">Resolve</button>
+        <button class="action-btn danger" onclick="deleteRow('tickets','${t.id}',loadTickets)">Delete</button>
+      </td></tr>`).join('')+'</tbody></table>';
+}
+
+// ── SERVICES MANAGER ─────────────────────────────────
+async function loadServices(){
+  const el=document.getElementById('services-grid-admin');
+  el.innerHTML='<div class="loading"><div class="spin"></div>Loading...</div>';
+  const{data,error}=await sb.from('services').select('*').order('sort_order');
+  if(error&&error.code==='42P01'){
+    // Table doesn't exist yet
+    el.innerHTML=`<div style="background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.25);border-radius:10px;padding:22px;color:var(--yellow);font-size:.875rem">
+      <b>&#9888; Table not created yet.</b> After running the SQL setup script, services you add here will appear live on the website. You can still add services — they'll be stored once the table exists.
+    </div><div style="margin-top:18px" id="services-fallback-grid"></div>`;
+    renderServicesFallback();
+    return;
+  }
+  if(!data?.length){
+    el.innerHTML='<div style="padding:40px;text-align:center;color:var(--g4)"><p style="margin-bottom:14px">No services yet. Add your first one.</p></div>';
+    return;
+  }
+  el.innerHTML='<div class="svc-grid">'+data.map(s=>buildSvcCard(s)).join('')+'</div>';
+}
+
+function buildSvcCard(s){
+  const feats=(s.features||'').split('\n').filter(Boolean);
+  return `<div class="svc-card">
+    <div class="svc-key">${esc(s.id||s.service_key||'')} ${s.active?'<span style="color:var(--green)">&#10004; Active</span>':'<span style="color:var(--g4)">Inactive</span>'}</div>
+    <div class="svc-name">${esc(s.name)}</div>
+    <div class="svc-desc">${esc(s.description||'')}</div>
+    ${feats.length?`<ul class="svc-feats">${feats.slice(0,4).map(f=>`<li>${esc(f)}</li>`).join('')}${feats.length>4?`<li style="color:var(--g4)">+${feats.length-4} more...</li>`:''}</ul>`:''}
+    <div class="svc-actions">
+      <button class="action-btn" onclick='editService(${JSON.stringify(s).replace(/'/g,"&#39;")})' style="flex:1">Edit</button>
+      <button class="action-btn danger" onclick="deleteRow('services','${s.id}',loadServices)" style="flex:1">Delete</button>
+    </div>
+  </div>`;
+}
+
+function renderServicesFallback(){
+  const el=document.getElementById('services-fallback-grid');
+  if(!el)return;
+  const defaults=[
+    {id:'web',name:'Website Design & Development',description:'High-performance websites that convert.',features:'Custom UI/UX\nMobile-first\nCMS Integration',icon:'web',sort_order:1,active:true},
+    {id:'seo',name:'SEO Management',description:'Data-driven search engine optimisation.',features:'Keyword Research\nLink Building\nReporting',icon:'seo',sort_order:2,active:true},
+    {id:'social',name:'Social Media Marketing',description:'Strategic content that builds brand presence.',features:'Content Calendar\nPaid Ads\nCommunity Management',icon:'social',sort_order:3,active:true},
+    {id:'data',name:'Data Management Solutions',description:'Database architecture and analytics dashboards.',features:'ETL Pipelines\nBI Dashboards\nCloud Migration',icon:'data',sort_order:4,active:true}
+  ];
+  el.innerHTML='<div class="svc-grid">'+defaults.map(s=>`
+    <div class="svc-card" style="border-color:rgba(251,191,36,.2)">
+      <div style="font-size:.65rem;font-weight:700;color:var(--yellow);margin-bottom:6px">DEFAULT — not yet saved to DB</div>
+      <div class="svc-name">${esc(s.name)}</div>
+      <div class="svc-desc">${esc(s.description)}</div>
+      <div class="svc-actions"><button class="action-btn" onclick='openSvcModal(${JSON.stringify(s).replace(/'/g,"&#39;")})' style="flex:1">Save to DB</button></div>
+    </div>`).join('')+'</div>';
+}
+
+// ── PRODUCTS MANAGER ──────────────────────────────────
+async function loadProducts(){
+  const el=document.getElementById('products-grid-admin');
+  el.innerHTML='<div class="loading"><div class="spin"></div>Loading...</div>';
+  const{data,error}=await sb.from('products').select('*').order('service_key').order('price');
+  if(error&&error.code==='42P01'){
+    el.innerHTML='<div style="background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.25);border-radius:10px;padding:22px;color:var(--yellow);font-size:.875rem"><b>&#9888; Table not created yet.</b> Run the SQL setup script first, then add plans here.</div>';
+    return;
+  }
+  if(!data?.length){
+    el.innerHTML='<div style="padding:40px;text-align:center;color:var(--g4)">No plans yet. Add your first plan.</div>';
+    return;
+  }
+  // Group by service_key
+  const grouped={};
+  data.forEach(p=>{
+    const k=p.service_key||'other';
+    if(!grouped[k]) grouped[k]=[];
+    grouped[k].push(p);
+  });
+  el.innerHTML=Object.entries(grouped).map(([key,plans])=>`
+    <div style="margin-bottom:28px">
+      <div style="font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g4);margin-bottom:14px;display:flex;align-items:center;gap:10px">
+        ${esc(key)} <span style="color:var(--g6);font-weight:400">${plans.length} plan${plans.length!==1?'s':''}</span>
+      </div>
+      <div class="prod-grid">${plans.map(p=>buildProdCard(p)).join('')}</div>
+    </div>`).join('');
+}
+
+function buildProdCard(p){
+  const billing=p.billing==='one-time'?' one-time':'/mo';
+  return `<div class="prod-card">
+    ${p.featured?'<div class="prod-featured-tag">&#10022; Featured</div>':''}
+    <div class="prod-cat">service: ${esc(p.service_key||'—')} &nbsp;|&nbsp; ${p.active?'<span style="color:var(--green)">active</span>':'<span style="color:var(--g4)">inactive</span>'}</div>
+    <div class="prod-name">${esc(p.name)}</div>
+    <div class="prod-price">&#163;${Number(p.price).toLocaleString()}<small>${billing}</small></div>
+    <div class="prod-desc">${esc(p.description||'')}</div>
+    <div class="prod-actions">
+      <button class="action-btn" onclick='editProduct(${JSON.stringify(p).replace(/'/g,"&#39;")})' style="flex:1">Edit</button>
+      <button class="action-btn danger" onclick="deleteRow('products','${p.id}',loadProducts)" style="flex:1">Delete</button>
+    </div>
+  </div>`;
+}
+
+// ── SERVICE MODAL ─────────────────────────────────────
+function openSvcModal(svc=null){
+  document.getElementById('svc-modal-ttl').textContent=svc?'Edit Service':'Add Service';
+  document.getElementById('svc-edit-id').value=svc?.id||'';
+  document.getElementById('svc-name').value=svc?.name||'';
+  document.getElementById('svc-key').value=svc?.id||svc?.service_key||'';
+  document.getElementById('svc-desc').value=svc?.description||'';
+  document.getElementById('svc-features').value=svc?.features||'';
+  document.getElementById('svc-icon').value=svc?.icon||'default';
+  document.getElementById('svc-order').value=svc?.sort_order||1;
+  document.getElementById('svc-active').checked=svc?.active!==false;
+  document.getElementById('svc-modal').classList.add('open');
+}
+function editService(s){openSvcModal(s)}
+function closeSvcModal(){document.getElementById('svc-modal').classList.remove('open')}
+
+async function saveService(){
+  const editId=document.getElementById('svc-edit-id').value;
+  const key=document.getElementById('svc-key').value.trim().toLowerCase();
+  const name=document.getElementById('svc-name').value.trim();
+  if(!key||!name){showToast('&#9888;','Service name and key are required.');return}
+  const data={
+    id:key,
+    name,
+    description:document.getElementById('svc-desc').value.trim(),
+    features:document.getElementById('svc-features').value.trim(),
+    icon:document.getElementById('svc-icon').value,
+    sort_order:parseInt(document.getElementById('svc-order').value)||1,
+    active:document.getElementById('svc-active').checked,
+    updated_at:new Date().toISOString()
+  };
+  if(!editId) data.created_at=new Date().toISOString();
+  const{error}=await sb.from('services').upsert(data,{onConflict:'id'});
+  if(error){showToast('&#10007;','Error: '+error.message);return}
+  showToast('&#10003;',editId?'Service updated — live on website!':'Service created — live on website!');
+  closeSvcModal();loadServices();
+}
+
+// ── PRODUCT MODAL ─────────────────────────────────────
+function openProdModal(prod=null){
+  document.getElementById('prod-modal-ttl').textContent=prod?'Edit Plan':'Add Plan';
+  document.getElementById('prod-edit-id').value=prod?.id||'';
+  document.getElementById('prod-svckey').value=prod?.service_key||'';
+  document.getElementById('prod-name').value=prod?.name||'';
+  document.getElementById('prod-price').value=prod?.price||'';
+  document.getElementById('prod-billing').value=prod?.billing||'one-time';
+  document.getElementById('prod-desc').value=prod?.description||'';
+  document.getElementById('prod-features').value=prod?.features||'';
+  document.getElementById('prod-featured').checked=prod?.featured||false;
+  document.getElementById('prod-active').checked=prod?.active!==false;
+  document.getElementById('prod-modal').classList.add('open');
+}
+function editProduct(p){openProdModal(p)}
+function closeProdModal(){document.getElementById('prod-modal').classList.remove('open')}
+
+async function saveProduct(){
+  const editId=document.getElementById('prod-edit-id').value;
+  const svcKey=document.getElementById('prod-svckey').value.trim().toLowerCase();
+  const name=document.getElementById('prod-name').value.trim();
+  const price=parseFloat(document.getElementById('prod-price').value)||0;
+  if(!svcKey||!name||!price){showToast('&#9888;','Service key, name, and price are required.');return}
+  const data={
+    service_key:svcKey,
+    name,
+    price,
+    billing:document.getElementById('prod-billing').value,
+    description:document.getElementById('prod-desc').value.trim(),
+    features:document.getElementById('prod-features').value.trim(),
+    featured:document.getElementById('prod-featured').checked,
+    active:document.getElementById('prod-active').checked,
+    updated_at:new Date().toISOString()
+  };
+  let error;
+  if(editId){({error}=await sb.from('products').update(data).eq('id',editId));}
+  else{data.created_at=new Date().toISOString();({error}=await sb.from('products').insert(data));}
+  if(error){showToast('&#10007;','Error: '+error.message);return}
+  showToast('&#10003;',editId?'Plan updated — live on website!':'Plan created — live on website!');
+  closeProdModal();loadProducts();
+}
+
+// ── SHARED HELPERS ────────────────────────────────────
+async function deleteRow(table,id,cb){
+  if(!confirm('Delete this record? This cannot be undone.'))return;
+  const{error}=await sb.from(table).delete().eq('id',id);
+  if(error){showToast('&#10007;','Delete failed: '+error.message);return}
+  showToast('&#10003;','Deleted successfully');
+  cb();loadDashStats();
+}
+async function updateStatus(table,id,status,cb){
+  await sb.from(table).update({status}).eq('id',id);
+  showToast('&#10003;','Status updated to: '+status);cb();
+}
+function statusBadge(s){
+  const m={active:'bdg-green',pending:'bdg-yellow',completed:'bdg-blue',cancelled:'bdg-red',open:'bdg-yellow',resolved:'bdg-green'};
+  return `<span class="bdg ${m[s]||'bdg-blue'}">${esc(s)}</span>`;
+}
+function priorityBadge(p){
+  const m={Low:'bdg-blue',Medium:'bdg-yellow',High:'bdg-red',Urgent:'bdg-red'};
+  return `<span class="bdg ${m[p]||'bdg-yellow'}">${esc(p||'Medium')}</span>`;
+}
+function fmtDate(d){if(!d)return '—';try{return new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}catch{return d}}
+function esc(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML}
+
+let tTimer;
+function showToast(ico,txt){
+  const el=document.getElementById('toast');
+  document.getElementById('t-ico').innerHTML=ico;
+  document.getElementById('t-txt').textContent=txt;
+  el.classList.add('show');clearTimeout(tTimer);
+  tTimer=setTimeout(()=>el.classList.remove('show'),3800);
+}
+
+// Close modals on overlay click
+document.getElementById('svc-modal').addEventListener('click',e=>{if(e.target.id==='svc-modal')closeSvcModal()});
+document.getElementById('prod-modal').addEventListener('click',e=>{if(e.target.id==='prod-modal')closeProdModal()});
+</script>
+</body>
+</html>
