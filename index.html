@@ -1231,39 +1231,170 @@ function showToast(ico,txt,sub){
   tTimer=setTimeout(()=>el.classList.remove('show'),4200);
 }
 
-// ── CHATBOT ──────────────────────────────────────────
-let chatOpen=false,chatHist=[],chatBusy=false;
-function buildSysPrompt(){
-  const lines=CATALOGUE.products.map(p=>`- ${p.name} (${p.service_key||''}): £${p.price}${p.billing==='monthly'?'/mo':' one-time'}`).join('\n');
-  return `You are ZeroBot, the friendly AI assistant for ZeroPoint LTD — a premium digital agency in London.\n\nCurrent Services & Pricing:\n${lines}\n- Bundle discount: 10% off when combining multiple services\n\nCompany: Founded 2019, London. 200+ projects, 150+ clients, 99% satisfaction. CEO: Alex Harper.\n\nPersonality: Warm, professional, concise. Keep replies to 2-3 short paragraphs. Use **bold** for key info.`;
-}
+// ── CHATBOT (smart rule-based, no API needed) ─────────
+let chatOpen=false,chatBusy=false;
 
 function toggleChat(){
   chatOpen=!chatOpen;
   document.getElementById('chatwin').classList.toggle('open',chatOpen);
   document.getElementById('chatfab').classList.toggle('open',chatOpen);
-  if(chatOpen&&!chatHist.length){addBot("Hey there! I'm **ZeroBot**, ZeroPoint's AI assistant.\n\nI can help you explore our services, pricing, or anything about working with us. What can I help you with?");document.querySelector('.chatdot')?.remove()}
+  if(chatOpen){
+    document.querySelector('.chatdot')?.remove();
+    if(!document.getElementById('chatmsgs').children.length){
+      setTimeout(()=>addBot("Hey! I'm **ZeroBot** \uD83D\uDC4B ZeroPoint's assistant.\n\nI can tell you about our services, pricing, how to get started, or anything else. What would you like to know?"),300);
+    }
+  }
 }
-function addBot(txt){const el=document.getElementById('chatmsgs');const d=document.createElement('div');d.className='msg bot';d.innerHTML='<div class="msgav bot">ZB</div><div><div class="msgbub">'+mdR(txt)+'</div><span class="msgt">'+now()+'</span></div>';el.appendChild(d);el.scrollTop=el.scrollHeight}
-function addUser(txt){const el=document.getElementById('chatmsgs');const nm=(CU?.user_metadata?.full_name||CU?.email||'U');const init=nm.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);const d=document.createElement('div');d.className='msg usr';d.innerHTML='<div class="msgav">'+esc(init)+'</div><div><div class="msgbub">'+esc(txt)+'</div><span class="msgt" style="text-align:right;display:block">'+now()+'</span></div>';el.appendChild(d);el.scrollTop=el.scrollHeight}
-function showTyping(){const el=document.getElementById('chatmsgs');const d=document.createElement('div');d.className='msg bot';d.id='typing';d.innerHTML='<div class="msgav bot">ZB</div><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>';el.appendChild(d);el.scrollTop=el.scrollHeight}
-function hideTyping(){document.getElementById('typing')?.remove()}
-function qsend(t){document.getElementById('chatinp').value=t;sendMsg();document.getElementById('chatqk').style.display='none'}
-function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg()}}
-document.getElementById('chatinp').addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'});
-async function sendMsg(){
-  const inp=document.getElementById('chatinp');const txt=inp.value.trim();
+
+function addBot(txt,delay=0){
+  setTimeout(()=>{
+    hideTyping();
+    const el=document.getElementById('chatmsgs');
+    const d=document.createElement('div');d.className='msg bot';
+    d.innerHTML='<div class="msgav bot">ZB</div><div><div class="msgbub">'+mdR(txt)+'</div><span class="msgt">'+now()+'</span></div>';
+    el.appendChild(d);el.scrollTop=el.scrollHeight;
+  },delay);
+}
+function addUser(txt){
+  const el=document.getElementById('chatmsgs');
+  const nm=(CU?.user_metadata?.full_name||CU?.email||'You');
+  const init=nm.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const d=document.createElement('div');d.className='msg usr';
+  d.innerHTML='<div class="msgav">'+esc(init)+'</div><div><div class="msgbub">'+esc(txt)+'</div><span class="msgt" style="text-align:right;display:block">'+now()+'</span></div>';
+  el.appendChild(d);el.scrollTop=el.scrollHeight;
+}
+function showTyping(){
+  hideTyping();
+  const el=document.getElementById('chatmsgs');
+  const d=document.createElement('div');d.className='msg bot';d.id='typing';
+  d.innerHTML='<div class="msgav bot">ZB</div><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>';
+  el.appendChild(d);el.scrollTop=el.scrollHeight;
+}
+function hideTyping(){document.getElementById('typing')?.remove();}
+function qsend(t){document.getElementById('chatinp').value=t;sendMsg();document.getElementById('chatqk').style.display='none';}
+function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
+document.getElementById('chatinp').addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px';});
+
+function getBotReply(txt){
+  const q=txt.toLowerCase().trim();
+  const has=(...words)=>words.some(w=>q.includes(w));
+
+  // Pricing — specific services
+  if(has('website','web design','web dev','site')){
+    const plans=CATALOGUE.products.filter(p=>p.service_key==='web');
+    if(plans.length){
+      const list=plans.map(p=>`**${p.name}** — \u00A3${Number(p.price).toLocaleString()} (${p.billing})`).join('\n');
+      return `Our **Website Design & Development** plans:\n\n${list}\n\nAll include mobile-responsive design, SEO setup, and post-launch support. Want to know more about a specific plan?`;
+    }
+    return `We offer **Website Design & Development** starting from \u00A3499 for a Starter site up to \u00A33,999 for a full Enterprise build. Head to our Pricing page to see all options!`;
+  }
+  if(has('seo','search engine','ranking','keyword','organic')){
+    const plans=CATALOGUE.products.filter(p=>p.service_key==='seo');
+    if(plans.length){
+      const list=plans.map(p=>`**${p.name}** — \u00A3${Number(p.price).toLocaleString()}/mo`).join('\n');
+      return `Our **SEO Management** plans:\n\n${list}\n\nAll plans include keyword tracking, on-page optimisation, and monthly reporting. Most clients see measurable results within 90 days. Interested in a specific tier?`;
+    }
+    return `Our **SEO Management** starts at \u00A3299/mo for the Basic plan and goes up to \u00A31,299/mo for our Pro tier with dedicated management. Want the full breakdown?`;
+  }
+  if(has('social','instagram','tiktok','facebook','twitter','content','post')){
+    const plans=CATALOGUE.products.filter(p=>p.service_key==='social');
+    if(plans.length){
+      const list=plans.map(p=>`**${p.name}** — \u00A3${Number(p.price).toLocaleString()}/mo`).join('\n');
+      return `Our **Social Media Marketing** plans:\n\n${list}\n\nWe handle content creation, scheduling, paid ads, and community management so you can focus on running your business. Which platform are you most focused on?`;
+    }
+    return `Our **Social Media** plans start at \u00A3399/mo (Starter) up to \u00A31,799/mo (Premium with influencer campaigns). Want details?`;
+  }
+  if(has('data','database','analytics','pipeline','etl','dashboard')){
+    const plans=CATALOGUE.products.filter(p=>p.service_key==='data');
+    if(plans.length){
+      const list=plans.map(p=>`**${p.name}** — \u00A3${Number(p.price).toLocaleString()}/mo`).join('\n');
+      return `Our **Data Management** plans:\n\n${list}\n\nFrom database architecture to full BI dashboards — we build the infrastructure your business needs to scale. What's your current data challenge?`;
+    }
+    return `Our **Data Management** plans run from \u00A3599/mo to \u00A32,499/mo. We handle everything from database setup to custom analytics dashboards.`;
+  }
+
+  // General pricing
+  if(has('price','pricing','cost','how much','fee','charge','plan','package')){
+    const cats=[...new Set(CATALOGUE.products.map(p=>p.service_key))];
+    if(cats.length){
+      const summary=cats.map(k=>{
+        const ps=CATALOGUE.products.filter(p=>p.service_key===k);
+        const min=Math.min(...ps.map(p=>p.price));
+        const max=Math.max(...ps.map(p=>p.price));
+        const billing=ps[0]?.billing==='monthly'?'/mo':' one-time';
+        return `**${ps[0]?.service_name||k}**: from \u00A3${min.toLocaleString()}${billing}`;
+      }).join('\n');
+      return `Here's a quick pricing summary:\n\n${summary}\n\nWe also offer a **10% discount** when you bundle multiple services together. Head to our **Pricing** page for full details, or ask me about a specific service!`;
+    }
+    return `Our pricing starts from **\u00A3299/mo** for SEO, **\u00A3399/mo** for Social Media, **\u00A3499** one-time for a Starter website, and **\u00A3599/mo** for Data Management. We also offer **10% off** on multi-service bundles!`;
+  }
+
+  // Bundle
+  if(has('bundle','combine','multiple','package','discount')){
+    return `Great question! Our **Custom Bundle** lets you combine any of our services — Website, SEO, Social Media, and Data Management — and you automatically get a **10% discount** on the total.\n\nHead to our **Pricing** page and click the **Custom Bundle** tab to build yours. Or tell me which services you're interested in and I'll give you an estimate!`;
+  }
+
+  // Services overview
+  if(has('service','what do you','what can you','offer','do you do','help with')){
+    return `ZeroPoint offers **4 core services**:\n\n**Website Design & Development** — from landing pages to full e-commerce\n**SEO Management** — get to page 1 on Google\n**Social Media Marketing** — grow your audience and brand\n**Data Management** — databases, pipelines & BI dashboards\n\nWhich one interests you most?`;
+  }
+
+  // Get started / contact
+  if(has('get started','start','begin','sign up','register','create account','join')){
+    return `Getting started is simple! Just hit the **Get Started** button in the top navigation to create your free account.\n\nOnce you're in, you can explore all our services, request a plan, or build a custom bundle. Want me to walk you through anything specific?`;
+  }
+  if(has('contact','email','phone','call','speak','talk','reach','office','location','address')){
+    return `You can reach our team through the **Contact** page — just fill in the form and we'll get back to you within 24 hours.\n\n**Email:** hello\u0040zeropoint.ltd\n**Phone:** +44 20 7946 0321\n**Office:** Canary Wharf, London\n\nOr if you're already a client, use the **Support** panel in your dashboard to open a ticket.`;
+  }
+
+  // About company
+  if(has('about','company','who are','founded','team','agency','london','history')){
+    return `**ZeroPoint LTD** was founded in 2019 in London with one mission — to make enterprise-level digital strategy accessible to ambitious businesses.\n\nWe've grown to 40+ specialists, delivered 200+ projects, and maintained a **99% client satisfaction rate**. Our team includes designers, developers, SEO experts, and data engineers.\n\nAnything specific you'd like to know about us?`;
+  }
+
+  // Time / weather / off-topic
+  if(has('time','date','weather','news','joke','hello','hi','hey','how are')){
+    const greetings=["Hey! Great to hear from you 👋","Hello! Happy to help 😊","Hi there! What can I help with?"];
+    if(has('hello','hi','hey','how are')) return greetings[Math.floor(Math.random()*greetings.length)]+"\n\nI'm ZeroBot — ZeroPoint's assistant. Ask me about our services, pricing, or how to get started!";
+    return `I'm best at answering questions about ZeroPoint's services and pricing! For anything else, feel free to reach out to our team at **hello\u0040zeropoint.ltd** 😊`;
+  }
+
+  // Dashboard / login
+  if(has('dashboard','account','login','sign in','password','profile')){
+    return `To access your **client dashboard**, click **Get Started** in the top nav to sign in or create an account.\n\nYour dashboard gives you access to project updates, SEO reports, social media analytics, invoices, and support tickets — all in one place!`;
+  }
+
+  // Support
+  if(has('support','help','issue','problem','bug','ticket')){
+    return `For support, the fastest way is to log into your account and open a **Support Ticket** from the dashboard — we respond within 4 business hours.\n\nYou can also email us directly at **hello\u0040zeropoint.ltd** or call **+44 20 7946 0321**. How can I help you today?`;
+  }
+
+  // Fallback
+  const fallbacks=[
+    `That's a great question! For detailed answers, our team is best placed to help — reach out at **hello\u0040zeropoint.ltd** or use the Contact page.\n\nIs there anything about our **services or pricing** I can help you with right now?`,
+    `I want to make sure you get the best answer! For that specific question, I'd recommend reaching out to our team directly via the **Contact** page.\n\nIn the meantime, can I tell you about our services or pricing?`,
+    `I'm best at answering questions about ZeroPoint's services and pricing. For anything more specific, our team at **hello\u0040zeropoint.ltd** will give you a proper answer within 24 hours!\n\nWhat else can I help you with?`
+  ];
+  return fallbacks[Math.floor(Math.random()*fallbacks.length)];
+}
+
+function sendMsg(){
+  const inp=document.getElementById('chatinp');
+  const txt=inp.value.trim();
   if(!txt||chatBusy)return;
   inp.value='';inp.style.height='auto';
-  chatBusy=true;document.getElementById('chatsend').disabled=true;
-  addUser(txt);chatHist.push({role:'user',content:txt});showTyping();
-  try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:buildSysPrompt(),messages:chatHist})});
-    const j=await r.json();hideTyping();
-    const reply=j.content?.[0]?.text||"Sorry, I couldn't connect. Please try again or email us at hello&#64;zeropoint.ltd";
-    chatHist.push({role:'assistant',content:reply});addBot(reply);
-  }catch(e){hideTyping();addBot("I'm having trouble connecting. Please try again or reach us at hello&#64;zeropoint.ltd")}
-  chatBusy=false;document.getElementById('chatsend').disabled=false;
+  chatBusy=true;
+  document.getElementById('chatsend').disabled=true;
+  addUser(txt);
+  showTyping();
+  // Simulate thinking delay for natural feel
+  const delay=600+Math.random()*600;
+  setTimeout(()=>{
+    const reply=getBotReply(txt);
+    addBot(reply);
+    chatBusy=false;
+    document.getElementById('chatsend').disabled=false;
+  },delay);
 }
 
 // ── HELPERS ──────────────────────────────────────────
