@@ -669,76 +669,63 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
     <div class="sidebar">
       <span class="sblbl">Overview</span>
       <button class="sbitem on" id="sb-overview" onclick="showPanel('overview')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Dashboard</button>
-      <button class="sbitem" id="sb-projects" onclick="showPanel('projects')"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> My Projects</button>
-      <button class="sbitem" id="sb-analytics" onclick="showPanel('analytics')"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Analytics</button>
-      <span class="sblbl">Services</span>
-      <button class="sbitem" id="sb-seo" onclick="showPanel('seo')"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> SEO Reports</button>
-      <button class="sbitem" id="sb-social" onclick="showPanel('social')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Social Media</button>
+      <button class="sbitem" id="sb-orders" onclick="showPanel('orders')"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> My Orders</button>
+      <button class="sbitem" id="sb-tickets" onclick="showPanel('tickets')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> My Tickets</button>
       <span class="sblbl">Account</span>
-      <button class="sbitem" id="sb-invoices" onclick="showPanel('invoices')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Invoices</button>
       <button class="sbitem" id="sb-settings" onclick="showPanel('settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings</button>
-      <button class="sbitem" id="sb-support" onclick="showPanel('support')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Support</button>
+      <button class="sbitem" id="sb-support" onclick="showPanel('support')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Support</button>
     </div>
     <div class="dashmain">
+      <!-- OVERVIEW -->
       <div class="dpnl on" id="dp-overview">
-        <div class="dashhd"><div class="dashwel" id="dash-greet">Good morning</div><div class="dashsub">Here's what's happening with your projects today.</div></div>
-        <div class="dashgrid">
-          <div class="dstat"><div class="dstatv"><span>3</span></div><div class="dstatl">Active Projects</div><div class="dstatc up">&#8593; 1 this month</div></div>
-          <div class="dstat"><div class="dstatv">12,<span>4</span>K</div><div class="dstatl">Monthly Traffic</div><div class="dstatc up">&#8593; 23%</div></div>
-          <div class="dstat"><div class="dstatv"><span>#4</span></div><div class="dstatl">Avg. SEO Ranking</div><div class="dstatc up">&#8593; 6 positions</div></div>
-          <div class="dstat"><div class="dstatv"><span>&#163;</span>2.1K</div><div class="dstatl">Monthly Spend</div><div class="dstatc dn">No change</div></div>
+        <div class="dashhd"><div class="dashwel" id="dash-greet">Good morning</div><div class="dashsub" id="dash-sub">Loading your dashboard...</div></div>
+        <div class="dashgrid" id="dash-stats">
+          <div class="dstat"><div class="dstatv" id="ds-orders"><span>0</span></div><div class="dstatl">My Orders</div></div>
+          <div class="dstat"><div class="dstatv" id="ds-pending"><span>0</span></div><div class="dstatl">Pending</div></div>
+          <div class="dstat"><div class="dstatv" id="ds-spent">&#163;<span>0</span></div><div class="dstatl">Total Spent</div></div>
+          <div class="dstat"><div class="dstatv" id="ds-tickets"><span>0</span></div><div class="dstatl">Open Tickets</div></div>
         </div>
-        <div class="d2col">
-          <div class="dw"><div class="dwttl">Recent Activity <span>Last 7 days</span></div>
-            <div class="actitem"><div class="actico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div><div class="acttxt">Website redesign Phase 2 complete</div><div class="acttime">2 hours ago</div></div></div>
-            <div class="actitem"><div class="actico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div><div class="acttxt">SEO report published for March 2025</div><div class="acttime">Yesterday</div></div></div>
-            <div class="actitem"><div class="actico"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><div class="acttxt">Social campaign launched: Spring 2025</div><div class="acttime">3 days ago</div></div></div>
-            <div class="actitem"><div class="actico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="acttxt">Invoice #INV-0042 paid &#8212; &#163;1,299</div><div class="acttime">5 days ago</div></div></div>
-          </div>
-          <div class="dw"><div class="dwttl">Active Projects <span><a onclick="showPanel('projects')" style="color:var(--red);cursor:pointer">View all</a></span></div>
-            <div class="projitem"><div><div class="projnm">E-commerce Redesign</div><div class="projtype">Website Design</div></div><span class="pbdg prog">In Progress</span></div>
-            <div class="projitem"><div><div class="projnm">Q2 SEO Campaign</div><div class="projtype">SEO Management</div></div><span class="pbdg live">Live</span></div>
-            <div class="projitem"><div><div class="projnm">Spring Social Push</div><div class="projtype">Social Media</div></div><span class="pbdg live">Live</span></div>
-            <div class="projitem"><div><div class="projnm">Data Pipeline v2</div><div class="projtype">Data Management</div></div><span class="pbdg rev2">In Review</span></div>
+        <div class="d2col" style="margin-top:4px">
+          <div class="dw"><div class="dwttl">My Recent Orders <span><a onclick="showPanel('orders')" style="color:var(--red);cursor:pointer">View all</a></span></div><div id="dash-recent-orders"><div style="color:var(--g4);font-size:.84rem;padding:8px 0">Loading...</div></div></div>
+          <div class="dw"><div class="dwttl">My Tickets <span><a onclick="showPanel('tickets')" style="color:var(--red);cursor:pointer">View all</a></span></div><div id="dash-recent-tickets"><div style="color:var(--g4);font-size:.84rem;padding:8px 0">Loading...</div></div></div>
+        </div>
+        <div class="dw" style="margin-top:18px">
+          <div class="dwttl">Get More Services</div>
+          <p style="color:var(--g4);font-size:.875rem;margin-bottom:18px;font-weight:300">Browse our plans and request the services that fit your business.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <button class="btnp" onclick="nav('pricing')">Browse All Plans &#8594;</button>
+            <button class="btno" onclick="nav('pricing');setPTab('bundle')">Build a Bundle</button>
           </div>
         </div>
-        <div class="dw"><div class="dwttl">Traffic Sources <span>Last 30 days</span></div>
-          <div class="barw"><div class="barr"><div class="bart"><span>Organic Search</span><span>6,240</span></div><div class="barbg"><div class="barf" style="width:72%"></div></div></div><div class="barr"><div class="bart"><span>Direct</span><span>3,180</span></div><div class="barbg"><div class="barf" style="width:37%"></div></div></div><div class="barr"><div class="bart"><span>Social Media</span><span>2,320</span></div><div class="barbg"><div class="barf" style="width:27%"></div></div></div><div class="barr"><div class="bart"><span>Referral</span><span>660</span></div><div class="barbg"><div class="barf" style="width:8%"></div></div></div></div>
+      </div>
+
+      <!-- MY ORDERS PANEL -->
+      <div class="dpnl" id="dp-orders">
+        <div class="dashhd"><div class="dashwel">My Orders</div><div class="dashsub">All your plan and bundle purchase requests.</div></div>
+        <div class="dw" id="orders-panel-content"><div style="color:var(--g4);font-size:.875rem;padding:20px 0;display:flex;gap:10px;align-items:center"><div style="width:16px;height:16px;border:2px solid var(--glb);border-top-color:var(--red);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0"></div>Loading your orders...</div></div>
+        <div class="dw" style="margin-top:18px">
+          <div class="dwttl">Want to add a service?</div>
+          <p style="color:var(--g4);font-size:.875rem;margin-bottom:14px;font-weight:300">Browse our plans or build a custom bundle with multiple services.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btnp" onclick="nav('pricing')">Browse Plans &#8594;</button><button class="btno" onclick="nav('pricing');setPTab('bundle')">Build Bundle</button></div>
         </div>
       </div>
-      <div class="dpnl" id="dp-projects">
-        <div class="dashhd"><div class="dashwel">My Projects</div><div class="dashsub">All active and completed projects.</div></div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
-          <div class="dw"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-family:var(--fd)">E-commerce Redesign</b><span class="pbdg prog">In Progress</span></div><p style="color:var(--g4);font-size:.84rem;margin-bottom:14px">Complete website overhaul with custom product pages, checkout optimisation, and mobile-first design.</p><div class="barr"><div class="bart"><small>Progress</small><small>68%</small></div><div class="barbg"><div class="barf" style="width:68%"></div></div></div><div style="margin-top:10px;font-size:.7rem;color:var(--g6)">Est. completion: Apr 15, 2025</div></div>
-          <div class="dw"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-family:var(--fd)">Q2 SEO Campaign</b><span class="pbdg live">Live</span></div><p style="color:var(--g4);font-size:.84rem;margin-bottom:14px">Full SEO Growth plan &#8212; 30 keywords tracked, link building in progress, monthly reporting active.</p><div class="barr"><div class="bart"><small>Month Progress</small><small>45%</small></div><div class="barbg"><div class="barf" style="width:45%"></div></div></div><div style="margin-top:10px;font-size:.7rem;color:var(--g6)">Renews: May 1, 2025</div></div>
-          <div class="dw"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-family:var(--fd)">Spring Social Push</b><span class="pbdg live">Live</span></div><p style="color:var(--g4);font-size:.84rem;margin-bottom:14px">Brand Growth plan &#8212; 4 platforms, 30 posts/month, paid ads running across Meta and TikTok.</p><div class="barr"><div class="bart"><small>Content Published</small><small>18/30</small></div><div class="barbg"><div class="barf" style="width:60%"></div></div></div><div style="margin-top:10px;font-size:.7rem;color:var(--g6)">Renews: Apr 1, 2025</div></div>
-          <div class="dw"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-family:var(--fd)">Data Pipeline v2</b><span class="pbdg rev2">In Review</span></div><p style="color:var(--g4);font-size:.84rem;margin-bottom:14px">ETL pipeline rebuild connecting Shopify, HubSpot, and Google Analytics into a unified BI dashboard.</p><div class="barr"><div class="bart"><small>Progress</small><small>92%</small></div><div class="barbg"><div class="barf" style="width:92%"></div></div></div><div style="margin-top:10px;font-size:.7rem;color:var(--g6)">Review deadline: Mar 28, 2025</div></div>
+
+      <!-- MY TICKETS PANEL -->
+      <div class="dpnl" id="dp-tickets">
+        <div class="dashhd"><div class="dashwel">Support</div><div class="dashsub">Your support tickets and quick contacts.</div></div>
+        <div class="dw" id="tickets-panel-content"><div style="color:var(--g4);font-size:.875rem;padding:20px 0;display:flex;gap:10px;align-items:center"><div style="width:16px;height:16px;border:2px solid var(--glb);border-top-color:var(--red);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0"></div>Loading your tickets...</div></div>
+        <div class="dw" style="margin-top:18px">
+          <div class="dwttl">Open a New Ticket</div>
+          <div class="fg" style="margin-bottom:14px"><label style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px;display:block">Subject</label><input class="fi" id="tkt-subj" placeholder="Describe your issue briefly"></div>
+          <div class="fg" style="margin-bottom:14px"><label style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px;display:block">Priority</label><select class="fi" id="tkt-pri" style="cursor:pointer"><option>Low</option><option selected>Medium</option><option>High</option><option>Urgent</option></select></div>
+          <div class="fg" style="margin-bottom:14px"><label style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g4);margin-bottom:7px;display:block">Message</label><textarea class="fi" id="tkt-msg" style="min-height:100px;resize:vertical" placeholder="Describe your issue in detail..."></textarea></div>
+          <button class="btnp" onclick="submitTicket()">Submit Ticket &#8594;</button>
         </div>
-      </div>
-      <div class="dpnl" id="dp-analytics">
-        <div class="dashhd"><div class="dashwel">Analytics</div><div class="dashsub">Performance metrics across all active services.</div></div>
-        <div class="dashgrid"><div class="dstat"><div class="dstatv"><span>12</span>.4K</div><div class="dstatl">Total Sessions</div><div class="dstatc up">&#8593; 23%</div></div><div class="dstat"><div class="dstatv"><span>3</span>.2%</div><div class="dstatl">Conversion Rate</div><div class="dstatc up">&#8593; 0.4%</div></div><div class="dstat"><div class="dstatv"><span>2</span>:34</div><div class="dstatl">Avg. Duration</div><div class="dstatc up">&#8593; 18s</div></div><div class="dstat"><div class="dstatv"><span>38</span>%</div><div class="dstatl">Bounce Rate</div><div class="dstatc up">&#8595; 5%</div></div></div>
-        <div class="d2col" style="margin-top:18px"><div class="dw"><div class="dwttl">SEO Rankings</div><div class="barw"><div class="barr"><div class="bart"><span>digital agency london</span><span style="color:#4ade80">#3</span></div><div class="barbg"><div class="barf" style="width:85%"></div></div></div><div class="barr"><div class="bart"><span>web design uk</span><span style="color:#fbbf24">#7</span></div><div class="barbg"><div class="barf" style="width:65%"></div></div></div><div class="barr"><div class="bart"><span>seo management</span><span style="color:#4ade80">#4</span></div><div class="barbg"><div class="barf" style="width:75%"></div></div></div></div></div><div class="dw"><div class="dwttl">Social Reach <span>This month</span></div><div class="barw"><div class="barr"><div class="bart"><span>Instagram</span><span>4,820</span></div><div class="barbg"><div class="barf" style="width:82%"></div></div></div><div class="barr"><div class="bart"><span>TikTok</span><span>9,600</span></div><div class="barbg"><div class="barf" style="width:100%"></div></div></div><div class="barr"><div class="bart"><span>LinkedIn</span><span>2,140</span></div><div class="barbg"><div class="barf" style="width:36%"></div></div></div></div></div></div>
-      </div>
-      <div class="dpnl" id="dp-seo">
-        <div class="dashhd"><div class="dashwel">SEO Reports</div><div class="dashsub">Search engine performance and optimisation progress.</div></div>
-        <div class="dashgrid"><div class="dstat"><div class="dstatv"><span>#4</span></div><div class="dstatl">Avg. Position</div><div class="dstatc up">&#8593; 6 spots</div></div><div class="dstat"><div class="dstatv"><span>30</span></div><div class="dstatl">Keywords Tracked</div><div class="dstatc up">&#8593; 5 new</div></div><div class="dstat"><div class="dstatv"><span>47</span></div><div class="dstatl">Backlinks Built</div><div class="dstatc up">&#8593; 12 this month</div></div><div class="dstat"><div class="dstatv"><span>94</span></div><div class="dstatl">Domain Authority</div><div class="dstatc up">&#8593; 2 pts</div></div></div>
-        <div class="dw" style="margin-top:18px"><div class="dwttl">Keyword Rankings</div><div class="barw"><div class="barr"><div class="bart"><span>digital agency london</span><span style="color:#4ade80">#3 &#8593;2</span></div><div class="barbg"><div class="barf" style="width:88%"></div></div></div><div class="barr"><div class="bart"><span>seo management service</span><span style="color:#4ade80">#4 &#8593;3</span></div><div class="barbg"><div class="barf" style="width:78%"></div></div></div><div class="barr"><div class="bart"><span>web design agency uk</span><span style="color:#fbbf24">#7 &#8594;</span></div><div class="barbg"><div class="barf" style="width:62%"></div></div></div><div class="barr"><div class="bart"><span>ecommerce website design</span><span style="color:#4ade80">#9 &#8593;5</span></div><div class="barbg"><div class="barf" style="width:50%"></div></div></div></div></div>
-      </div>
-      <div class="dpnl" id="dp-social">
-        <div class="dashhd"><div class="dashwel">Social Media</div><div class="dashsub">Content performance and audience growth.</div></div>
-        <div class="dashgrid"><div class="dstat"><div class="dstatv"><span>18</span>/30</div><div class="dstatl">Posts Published</div><div class="dstatc up">On track</div></div><div class="dstat"><div class="dstatv"><span>+</span>1.2K</div><div class="dstatl">New Followers</div><div class="dstatc up">&#8593; 38%</div></div><div class="dstat"><div class="dstatv"><span>4</span>.8%</div><div class="dstatl">Engagement Rate</div><div class="dstatc up">&#8593; 0.6%</div></div><div class="dstat"><div class="dstatv"><span>&#163;</span>420</div><div class="dstatl">Ad Spend Used</div><div class="dstatc dn">&#163;80 remaining</div></div></div>
-        <div class="dw" style="margin-top:18px"><div class="dwttl">Top Performing Posts</div><div class="actitem"><div class="actico"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div><div><div class="acttxt">Instagram: "Behind the scenes at ZeroPoint" &#8212; 4,200 likes</div><div class="acttime">Mar 14, 2025</div></div></div><div class="actitem"><div class="actico"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></div><div><div class="acttxt">TikTok: "How we built a #1 ranking website" &#8212; 22K views</div><div class="acttime">Mar 10, 2025</div></div></div></div>
-      </div>
-      <div class="dpnl" id="dp-invoices">
-        <div class="dashhd"><div class="dashwel">Invoices</div><div class="dashsub">Billing history and upcoming payments.</div></div>
-        <div class="dw"><table class="invtbl"><thead><tr><th>Invoice</th><th>Service</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead><tbody>
-          <tr><td>#INV-0045</td><td>SEO Growth Plan</td><td>&#163;699</td><td>Mar 1, 2025</td><td class="invpd">&#10004; Paid</td></tr>
-          <tr><td>#INV-0044</td><td>Social Brand Growth</td><td>&#163;899</td><td>Mar 1, 2025</td><td class="invpd">&#10004; Paid</td></tr>
-          <tr><td>#INV-0043</td><td>Data Pipeline v2</td><td>&#163;520</td><td>Feb 22, 2025</td><td class="invpn">&#8987; Pending</td></tr>
-          <tr><td>#INV-0042</td><td>SEO Growth Plan</td><td>&#163;699</td><td>Feb 1, 2025</td><td class="invpd">&#10004; Paid</td></tr>
-          <tr><td>#INV-0041</td><td>Website Business Plan</td><td>&#163;1,499</td><td>Jan 15, 2025</td><td class="invpd">&#10004; Paid</td></tr>
-        </tbody></table></div>
+        <div class="dw" style="margin-top:18px">
+          <div class="dwttl">Quick Contacts</div>
+          <div class="actitem"><div class="actico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="acttxt">Alex Harper &#8212; Account Manager</div><div class="acttime">alex&#64;zeropoint.ltd &middot; +44 7700 900123</div></div></div>
+          <div class="actitem"><div class="actico"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="acttxt">General Enquiries</div><div class="acttime">hello&#64;zeropoint.ltd</div></div></div>
+        </div>
       </div>
       <div class="dpnl" id="dp-settings">
         <div class="dashhd"><div class="dashwel">Account Settings</div><div class="dashsub">Manage your profile and preferences.</div></div>
@@ -941,7 +928,7 @@ function renderNav(u){
     '<div class="udd" id="udd">'+
     '<div class="udd-hd"><div class="udd-name">'+esc(nm)+'</div><div class="udd-email">'+esc(u.email||'')+'</div></div>'+
     '<button class="udd-item" onclick="nav(\'dashboard\');closeDD()">&#127968; Dashboard</button>'+
-    '<button class="udd-item" onclick="showPanel(\'projects\');nav(\'dashboard\');closeDD()">&#128193; My Projects</button>'+
+    '<button class="udd-item" onclick="showPanel(\'orders\');nav(\'dashboard\');closeDD()">&#128230; My Orders</button>'+
     '<button class="udd-item" onclick="showPanel(\'settings\');nav(\'dashboard\');closeDD()">&#9881; Settings</button>'+
     '<div class="udd-sep"></div>'+
     '<button class="udd-item danger" onclick="logout()">&#8594; Sign Out</button>'+
@@ -970,6 +957,7 @@ function nav(pg){
     document.getElementById('set-name').value=CU.user_metadata?.full_name||CU.full_name||'';
     document.getElementById('set-email').value=CU.email||'';
     document.getElementById('set-company').value=CU.user_metadata?.company||CU.company||'';
+    loadUserDashboard();
   }
 }
 function toggleMob(){document.getElementById('mobmenu').classList.toggle('open')}
@@ -1181,7 +1169,7 @@ async function submitContact(){
   document.getElementById('cf-sv').value='';
 }
 
-// ── DASHBOARD ────────────────────────────────────────
+// ── DASHBOARD ─────────────────────────────────────────
 function showPanel(id){
   document.querySelectorAll('.dpnl').forEach(p=>p.classList.remove('on'));
   document.getElementById('dp-'+id)?.classList.add('on');
@@ -1192,7 +1180,76 @@ function showPanel(id){
     document.getElementById('set-email').value=CU.email||'';
     document.getElementById('set-company').value=CU.user_metadata?.company||CU.company||'';
   }
+  if(id==='orders') loadUserOrders();
+  if(id==='tickets') loadUserTickets();
 }
+
+function fmtDate(d){if(!d)return '—';try{return new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}catch{return d}}
+
+async function loadUserDashboard(){
+  if(!CU)return;
+  const[{data:orders},{data:tickets}]=await Promise.all([
+    sb.from('orders').select('*').eq('user_id',CU.id).order('created_at',{ascending:false}),
+    sb.from('tickets').select('*').eq('user_id',CU.id).order('created_at',{ascending:false})
+  ]);
+  const total=orders?.length||0;
+  const pending=(orders||[]).filter(o=>o.status==='pending').length;
+  const spent=(orders||[]).reduce((s,o)=>s+(o.total||0),0);
+  const openTkts=(tickets||[]).filter(t=>t.status==='open').length;
+  document.getElementById('ds-orders').innerHTML=`<span>${total}</span>`;
+  document.getElementById('ds-pending').innerHTML=`<span>${pending}</span>`;
+  document.getElementById('ds-spent').innerHTML=`&#163;<span>${spent.toLocaleString()}</span>`;
+  document.getElementById('ds-tickets').innerHTML=`<span>${openTkts}</span>`;
+  const ro=document.getElementById('dash-recent-orders');
+  if(ro){
+    if(!orders?.length){
+      ro.innerHTML='<div style="color:var(--g4);font-size:.84rem;padding:8px 0;font-weight:300">No orders yet. <a onclick="nav(\'pricing\')" style="color:var(--red);cursor:pointer">Browse plans &#8594;</a></div>';
+    } else {
+      ro.innerHTML=orders.slice(0,3).map(o=>`<div class="projitem"><div><div class="projnm">${esc(o.items||'Order')}</div><div class="projtype">&#163;${(o.total||0).toLocaleString()} &middot; ${fmtDate(o.created_at)}</div></div><span class="pbdg ${o.status==='completed'?'live':o.status==='pending'?'prog':'rev2'}">${esc(o.status)}</span></div>`).join('');
+    }
+  }
+  const rt=document.getElementById('dash-recent-tickets');
+  if(rt){
+    if(!tickets?.length){
+      rt.innerHTML='<div style="color:var(--g4);font-size:.84rem;padding:8px 0;font-weight:300">No tickets yet. <a onclick="showPanel(\'tickets\')" style="color:var(--red);cursor:pointer">Open one &#8594;</a></div>';
+    } else {
+      rt.innerHTML=tickets.slice(0,3).map(t=>`<div class="projitem"><div><div class="projnm">${esc(t.subject||'Ticket')}</div><div class="projtype">${esc(t.priority)} &middot; ${fmtDate(t.created_at)}</div></div><span class="pbdg ${t.status==='resolved'?'live':'prog'}">${esc(t.status)}</span></div>`).join('');
+    }
+  }
+  const sub=document.getElementById('dash-sub');
+  if(sub) sub.textContent=total?`You have ${total} order${total!==1?'s':''} with us. Here\'s your overview.`:'Welcome! Browse our plans to get started.';
+}
+
+async function loadUserOrders(){
+  if(!CU)return;
+  const el=document.getElementById('orders-panel-content');
+  if(!el)return;
+  el.innerHTML='<div style="color:var(--g4);font-size:.875rem;padding:16px 0;display:flex;gap:10px;align-items:center"><div style="width:16px;height:16px;border:2px solid var(--glb);border-top-color:var(--red);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0"></div>Loading...</div>';
+  const{data:orders}=await sb.from('orders').select('*').eq('user_id',CU.id).order('created_at',{ascending:false});
+  if(!orders?.length){
+    el.innerHTML='<div style="padding:28px;text-align:center;color:var(--g4)"><p style="margin-bottom:16px">No orders yet.</p><button class="btnp" onclick="nav(\'pricing\')">Browse Our Plans &#8594;</button></div>';
+    return;
+  }
+  el.innerHTML='<table class="invtbl"><thead><tr><th>Service / Bundle</th><th>Amount</th><th>Type</th><th>Status</th><th>Date</th></tr></thead><tbody>'+
+    orders.map(o=>`<tr><td><b>${esc(o.items||'—')}</b></td><td>&#163;${(o.total||0).toLocaleString()}</td><td><span style="font-size:.72rem;color:var(--g4)">${esc(o.type||'—')}</span></td><td><span class="pbdg ${o.status==='completed'?'live':o.status==='pending'?'prog':'rev2'}">${esc(o.status)}</span></td><td style="font-size:.78rem;color:var(--g4)">${fmtDate(o.created_at)}</td></tr>`).join('')+
+    '</tbody></table>';
+}
+
+async function loadUserTickets(){
+  if(!CU)return;
+  const el=document.getElementById('tickets-panel-content');
+  if(!el)return;
+  el.innerHTML='<div style="color:var(--g4);font-size:.875rem;padding:16px 0;display:flex;gap:10px;align-items:center"><div style="width:16px;height:16px;border:2px solid var(--glb);border-top-color:var(--red);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0"></div>Loading...</div>';
+  const{data:tickets}=await sb.from('tickets').select('*').eq('user_id',CU.id).order('created_at',{ascending:false});
+  if(!tickets?.length){
+    el.innerHTML='<div style="padding:16px 0;color:var(--g4);font-size:.875rem;font-weight:300">No tickets yet. Use the form below to get help.</div>';
+    return;
+  }
+  el.innerHTML='<table class="invtbl"><thead><tr><th>Subject</th><th>Priority</th><th>Status</th><th>Date</th></tr></thead><tbody>'+
+    tickets.map(t=>`<tr><td><b>${esc(t.subject||'—')}</b></td><td><span style="font-size:.72rem;color:var(--g4)">${esc(t.priority||'Medium')}</span></td><td><span class="pbdg ${t.status==='resolved'?'live':'prog'}">${esc(t.status)}</span></td><td style="font-size:.78rem;color:var(--g4)">${fmtDate(t.created_at)}</td></tr>`).join('')+
+    '</tbody></table>';
+}
+
 async function saveSettings(){
   if(!CU)return;
   const nm=document.getElementById('set-name').value.trim();
@@ -1218,6 +1275,7 @@ async function submitTicket(){
   await sb.from('tickets').insert({user_id:CU?.id,customer_email:CU?.email,subject:s,message:m,priority:p,status:'open',created_at:new Date().toISOString()});
   showToast('&#10003;','Ticket Submitted','We\'ll reply within 4 business hours.');
   document.getElementById('tkt-subj').value='';document.getElementById('tkt-msg').value='';
+  loadUserTickets();loadUserDashboard();
 }
 
 // ── TOAST ────────────────────────────────────────────
