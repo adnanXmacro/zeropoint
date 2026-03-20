@@ -216,37 +216,55 @@ h1.hh em{font-style:normal;color:var(--red)}
 .btnpc.pr{background:var(--red);border-color:var(--red);box-shadow:0 0 18px var(--glow)}
 .btnpc.pr:hover{background:var(--rd);box-shadow:0 0 30px var(--glow)}
 /* BUNDLE */
-.bldlay{display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start}
-.bldstl{font-family:var(--fd);font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--g4);margin-bottom:12px;display:block}
-.bldgrp{margin-bottom:26px}
-.bldsvc{background:var(--gl);border:1px solid var(--glb);border-radius:12px;padding:18px;margin-bottom:10px;cursor:pointer;transition:border-color .2s,background .2s;user-select:none}
-.bldsvc.sel{border-color:var(--red);background:rgba(229,9,20,.05)}
-.bldhdr{display:flex;justify-content:space-between;align-items:center;pointer-events:none}
-.bldnm{font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:9px}
-.tgl{width:42px;height:23px;background:rgba(255,255,255,.1);border-radius:100px;position:relative;transition:background .2s;flex-shrink:0}
-.bldsvc.sel .tgl{background:var(--red)}
-.tgl::after{content:'';position:absolute;top:3px;left:3px;width:17px;height:17px;background:#fff;border-radius:50%;transition:transform .2s}
-.bldsvc.sel .tgl::after{transform:translateX(19px)}
-.bldtiers{margin-top:14px;display:none;gap:7px;pointer-events:all}
-.bldsvc.sel .bldtiers{display:flex}
-.tbtn{flex:1;padding:7px 4px;border-radius:6px;border:1px solid var(--glb);background:transparent;color:var(--g4);font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--fb);text-align:center;line-height:1.4}
-.tbtn.on{background:var(--red);border-color:var(--red);color:#fff}
-.sumcard{background:var(--gl);border:1px solid var(--glb);border-radius:16px;padding:28px;backdrop-filter:blur(14px);position:sticky;top:88px}
-.sumttl{font-family:var(--fd);font-size:1.1rem;font-weight:700;margin-bottom:22px}
-.sumempty{color:var(--g4);font-size:.875rem;text-align:center;padding:20px 0;font-weight:300}
-.sumitem{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--glb)}
+.bldlay{display:grid;grid-template-columns:1fr 390px;gap:36px;align-items:start}
+.bldgrp{margin-bottom:18px}
+.bldstl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--g6);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.bldstl::after{content:'';flex:1;height:1px;background:var(--glb)}
+.bldsvc{background:var(--gl);border:1.5px solid var(--glb);border-radius:14px;padding:0;cursor:pointer;transition:border-color .25s,background .25s,box-shadow .25s;user-select:none;overflow:hidden;margin-bottom:10px}
+.bldsvc:hover{border-color:rgba(229,9,20,.25);background:rgba(255,255,255,.03)}
+.bldsvc.sel{border-color:var(--red);background:rgba(229,9,20,.04);box-shadow:0 0 22px rgba(229,9,20,.08)}
+.bldhdr{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;pointer-events:none}
+.bld-hd-left{display:flex;align-items:center;gap:12px}
+.bld-svc-ico{width:34px;height:34px;border-radius:9px;background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bld-svc-ico svg{width:15px;height:15px;stroke:var(--red);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bldnm{font-weight:700;font-size:.88rem;font-family:var(--fd)}
+.bld-sub{font-size:.7rem;color:var(--g4);margin-top:1px;font-weight:300}
+.tgl{width:44px;height:24px;background:rgba(255,255,255,.08);border-radius:100px;position:relative;transition:background .25s;flex-shrink:0;border:1.5px solid rgba(255,255,255,.1)}
+.bldsvc.sel .tgl{background:var(--red);border-color:var(--red)}
+.tgl::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .25s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.bldsvc.sel .tgl::after{transform:translateX(20px)}
+.bldtiers{padding:0 14px 14px;display:none;gap:8px;flex-wrap:wrap;pointer-events:all;border-top:1px solid var(--glb)}
+.bldsvc.sel .bldtiers{display:flex;padding-top:12px}
+.tbtn{flex:1;min-width:88px;padding:10px 6px;border-radius:9px;border:1.5px solid var(--glb);background:rgba(255,255,255,.02);color:var(--g4);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .22s;font-family:var(--fb);text-align:center;line-height:1.5}
+.tbtn-price{display:block;font-size:.7rem;font-weight:800;font-family:var(--fd);color:var(--g6);margin-top:2px;transition:color .22s}
+.tbtn:hover{border-color:rgba(229,9,20,.3);color:#fff;background:rgba(229,9,20,.05)}
+.tbtn.on{background:rgba(229,9,20,.12);border-color:var(--red);color:#fff}
+.tbtn.on .tbtn-price{color:var(--red)}
+.sumcard{background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1.5px solid var(--glb);border-radius:20px;padding:26px;backdrop-filter:blur(20px);position:sticky;top:88px;overflow:hidden}
+.sumcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),transparent)}
+.sumttl{font-family:var(--fd);font-size:1.1rem;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:9px}
+.sumttl-badge{background:rgba(229,9,20,.12);border:1px solid rgba(229,9,20,.25);color:var(--red);font-size:.58rem;font-weight:700;letter-spacing:.1em;padding:2px 8px;border-radius:100px;text-transform:uppercase}
+.sum-meta{font-size:.73rem;color:var(--g4);margin-bottom:20px;font-weight:300}
+.sumempty{color:var(--g4);font-size:.875rem;text-align:center;padding:24px 0;font-weight:300}
+.sumitem{display:flex;justify-content:space-between;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--glb);gap:10px}
 .sumitem:last-child{border-bottom:none}
-.suminm{font-size:.875rem;font-weight:500}
-.sumitr{font-size:.72rem;color:var(--g4)}
-.sumipr{font-size:.875rem;font-weight:700;color:var(--red);white-space:nowrap}
-.sumdiv{height:1px;background:var(--glb);margin:14px 0}
-.sumtot{display:flex;justify-content:space-between;align-items:center}
-.sumtotlbl{font-size:.84rem;color:var(--g4)}
-.sumtotp{font-family:var(--fd);font-size:1.9rem;font-weight:800}
-.sumnote{font-size:.68rem;color:var(--g6);margin-top:4px;text-align:right}
-.btnpur{width:100%;padding:13px;background:var(--red);border:none;border-radius:8px;color:#fff;font-family:var(--fd);font-size:.95rem;font-weight:700;cursor:pointer;margin-top:18px;transition:all .2s;box-shadow:0 0 18px var(--glow)}
-.btnpur:hover{background:var(--rd);box-shadow:0 0 35px var(--glow);transform:translateY(-1px)}
-.btnpur:disabled{opacity:.38;cursor:not-allowed;transform:none;box-shadow:none}
+.suminm{font-size:.875rem;font-weight:600}
+.sumitr{font-size:.7rem;color:var(--g4);margin-top:2px}
+.sumipr{font-size:.9rem;font-weight:800;color:var(--red);white-space:nowrap;font-family:var(--fd)}
+.sumdiv{height:1px;background:linear-gradient(90deg,var(--red),transparent);margin:14px 0;opacity:.25}
+.sum-disc{display:flex;align-items:center;justify-content:space-between;background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);border-radius:8px;padding:8px 12px;margin-bottom:10px}
+.sum-disc span:first-child{font-size:.72rem;color:#4ade80;font-weight:600}
+.sum-disc span:last-child{font-size:.72rem;color:#4ade80;font-weight:800}
+.sumtot{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3px}
+.sumtotlbl{font-size:.78rem;color:var(--g4);font-weight:300}
+.sumtotp{font-family:var(--fd);font-size:2.2rem;font-weight:800;letter-spacing:-.02em;line-height:1}
+.sumnote{font-size:.64rem;color:var(--g6);text-align:right;margin-bottom:14px}
+.btnpur{width:100%;padding:14px;background:var(--red);border:none;border-radius:10px;color:#fff;font-family:var(--fd);font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 0 22px var(--glow);display:flex;align-items:center;justify-content:center;gap:9px}
+.btnpur:hover{background:var(--rd);box-shadow:0 0 40px var(--glow);transform:translateY(-2px)}
+.btnpur:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.btnpur svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.sum-trust{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;color:var(--g6);font-size:.67rem}
+.sum-trust svg{width:11px;height:11px;stroke:var(--g6);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 /* ABOUT */
 .agrid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-bottom:90px}
 .avis{height:380px;border-radius:20px;overflow:hidden;background:var(--dk3);position:relative}
@@ -421,6 +439,42 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
   #chatfab{bottom:20px;right:20px}
   .hero-stats{flex-wrap:wrap;gap:20px}
 }
+/* CART MODAL */
+#cart-overlay{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+#cart-overlay.open{opacity:1;visibility:visible}
+.cart-modal{background:var(--dk2);border:1.5px solid var(--glb);border-radius:22px;width:100%;max-width:460px;overflow:hidden;position:relative}
+.cart-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),#ff6b35,transparent)}
+.cart-hd{padding:26px 28px 20px;border-bottom:1px solid var(--glb)}
+.cart-hd-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cart-hd-ttl{font-family:var(--fd);font-size:1.2rem;font-weight:800}
+.cart-close{background:none;border:none;color:var(--g4);cursor:pointer;font-size:1.2rem;transition:color .2s;padding:4px;line-height:1}
+.cart-close:hover{color:#fff}
+.cart-item{background:rgba(255,255,255,.04);border:1px solid var(--glb);border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center}
+.cart-item-name{font-weight:700;font-size:.95rem;font-family:var(--fd);margin-bottom:3px}
+.cart-item-sub{font-size:.75rem;color:var(--g4);font-weight:300}
+.cart-item-price{font-family:var(--fd);font-size:1.4rem;font-weight:800;color:var(--red)}
+.cart-body{padding:22px 28px}
+.cart-section-lbl{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g4);margin-bottom:12px}
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.pay-opt{background:rgba(255,255,255,.04);border:1.5px solid var(--glb);border-radius:12px;padding:14px;cursor:pointer;transition:all .22s;text-align:center}
+.pay-opt:hover{border-color:rgba(229,9,20,.3);background:rgba(229,9,20,.04)}
+.pay-opt.pay-sel{border-color:var(--red);background:rgba(229,9,20,.08);box-shadow:0 0 16px rgba(229,9,20,.12)}
+.pay-opt-ico{font-size:1.5rem;margin-bottom:6px}
+.pay-opt-name{font-weight:700;font-size:.84rem;font-family:var(--fd)}
+.pay-opt-sub{font-size:.68rem;color:var(--g4);margin-top:2px;font-weight:300}
+.cart-note{border-radius:10px;padding:12px 14px;font-size:.78rem;line-height:1.6;margin-bottom:18px;display:none}
+.cart-note.crypto-note{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.22);color:var(--yellow)}
+.cart-note.usd-note{background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.22);color:var(--blue)}
+.cart-total-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid var(--glb);margin-bottom:16px}
+.cart-total-lbl{font-size:.84rem;color:var(--g4)}
+.cart-total-val{font-family:var(--fd);font-size:1.8rem;font-weight:800}
+.cart-pay-btn{width:100%;padding:15px;background:var(--red);border:none;border-radius:11px;color:#fff;font-family:var(--fd);font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 0 24px var(--glow);display:flex;align-items:center;justify-content:center;gap:9px}
+.cart-pay-btn:hover{background:var(--rd);transform:translateY(-2px);box-shadow:0 0 40px var(--glow)}
+.cart-pay-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.cart-secure{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;color:var(--g6);font-size:.68rem}
+.cart-powered{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:8px;color:var(--g6);font-size:.65rem}
+.cart-powered b{color:var(--g4)}
+@media(max-width:480px){.cart-modal{border-radius:18px 18px 0 0}.cart-hd,.cart-body{padding-left:20px;padding-right:20px}.pay-methods{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -442,8 +496,7 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
       <div class="fg"><label>Email Address</label><input class="fi" type="email" id="li-em" placeholder="you&#64;company.com" autocomplete="email"></div>
       <div class="fg"><label>Password</label><input class="fi" type="password" id="li-pw" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" autocomplete="current-password"></div>
       <button class="abtn" id="li-btn" onclick="doLogin()">Sign In &#8594;</button>
-      <div class="adiv">or try a demo</div>
-      <div class="demo-note">Email: <b>demo&#64;zeropoint.ltd</b> &nbsp;/&nbsp; Password: <b>demo1234</b></div>
+
     </div>
     <div id="form-reg" style="display:none">
       <div class="frow">
@@ -682,7 +735,7 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
         <div class="dashgrid" id="dash-stats">
           <div class="dstat"><div class="dstatv" id="ds-orders"><span>0</span></div><div class="dstatl">My Orders</div></div>
           <div class="dstat"><div class="dstatv" id="ds-pending"><span>0</span></div><div class="dstatl">Pending</div></div>
-          <div class="dstat"><div class="dstatv" id="ds-spent">&#163;<span>0</span></div><div class="dstatl">Total Spent</div></div>
+          <div class="dstat"><div class="dstatv" id="ds-spent">$<span>0</span></div><div class="dstatl">Total Spent</div></div>
           <div class="dstat"><div class="dstatv" id="ds-tickets"><span>0</span></div><div class="dstatl">Open Tickets</div></div>
         </div>
         <div class="d2col" style="margin-top:4px">
@@ -761,6 +814,59 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART / CHECKOUT MODAL -->
+<div id="cart-overlay" onclick="if(event.target.id==='cart-overlay')closeCart()">
+  <div class="cart-modal">
+    <div class="cart-hd">
+      <div class="cart-hd-top">
+        <div class="cart-hd-ttl">Checkout</div>
+        <button class="cart-close" onclick="closeCart()">&#10005;</button>
+      </div>
+      <div class="cart-item">
+        <div>
+          <div class="cart-item-name" id="cart-item-name">Service Name</div>
+          <div class="cart-item-sub">ZeroPoint LTD</div>
+        </div>
+        <div class="cart-item-price" id="cart-item-price">$0</div>
+      </div>
+    </div>
+    <div class="cart-body">
+      <div class="cart-section-lbl">Select Payment Method</div>
+      <div class="pay-methods">
+        <div class="pay-opt pay-sel" id="pay-usd" onclick="selectPayment('usd')">
+          <div class="pay-opt-ico">&#128179;</div>
+          <div class="pay-opt-name">USD / Card</div>
+          <div class="pay-opt-sub">Credit &amp; Debit Cards</div>
+        </div>
+        <div class="pay-opt" id="pay-crypto" onclick="selectPayment('crypto')">
+          <div class="pay-opt-ico">&#8383;</div>
+          <div class="pay-opt-name">Crypto</div>
+          <div class="pay-opt-sub">BTC, ETH, USDT &amp; more</div>
+        </div>
+      </div>
+      <div class="cart-note usd-note" id="cart-usd-note" style="display:block">
+        &#128274; Secure payment via <b>Redotpay</b>. Accepts all major cards. Your payment is encrypted and protected.
+      </div>
+      <div class="cart-note crypto-note" id="cart-crypto-note">
+        &#9888; <b>Important:</b> Crypto payments are processed at the <b>live market price at time of transaction</b>. The USD equivalent shown is for reference only — the final crypto amount will be calculated within a 24-hour price window. Supported: BTC, ETH, USDT, USDC &amp; more.
+      </div>
+      <div class="cart-total-row">
+        <div class="cart-total-lbl">Total Due</div>
+        <div class="cart-total-val" id="cart-total-usd">$0</div>
+      </div>
+      <button class="cart-pay-btn" id="cart-pay-btn" onclick="confirmPayment()">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Pay with Card / USD
+      </button>
+      <div class="cart-secure">
+        <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:var(--g6);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        256-bit SSL encrypted &middot; Safe &amp; secure
+      </div>
+      <div class="cart-powered">Powered by <b>Redotpay</b> &middot; ID: 1899721816</div>
     </div>
   </div>
 </div>
@@ -995,8 +1101,8 @@ const FB_PRODUCTS=[
   {id:'s2',service_key:'seo',name:'Growth',price:699,billing:'monthly',description:'Serious SEO for scaling businesses',features:'30 Target Keywords\nFull On/Off-page SEO\nLink Building (5/mo)\n4 Blog Articles\nBi-weekly Reports',featured:true},
   {id:'s3',service_key:'seo',name:'Pro',price:1299,billing:'monthly',description:'Dominate your market',features:'Unlimited Keywords\nLink Building (20/mo)\nDedicated Manager\nWeekly Reports',featured:false},
   {id:'m1',service_key:'social',name:'Starter',price:399,billing:'monthly',description:'Establish your social presence',features:'2 Platforms\n12 Posts/Month\nBasic Graphics\nMonthly Report',featured:false},
-  {id:'m2',service_key:'social',name:'Brand Growth',price:899,billing:'monthly',description:'Build a loyal, engaged audience',features:'4 Platforms\n30 Posts/Month\nCustom Graphics + Video\nPaid Ads (£500 budget)\nCommunity Management',featured:true},
-  {id:'m3',service_key:'social',name:'Premium',price:1799,billing:'monthly',description:'Full-service social media domination',features:'All Platforms\nDaily Content\nInfluencer Campaigns\nPaid Ads (£2,500)',featured:false},
+  {id:'m2',service_key:'social',name:'Brand Growth',price:899,billing:'monthly',description:'Build a loyal, engaged audience',features:'4 Platforms\n30 Posts/Month\nCustom Graphics + Video\nPaid Ads ($500 budget)\nCommunity Management',featured:true},
+  {id:'m3',service_key:'social',name:'Premium',price:1799,billing:'monthly',description:'Full-service social media domination',features:'All Platforms\nDaily Content\nInfluencer Campaigns\nPaid Ads ($2,500)',featured:false},
   {id:'d1',service_key:'data',name:'Basic',price:599,billing:'monthly',description:'Foundation data management',features:'Database Setup\nBasic ETL Pipeline\nMonthly Report',featured:false},
   {id:'d2',service_key:'data',name:'Advanced',price:1199,billing:'monthly',description:'Scale your data infrastructure',features:'Advanced ETL\nBI Dashboard\nWeekly Reports',featured:true},
   {id:'d3',service_key:'data',name:'Enterprise',price:2499,billing:'monthly',description:'Full data platform',features:'Custom Architecture\nDedicated Engineer\nPriority Support',featured:false}
@@ -1081,18 +1187,20 @@ function renderPricingPage(){
         return `<div class="bldgrp rev">
           <span class="bldstl">${htmlEsc(g.label)}</span>
           <div class="bldsvc" id="bsvc-${htmlEsc(g.key)}" onclick="toggleBld('${htmlEsc(g.key)}')">
-            <div class="bldhdr"><div class="bldnm">${htmlEsc(g.label)}</div><div class="tgl"></div></div>
-            <div class="bldtiers">${g.plans.map((p,i)=>`<button class="tbtn${i===0?' on':''}" onclick="setTier(event,'${htmlEsc(g.key)}','${htmlEsc(p.name)}',${p.price})">
-              ${htmlEsc(p.name)}<br><small>&#163;${Number(p.price).toLocaleString()}</small></button>`).join('')}</div>
+            <div class="bldhdr"><div class="bld-hd-left"><div class="bld-svc-ico">${SVC_ICONS[g.key]||SVC_ICONS.default}</div><div><div class="bldnm">${htmlEsc(g.label)}</div><div class="bld-sub">${g.plans.length} plan${g.plans.length!==1?'s':''} available</div></div></div><div class="tgl"></div></div>
+            <div class="bldtiers">${g.plans.map((p,i)=>`<button class="tbtn${i===0?' on':''}" onclick="setTier(event,'${htmlEsc(g.key)}','${htmlEsc(p.name)}',${p.price})">${htmlEsc(p.name)}<span class="tbtn-price">$${Number(p.price).toLocaleString()}${p.billing==='monthly'?'/mo':''}</span></button>`).join('')}</div>
           </div></div>`;
       }).join('')}</div>
       <div class="sumcard rev">
-        <div class="sumttl">Your Bundle</div>
-        <div id="sum-body"><div class="sumempty">Select services to build your package.</div></div>
+        <div class="sumttl">Your Bundle <span class="sumttl-badge">Custom</span></div>
+        <div class="sum-meta">Select services below to build your package</div>
+        <div id="sum-body"><div class="sumempty"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Toggle services on the left to build your bundle.</div></div>
         <div class="sumdiv"></div>
-        <div class="sumtot"><div><div class="sumtotlbl">Estimated Total</div><div class="sumnote">*Recurring billed monthly</div></div><div class="sumtotp" id="sum-total">&#163;0</div></div>
-        <button class="btnpur" id="btn-pur" onclick="bundlePurchase()" disabled>Select a Service</button>
-        <div style="margin-top:12px;text-align:center;font-size:.68rem;color:var(--g6)">Multi-service bundle includes 10% discount</div>
+        <div id="sum-disc-row" style="display:none"><div class="sum-disc"><span>&#10022; Bundle Discount (10%)</span><span id="sum-disc-val">-$0</span></div></div>
+        <div class="sumtot"><div><div class="sumtotlbl">Estimated Total</div></div><div class="sumtotp" id="sum-total">$0</div></div>
+        <div class="sumnote" id="sum-billing-note">Select services above</div>
+        <button class="btnpur" id="btn-pur" onclick="bundlePurchase()" disabled><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Select a Service</button>
+        <div class="sum-trust"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Secure checkout &middot; Crypto &amp; USD accepted</div>
       </div>
     </div>
   </div>`;
@@ -1105,10 +1213,10 @@ function buildPlanCard(p){
   return `<div class="pcard${p.featured?' feat':''}">
     ${p.featured?'<div class="pbadge">Most Popular</div>':''}
     <div class="ptier">${htmlEsc(p.name)}</div>
-    <div class="pprice">&#163;${Number(p.price).toLocaleString()}<span>${billing}</span></div>
+    <div class="pprice">$${Number(p.price).toLocaleString()}<span>${billing}</span></div>
     <div class="pdesc">${htmlEsc(p.description||'')}</div>
     <ul class="pfl">${feats.map(f=>`<li><span class="ck">&#10004;</span>${htmlEsc(f)}</li>`).join('')}</ul>
-    <button class="btnpc${p.featured?' pr':''}" onclick="buyPlan('${htmlEsc(p.name)}','&#163;${Number(p.price).toLocaleString()}${billing}')">Get Started</button>
+    <button class="btnpc${p.featured?' pr':''}" onclick="openCart('${htmlEsc(p.name)}',${p.price},'${htmlEsc(p.billing||'one-time')}','${htmlEsc(p.service_key||'')}')">Get Started</button>
   </div>`;
 }
 
@@ -1131,29 +1239,98 @@ function updateSum(){
   const active=Object.keys(bundleState).filter(k=>bundleState[k].on);
   const disc=active.length>1?.1:0;
   const body=document.getElementById('sum-body'),btn=document.getElementById('btn-pur');
-  if(!active.length){body.innerHTML='<div class="sumempty">Select services to build your package.</div>';document.getElementById('sum-total').textContent='&#163;0';btn.disabled=true;btn.textContent='Select a Service';return}
-  let total=0,html='<div>';
-  active.forEach(k=>{const p=Math.round(bundleState[k].price*(1-disc));total+=p;html+='<div class="sumitem"><div><div class="suminm">'+bundleState[k].label+'</div><div class="sumitr">'+bundleState[k].tier+' plan</div></div><div class="sumipr">&#163;'+p.toLocaleString()+'</div></div>';});
+  const discRow=document.getElementById('sum-disc-row');
+  const noteEl=document.getElementById('sum-billing-note');
+  const emptyHTML='<div class="sumempty"><svg viewBox="0 0 24 24" style="width:30px;height:30px;stroke:var(--g6);fill:none;stroke-width:1.5;display:block;margin:0 auto 10px"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Toggle services on the left to start.</div>';
+  const cartIcon='<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>';
+  if(!active.length){
+    body.innerHTML=emptyHTML;
+    document.getElementById('sum-total').textContent='$0';
+    if(discRow)discRow.style.display='none';
+    if(noteEl)noteEl.textContent='Select services above';
+    btn.disabled=true;btn.innerHTML=cartIcon+'Select a Service';
+    return;
+  }
+  let rawTotal=0,total=0,html='<div>';
+  active.forEach(k=>{rawTotal+=bundleState[k].price;const p=Math.round(bundleState[k].price*(1-disc));total+=p;html+='<div class="sumitem"><div><div class="suminm">'+bundleState[k].label+'</div><div class="sumitr">'+bundleState[k].tier+' plan</div></div><div class="sumipr">$'+p.toLocaleString()+'</div></div>';});
   html+='</div>';
-  if(disc>0)html+='<div style="font-size:.7rem;color:var(--red);text-align:right;margin-bottom:4px">10% bundle discount applied</div>';
-  body.innerHTML=html;document.getElementById('sum-total').textContent='&#163;'+total.toLocaleString();
-  btn.disabled=false;btn.textContent='Purchase Bundle →';
+  body.innerHTML=html;
+  if(disc>0&&discRow){discRow.style.display='block';const saved=rawTotal-total;document.getElementById('sum-disc-val').textContent='-$'+saved.toLocaleString();}
+  else if(discRow)discRow.style.display='none';
+  document.getElementById('sum-total').textContent='$'+total.toLocaleString();
+  const hasMonthly=active.some(k=>{const prod=CATALOGUE.products.find(p=>p.service_key===k&&p.name===bundleState[k].tier);return prod?.billing==='monthly';});
+  if(noteEl)noteEl.textContent=hasMonthly?'*Includes monthly recurring services':'*One-time payment';
+  btn.disabled=false;btn.innerHTML=cartIcon+'Proceed to Checkout';
 }
-async function bundlePurchase(){
+
+function bundlePurchase(){
   if(!CU){openAuth();return}
   const active=Object.keys(bundleState).filter(k=>bundleState[k].on);
   const disc=active.length>1?.1:0;
   const items=active.map(k=>bundleState[k].label+' ('+bundleState[k].tier+')').join(', ');
   const total=active.reduce((s,k)=>s+Math.round(bundleState[k].price*(1-disc)),0);
-  await sb.from('orders').insert({user_id:CU.id,customer_email:CU.email,items,total,type:'bundle',status:'pending',created_at:new Date().toISOString()});
-  showToast('&#127881;','Bundle Request Sent!','Your account manager will contact you within 24 hours.');
+  openCart(items, total, 'bundle', 'bundle');
+}
+
+// ── CART / CHECKOUT ───────────────────────────────────
+function openCart(name, price, billing, serviceKey){
+  if(!CU){openAuth();return}
+  const billingLabel = billing==='monthly' ? '/mo' : billing==='bundle' ? '' : ' one-time';
+  document.getElementById('cart-item-name').textContent = name;
+  document.getElementById('cart-item-price').textContent = '$'+Number(price).toLocaleString()+billingLabel;
+  document.getElementById('cart-total-usd').textContent = '$'+Number(price).toLocaleString();
+  // Store for later
+  window._cartItem = {name, price, billing, serviceKey};
+  // Reset payment method
+  selectPayment('usd');
+  document.getElementById('cart-overlay').classList.add('open');
+}
+function closeCart(){document.getElementById('cart-overlay').classList.remove('open');}
+function selectPayment(method){
+  window._cartPayment = method;
+  document.getElementById('pay-usd').classList.toggle('pay-sel', method==='usd');
+  document.getElementById('pay-crypto').classList.toggle('pay-sel', method==='crypto');
+  document.getElementById('cart-crypto-note').style.display = method==='crypto'?'block':'none';
+  document.getElementById('cart-usd-note').style.display = method==='usd'?'block':'none';
+  const btn = document.getElementById('cart-pay-btn');
+  if(method==='usd'){
+    btn.innerHTML='<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pay with Card / USD';
+  } else {
+    btn.innerHTML='<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97"/></svg> Pay with Crypto';
+  }
+}
+async function confirmPayment(){
+  if(!window._cartItem)return;
+  const {name,price,billing,serviceKey} = window._cartItem;
+  const method = window._cartPayment||'usd';
+  const btn = document.getElementById('cart-pay-btn');
+  btn.disabled=true; btn.textContent='Processing...';
+  if(method==='usd'){
+    // Redirect to Redotpay
+    window.open('https://pay.redotpay.com/pay/1899721816?amount='+price+'&currency=USD&note='+encodeURIComponent(name),'_blank');
+  } else {
+    // Crypto via Redotpay
+    window.open('https://pay.redotpay.com/pay/1899721816?amount='+price+'&currency=USDT&note='+encodeURIComponent(name),'_blank');
+  }
+  // Save order to Supabase
+  await sb.from('orders').insert({
+    user_id:CU.id,
+    customer_email:CU.email,
+    items:name,
+    total:price,
+    type:billing==='bundle'?'bundle':'plan',
+    payment_method:method,
+    status:'pending',
+    created_at:new Date().toISOString()
+  });
+  btn.disabled=false;
+  closeCart();
+  showToast('&#127881;','Order Placed!','Complete payment in the new tab. We\'ll activate your service within 24hrs.');
 }
 
 // ── BUY PLAN ─────────────────────────────────────────
-async function buyPlan(name,price){
-  if(!CU){openAuth();return}
-  await sb.from('orders').insert({user_id:CU.id,customer_email:CU.email,items:name,total:parseInt(price.replace(/[^0-9]/g,'')),type:'plan',status:'pending',created_at:new Date().toISOString()});
-  showToast('&#10003;',name+' Selected','We\'ll reach out shortly. Price: '+price);
+function buyPlan(name,price){
+  openCart(name, parseInt(String(price).replace(/[^0-9]/g,'')), 'one-time', '');
 }
 
 // ── CONTACT FORM ─────────────────────────────────────
@@ -1198,14 +1375,14 @@ async function loadUserDashboard(){
   const openTkts=(tickets||[]).filter(t=>t.status==='open').length;
   document.getElementById('ds-orders').innerHTML=`<span>${total}</span>`;
   document.getElementById('ds-pending').innerHTML=`<span>${pending}</span>`;
-  document.getElementById('ds-spent').innerHTML=`&#163;<span>${spent.toLocaleString()}</span>`;
+  document.getElementById('ds-spent').innerHTML=`$<span>${spent.toLocaleString()}</span>`;
   document.getElementById('ds-tickets').innerHTML=`<span>${openTkts}</span>`;
   const ro=document.getElementById('dash-recent-orders');
   if(ro){
     if(!orders?.length){
       ro.innerHTML='<div style="color:var(--g4);font-size:.84rem;padding:8px 0;font-weight:300">No orders yet. <a onclick="nav(\'pricing\')" style="color:var(--red);cursor:pointer">Browse plans &#8594;</a></div>';
     } else {
-      ro.innerHTML=orders.slice(0,3).map(o=>`<div class="projitem"><div><div class="projnm">${esc(o.items||'Order')}</div><div class="projtype">&#163;${(o.total||0).toLocaleString()} &middot; ${fmtDate(o.created_at)}</div></div><span class="pbdg ${o.status==='completed'?'live':o.status==='pending'?'prog':'rev2'}">${esc(o.status)}</span></div>`).join('');
+      ro.innerHTML=orders.slice(0,3).map(o=>`<div class="projitem"><div><div class="projnm">${esc(o.items||'Order')}</div><div class="projtype">$${(o.total||0).toLocaleString()} &middot; ${fmtDate(o.created_at)}</div></div><span class="pbdg ${o.status==='completed'?'live':o.status==='pending'?'prog':'rev2'}">${esc(o.status)}</span></div>`).join('');
     }
   }
   const rt=document.getElementById('dash-recent-tickets');
@@ -1231,7 +1408,7 @@ async function loadUserOrders(){
     return;
   }
   el.innerHTML='<table class="invtbl"><thead><tr><th>Service / Bundle</th><th>Amount</th><th>Type</th><th>Status</th><th>Date</th></tr></thead><tbody>'+
-    orders.map(o=>`<tr><td><b>${esc(o.items||'—')}</b></td><td>&#163;${(o.total||0).toLocaleString()}</td><td><span style="font-size:.72rem;color:var(--g4)">${esc(o.type||'—')}</span></td><td><span class="pbdg ${o.status==='completed'?'live':o.status==='pending'?'prog':'rev2'}">${esc(o.status)}</span></td><td style="font-size:.78rem;color:var(--g4)">${fmtDate(o.created_at)}</td></tr>`).join('')+
+    orders.map(o=>`<tr><td><b>${esc(o.items||'—')}</b></td><td>$${(o.total||0).toLocaleString()}</td><td><span style="font-size:.72rem;color:var(--g4)">${esc(o.type||'—')}</span></td><td><span class="pbdg ${o.status==='completed'?'live':o.status==='pending'?'prog':'rev2'}">${esc(o.status)}</span></td><td style="font-size:.78rem;color:var(--g4)">${fmtDate(o.created_at)}</td></tr>`).join('')+
     '</tbody></table>';
 }
 
@@ -1341,34 +1518,34 @@ function getBotReply(txt){
   if(has('website','web design','web dev','site')){
     const plans=CATALOGUE.products.filter(p=>p.service_key==='web');
     if(plans.length){
-      const list=plans.map(p=>`**${p.name}** — \u00A3${Number(p.price).toLocaleString()} (${p.billing})`).join('\n');
+      const list=plans.map(p=>`**${p.name}** — $${Number(p.price).toLocaleString()} (${p.billing})`).join('\n');
       return `Our **Website Design & Development** plans:\n\n${list}\n\nAll include mobile-responsive design, SEO setup, and post-launch support. Want to know more about a specific plan?`;
     }
-    return `We offer **Website Design & Development** starting from \u00A3499 for a Starter site up to \u00A33,999 for a full Enterprise build. Head to our Pricing page to see all options!`;
+    return `We offer **Website Design & Development** starting from $499 for a Starter site up to $3,999 for a full Enterprise build. Head to our Pricing page to see all options!`;
   }
   if(has('seo','search engine','ranking','keyword','organic')){
     const plans=CATALOGUE.products.filter(p=>p.service_key==='seo');
     if(plans.length){
-      const list=plans.map(p=>`**${p.name}** — \u00A3${Number(p.price).toLocaleString()}/mo`).join('\n');
+      const list=plans.map(p=>`**${p.name}** — $${Number(p.price).toLocaleString()}/mo`).join('\n');
       return `Our **SEO Management** plans:\n\n${list}\n\nAll plans include keyword tracking, on-page optimisation, and monthly reporting. Most clients see measurable results within 90 days. Interested in a specific tier?`;
     }
-    return `Our **SEO Management** starts at \u00A3299/mo for the Basic plan and goes up to \u00A31,299/mo for our Pro tier with dedicated management. Want the full breakdown?`;
+    return `Our **SEO Management** starts at $299/mo for the Basic plan and goes up to $1,299/mo for our Pro tier with dedicated management. Want the full breakdown?`;
   }
   if(has('social','instagram','tiktok','facebook','twitter','content','post')){
     const plans=CATALOGUE.products.filter(p=>p.service_key==='social');
     if(plans.length){
-      const list=plans.map(p=>`**${p.name}** — \u00A3${Number(p.price).toLocaleString()}/mo`).join('\n');
+      const list=plans.map(p=>`**${p.name}** — $${Number(p.price).toLocaleString()}/mo`).join('\n');
       return `Our **Social Media Marketing** plans:\n\n${list}\n\nWe handle content creation, scheduling, paid ads, and community management so you can focus on running your business. Which platform are you most focused on?`;
     }
-    return `Our **Social Media** plans start at \u00A3399/mo (Starter) up to \u00A31,799/mo (Premium with influencer campaigns). Want details?`;
+    return `Our **Social Media** plans start at $399/mo (Starter) up to $1,799/mo (Premium with influencer campaigns). Want details?`;
   }
   if(has('data','database','analytics','pipeline','etl','dashboard')){
     const plans=CATALOGUE.products.filter(p=>p.service_key==='data');
     if(plans.length){
-      const list=plans.map(p=>`**${p.name}** — \u00A3${Number(p.price).toLocaleString()}/mo`).join('\n');
+      const list=plans.map(p=>`**${p.name}** — $${Number(p.price).toLocaleString()}/mo`).join('\n');
       return `Our **Data Management** plans:\n\n${list}\n\nFrom database architecture to full BI dashboards — we build the infrastructure your business needs to scale. What's your current data challenge?`;
     }
-    return `Our **Data Management** plans run from \u00A3599/mo to \u00A32,499/mo. We handle everything from database setup to custom analytics dashboards.`;
+    return `Our **Data Management** plans run from $599/mo to $2,499/mo. We handle everything from database setup to custom analytics dashboards.`;
   }
 
   // General pricing
@@ -1380,11 +1557,11 @@ function getBotReply(txt){
         const min=Math.min(...ps.map(p=>p.price));
         const max=Math.max(...ps.map(p=>p.price));
         const billing=ps[0]?.billing==='monthly'?'/mo':' one-time';
-        return `**${ps[0]?.service_name||k}**: from \u00A3${min.toLocaleString()}${billing}`;
+        return `**${ps[0]?.service_name||k}**: from $${min.toLocaleString()}${billing}`;
       }).join('\n');
       return `Here's a quick pricing summary:\n\n${summary}\n\nWe also offer a **10% discount** when you bundle multiple services together. Head to our **Pricing** page for full details, or ask me about a specific service!`;
     }
-    return `Our pricing starts from **\u00A3299/mo** for SEO, **\u00A3399/mo** for Social Media, **\u00A3499** one-time for a Starter website, and **\u00A3599/mo** for Data Management. We also offer **10% off** on multi-service bundles!`;
+    return `Our pricing starts from **$299/mo** for SEO, **$399/mo** for Social Media, **$499** one-time for a Starter website, and **$599/mo** for Data Management. We also offer **10% off** on multi-service bundles!`;
   }
 
   // Bundle
