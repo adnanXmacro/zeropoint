@@ -211,6 +211,18 @@ h1.hh em{font-style:normal;color:var(--red)}
 .pfl{list-style:none;margin-bottom:28px;display:flex;flex-direction:column;gap:10px}
 .pfl li{display:flex;align-items:center;gap:9px;font-size:.875rem;color:var(--g2)}
 .pfl li .ck{color:var(--red);font-size:.75rem;flex-shrink:0}
+/* SPONSORSHIP TOGGLE */
+.spons-toggle{background:rgba(229,9,20,.04);border:1px solid rgba(229,9,20,.18);border-radius:10px;padding:12px 14px;margin-bottom:14px}
+.spons-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.spons-ttl{font-size:.8rem;font-weight:700;color:#fff;margin-bottom:2px;font-family:var(--fd)}
+.spons-sub{font-size:.68rem;color:var(--g4);font-weight:300;line-height:1.4}
+.spons-saving{font-size:.7rem;color:#4ade80;font-weight:700;margin-top:8px;letter-spacing:.02em}
+.spons-sw{position:relative;width:40px;height:22px;flex-shrink:0;cursor:pointer}
+.spons-sw input{opacity:0;width:0;height:0;position:absolute}
+.spons-thumb{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:100px;transition:.25s;border:1px solid rgba(255,255,255,.1)}
+.spons-thumb::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.spons-sw input:checked+.spons-thumb{background:var(--red);border-color:var(--red)}
+.spons-sw input:checked+.spons-thumb::after{transform:translateX(18px)}
 .pfl li.dim{color:var(--g6)}
 .pfl li.dim .ck{color:var(--g6)}
 .btnpc{width:100%;padding:12px;border-radius:8px;font-size:.875rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--fb);border:1px solid var(--glb);background:var(--gl);color:#fff}
@@ -525,6 +537,52 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
 .pay-txn-submit{width:100%;padding:14px;background:var(--red);border:none;border-radius:12px;color:#fff;font-family:var(--fd);font-size:.95rem;font-weight:800;cursor:pointer;transition:all .2s}
 .pay-txn-submit:hover{background:var(--rd);transform:translateY(-1px)}
 .pay-txn-submit:disabled{opacity:.4;cursor:not-allowed;transform:none}
+/* SERVERS PAGE */
+.srv-live-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:28px}
+.srv-live-item{background:var(--gl);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:16px 18px}
+.srv-live-lbl{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g6);margin-bottom:6px}
+.srv-live-val{font-family:var(--fd);font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.02em}
+.srv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-bottom:8px}
+.srv-grid-sm{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.srv-card{background:var(--gl);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:22px;position:relative;overflow:hidden;transition:border-color .3s}
+.srv-card.online{border-color:rgba(74,222,128,.2)}
+.srv-card.degraded{border-color:rgba(251,191,36,.25)}
+.srv-card.maintenance{border-color:rgba(96,165,250,.2)}
+.srv-card.offline{border-color:rgba(239,68,68,.2)}
+.srv-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.srv-flag{font-size:1.5rem;line-height:1}
+.srv-status-badge{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:100px}
+.srv-status-badge.online{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.25)}
+.srv-status-badge.degraded{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.25)}
+.srv-status-badge.maintenance{background:rgba(96,165,250,.12);color:#60a5fa;border:1px solid rgba(96,165,250,.25)}
+.srv-status-badge.offline{background:rgba(239,68,68,.12);color:#f87171;border:1px solid rgba(239,68,68,.25)}
+.srv-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.srv-dot.online{background:#4ade80;box-shadow:0 0 6px #4ade80}
+.srv-dot.degraded{background:#fbbf24}
+.srv-dot.maintenance{background:#60a5fa}
+.srv-dot.offline{background:#f87171}
+.srv-name{font-family:var(--fd);font-size:1rem;font-weight:700;margin-bottom:2px}
+.srv-loc{font-size:.72rem;color:var(--g4);font-weight:300;margin-bottom:14px}
+.srv-type-badge{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(229,9,20,.12);color:var(--red);border:1px solid rgba(229,9,20,.2);padding:2px 8px;border-radius:100px;margin-bottom:14px}
+.srv-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.srv-metric{background:rgba(255,255,255,.03);border-radius:8px;padding:8px 10px;text-align:center}
+.srv-metric-lbl{font-size:.58rem;color:var(--g6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;font-weight:700}
+.srv-metric-val{font-size:.85rem;font-weight:700;font-family:var(--fd)}
+.srv-ping-bar{margin-top:14px}
+.srv-ping-lbl{display:flex;justify-content:space-between;font-size:.62rem;color:var(--g6);margin-bottom:4px}
+.srv-ping-bg{height:4px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden}
+.srv-ping-fill{height:100%;border-radius:100px;transition:width 1s ease}
+.srv-ping-fill.online{background:linear-gradient(90deg,#4ade80,#22d3ee)}
+.srv-ping-fill.degraded{background:#fbbf24}
+.srv-ping-fill.maintenance{background:#60a5fa}
+.srv-ping-fill.offline{background:#f87171}
+.srv-load-bar-row{margin-bottom:12px}
+.srv-load-bar-lbl{display:flex;justify-content:space-between;font-size:.75rem;margin-bottom:5px;color:var(--g2)}
+.srv-load-bar-bg{height:6px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden}
+.srv-load-bar-fill{height:100%;border-radius:100px;transition:width .8s ease}
+.srv-legend{display:flex;gap:20px;margin-top:24px;flex-wrap:wrap}
+.srv-leg-item{display:flex;align-items:center;gap:7px;font-size:.75rem;color:var(--g4)}
+@keyframes srvpulse{0%,100%{opacity:1}50%{opacity:.4}}
 </style>
 </head>
 <body>
@@ -570,6 +628,7 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
     <li><a onclick="nav('pricing')" data-p="pricing">Pricing</a></li>
     <li><a onclick="nav('about')" data-p="about">About</a></li>
     <li><a onclick="nav('contact')" data-p="contact">Contact</a></li>
+    <li><a onclick="nav('servers')" data-p="servers">Servers</a></li>
   </ul>
   <div id="nav-right"><button class="ncta" onclick="openAuth()">Get Started</button></div>
   <button class="hmbg" onclick="toggleMob()"><span></span><span></span><span></span></button>
@@ -580,6 +639,7 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
   <a onclick="nav('pricing');toggleMob()">Pricing</a>
   <a onclick="nav('about');toggleMob()">About</a>
   <a onclick="nav('contact');toggleMob()">Contact</a>
+  <a onclick="nav('servers');toggleMob()">Servers</a>
   <a onclick="openAuth();toggleMob()">Get Started &#8594;</a>
 </div>
 
@@ -596,7 +656,9 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
       <div class="hero-stats">
         <div><span class="hstat-n"><span class="cnt" data-t="200">0</span><span>+</span></span><span class="hstat-l">Projects Delivered</span></div>
         <div class="hstat-div"></div>
-        <div><span class="hstat-n"><span class="cnt" data-t="150">0</span><span>+</span></span><span class="hstat-l">Clients Worldwide</span></div>
+        <div><span class="hstat-n"><span id="live-clients">0</span><span>+</span></span><span class="hstat-l">Active Clients</span></div>
+        <div class="hstat-div"></div>
+        <div><span class="hstat-n"><span id="live-traffic">0</span><span>K</span></span><span class="hstat-l">Monthly Visits</span></div>
         <div class="hstat-div"></div>
         <div><span class="hstat-n"><span class="cnt" data-t="99">0</span><span>%</span></span><span class="hstat-l">Satisfaction Rate</span></div>
       </div>
@@ -1010,6 +1072,48 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
   <div class="chatft"><div class="chatinpw"><textarea class="chatinp" id="chatinp" placeholder="Ask ZeroBot anything..." rows="1" onkeydown="chatKey(event)"></textarea></div><button class="chatsend" id="chatsend" onclick="sendMsg()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
 </div>
 
+<!-- SERVERS PAGE -->
+<div class="page" id="page-servers">
+  <div class="ph"><div class="wrap"><span class="slbl" style="text-align:center;display:block">Infrastructure</span><h1>Global <span style="color:var(--red)">Server Network</span></h1><p>Real-time status of our worldwide infrastructure</p></div></div>
+  <section class="sec" style="padding-top:0;padding-bottom:110px">
+    <div class="wrap">
+      <!-- Live bar -->
+      <div class="srv-live-bar rev">
+        <div class="srv-live-item"><div class="srv-live-lbl">Network Uptime</div><div class="srv-live-val" id="srv-uptime">99.98%</div></div>
+        <div class="srv-live-item"><div class="srv-live-lbl">Avg Response</div><div class="srv-live-val" id="srv-resp">0ms</div></div>
+        <div class="srv-live-item"><div class="srv-live-lbl">Active Requests</div><div class="srv-live-val" id="srv-req">0/s</div></div>
+        <div class="srv-live-item"><div class="srv-live-lbl">Total Bandwidth</div><div class="srv-live-val" id="srv-bw">0 GB/s</div></div>
+        <div class="srv-live-item"><div class="srv-live-lbl">CDN Nodes</div><div class="srv-live-val">8 Online</div></div>
+      </div>
+
+      <!-- Server load bar -->
+      <div class="dw rev" style="margin-bottom:28px">
+        <div class="dwttl" style="font-family:var(--fd);font-size:.95rem;font-weight:700;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between">
+          Live Network Load
+          <span style="font-size:.68rem;color:var(--g4);font-weight:400;display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;background:#4ade80;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>Live</span>
+        </div>
+        <div id="srv-load-bars"></div>
+      </div>
+
+      <!-- MAIN SERVERS -->
+      <div class="slbl" style="margin-bottom:16px">Primary Servers</div>
+      <div class="srv-grid rev" id="srv-main-grid"></div>
+
+      <!-- CACHE SERVERS -->
+      <div class="slbl" style="margin-top:36px;margin-bottom:16px">Cache &amp; Edge Servers</div>
+      <div class="srv-grid srv-grid-sm rev" id="srv-cache-grid"></div>
+
+      <!-- LEGEND -->
+      <div class="srv-legend rev">
+        <div class="srv-leg-item"><span class="srv-dot online"></span>Online</div>
+        <div class="srv-leg-item"><span class="srv-dot degraded"></span>Degraded</div>
+        <div class="srv-leg-item"><span class="srv-dot maintenance"></span>Maintenance</div>
+        <div class="srv-leg-item"><span class="srv-dot offline"></span>Offline</div>
+      </div>
+    </div>
+  </section>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
@@ -1181,6 +1285,7 @@ function nav(pg){
   document.querySelector('footer').style.display=pg==='dashboard'?'none':'block';
   setTimeout(initReveal,80);
   if(pg==='home')runCounters();
+  if(pg==='servers')renderServersPage();
   if(pg==='dashboard'&&CU){
     const nm=(CU.user_metadata?.full_name||CU.full_name||'').split(' ')[0]||'there';
     const h=new Date().getHours();
@@ -1340,14 +1445,47 @@ function renderPricingPage(){
 function buildPlanCard(p){
   const feats=(p.features||'').split('\n').filter(Boolean);
   const billing=p.billing==='one-time'?' one-time':'/mo';
+  const isWeb=p.service_key==='web';
+  const uid='spons-'+Math.random().toString(36).slice(2,7);
+  const discPrice=Math.round(p.price*0.98);
+  const sponsHTML=isWeb?`
+    <div class="spons-toggle" id="wrap-${uid}">
+      <div class="spons-row">
+        <div class="spons-left">
+          <div class="spons-ttl">ZeroPoint Sponsorship</div>
+          <div class="spons-sub">We add our signature to your site footer — you save 2%</div>
+        </div>
+        <label class="spons-sw">
+          <input type="checkbox" id="${uid}" onchange="toggleSpons('${uid}',${p.price},${discPrice})" />
+          <span class="spons-thumb"></span>
+        </label>
+      </div>
+      <div class="spons-saving" id="saving-${uid}" style="display:none">&#10022; You save $${(p.price-discPrice).toLocaleString()} with sponsorship</div>
+    </div>`:'';
   return `<div class="pcard${p.featured?' feat':''}">
     ${p.featured?'<div class="pbadge">Most Popular</div>':''}
     <div class="ptier">${htmlEsc(p.name)}</div>
-    <div class="pprice">$${Number(p.price).toLocaleString()}<span>${billing}</span></div>
+    <div class="pprice" id="price-${uid}">$${Number(p.price).toLocaleString()}<span>${billing}</span></div>
     <div class="pdesc">${htmlEsc(p.description||'')}</div>
     <ul class="pfl">${feats.map(f=>`<li><span class="ck">&#10004;</span>${htmlEsc(f)}</li>`).join('')}</ul>
-    <button class="btnpc${p.featured?' pr':''}" onclick="openCart('${htmlEsc(p.name)}',${p.price},'${htmlEsc(p.billing||'one-time')}','${htmlEsc(p.service_key||'')}')">Get Started</button>
+    ${sponsHTML}
+    <button class="btnpc${p.featured?' pr':''}" id="btn-${uid}" onclick="openCart('${htmlEsc(p.name)}',${p.price},'${htmlEsc(p.billing||'one-time')}','${htmlEsc(p.service_key||'')}')">Get Started</button>
   </div>`;
+}
+
+function toggleSpons(uid,fullPrice,discPrice){
+  const cb=document.getElementById(uid);
+  const on=cb.checked;
+  const priceEl=document.getElementById('price-'+uid);
+  const btnEl=document.getElementById('btn-'+uid);
+  const savEl=document.getElementById('saving-'+uid);
+  const p=on?discPrice:fullPrice;
+  priceEl.innerHTML='$'+p.toLocaleString()+(priceEl.innerHTML.includes('one-time')?' one-time':'/mo')+'<span>'+(priceEl.innerHTML.includes('one-time')?' one-time':'/mo')+'</span>';
+  // rebuild price display cleanly
+  const billing=priceEl.innerHTML.includes('one-time')?' one-time':'/mo';
+  priceEl.innerHTML='$'+Number(p).toLocaleString()+'<span>'+billing+'</span>';
+  btnEl.onclick=()=>openCart(btnEl.closest('.pcard').querySelector('.ptier').textContent+(on?' (Sponsored)':''),p,on?'one-time (sponsored)':'one-time','web');
+  if(savEl)savEl.style.display=on?'block':'none';
 }
 
 function htmlEsc(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML;}
@@ -1853,6 +1991,135 @@ function sendMsg(){
 function esc(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML}
 function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
 function mdR(t){return esc(t).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>')}
+
+// ── DYNAMIC LIVE STATS ──────────────────────────────────────────────────────
+function startLiveStats(){
+  // Active clients: slowly oscillates between 280–500
+  let clientBase = 340 + Math.floor(Math.random()*80);
+  let trafficBase = 18 + Math.floor(Math.random()*12);
+  function updateStats(){
+    // Drift clients by ±3 each tick, stay in 280–500
+    clientBase = Math.max(280, Math.min(500, clientBase + (Math.random()>0.5?1:-1)*Math.floor(Math.random()*4)));
+    trafficBase = Math.max(14, Math.min(38, trafficBase + (Math.random()>0.5?0.1:-0.1)*Math.random()*2));
+    const el = document.getElementById('live-clients');
+    const tel = document.getElementById('live-traffic');
+    if(el) el.textContent = clientBase;
+    if(tel) tel.textContent = trafficBase.toFixed(1);
+  }
+  // Animate from 0 on first load
+  const el=document.getElementById('live-clients');
+  const tel=document.getElementById('live-traffic');
+  if(el){let n=0;const t=setInterval(()=>{n=Math.min(n+8,clientBase);el.textContent=Math.floor(n);if(n>=clientBase){clearInterval(t);setInterval(updateStats,4000);}},30);}
+  if(tel){let n=0;const t=setInterval(()=>{n=Math.min(n+0.5,trafficBase);tel.textContent=n.toFixed(1);if(n>=trafficBase){clearInterval(t);}},40);}
+}
+addEventListener('load', startLiveStats);
+
+// ── SERVER DATA ─────────────────────────────────────────────────────────────
+const SERVERS = [
+  // MAIN
+  {id:'lon1',name:'ZP-LON-PRIMARY',loc:'London, United Kingdom',flag:'🇬🇧',type:'Primary',status:'online',cpu:38,ram:52,ping:12,uptime:'99.99%',load:38},
+  {id:'nyc1',name:'ZP-NYC-PRIMARY',loc:'New York, United States',flag:'🇺🇸',type:'Primary',status:'online',cpu:44,ram:61,ping:18,uptime:'99.97%',load:44},
+  // CACHE
+  {id:'ams1',name:'ZP-AMS-CACHE-01',loc:'Amsterdam, Netherlands',flag:'🇳🇱',type:'Cache',status:'online',cpu:22,ram:38,ping:8,uptime:'99.98%',load:22},
+  {id:'dxb1',name:'ZP-DXB-CACHE-02',loc:'Dubai, UAE',flag:'🇦🇪',type:'Cache',status:'online',cpu:29,ram:44,ping:22,uptime:'99.95%',load:29},
+  {id:'sgp1',name:'ZP-SGP-CACHE-03',loc:'Singapore',flag:'🇸🇬',type:'Cache',status:'online',cpu:31,ram:47,ping:28,uptime:'99.96%',load:31},
+  {id:'fra1',name:'ZP-FRA-CACHE-04',loc:'Frankfurt, Germany',flag:'🇩🇪',type:'Cache',status:'degraded',cpu:78,ram:82,ping:45,uptime:'98.72%',load:78},
+  {id:'syd1',name:'ZP-SYD-CACHE-05',loc:'Sydney, Australia',flag:'🇦🇺',type:'Cache',status:'online',cpu:18,ram:31,ping:35,uptime:'99.99%',load:18},
+  {id:'tok1',name:'ZP-TOK-CACHE-06',loc:'Tokyo, Japan',flag:'🇯🇵',type:'Cache',status:'maintenance',cpu:0,ram:0,ping:0,uptime:'—',load:0},
+  {id:'sao1',name:'ZP-SAO-CACHE-07',loc:'São Paulo, Brazil',flag:'🇧🇷',type:'Cache',status:'online',cpu:25,ram:40,ping:52,uptime:'99.91%',load:25},
+];
+
+let srvIntervals=[];
+
+function renderServersPage(){
+  const main=SERVERS.filter(s=>s.type==='Primary');
+  const cache=SERVERS.filter(s=>s.type==='Cache');
+  document.getElementById('srv-main-grid').innerHTML=main.map(s=>buildSrvCard(s,true)).join('');
+  document.getElementById('srv-cache-grid').innerHTML=cache.map(s=>buildSrvCard(s,false)).join('');
+  renderLoadBars();
+  startSrvLive();
+  updateSrvHeader();
+}
+
+function buildSrvCard(s, isMain){
+  const loadColor = s.load>70?'degraded':s.status;
+  const pingPct = s.status==='maintenance'?0:Math.min(100,Math.round((1-s.ping/120)*100));
+  return `<div class="srv-card ${s.status}" id="scard-${s.id}">
+    <div class="srv-card-top">
+      <span style="font-size:${isMain?'1.8rem':'1.4rem'}">${s.flag}</span>
+      <span class="srv-status-badge ${s.status}"><span class="srv-dot ${s.status}"></span>${s.status.charAt(0).toUpperCase()+s.status.slice(1)}</span>
+    </div>
+    <div class="srv-type-badge">${s.type} Server</div>
+    <div class="srv-name">${esc(s.name)}</div>
+    <div class="srv-loc">📍 ${esc(s.loc)}</div>
+    <div class="srv-metrics">
+      <div class="srv-metric"><div class="srv-metric-lbl">CPU</div><div class="srv-metric-val" id="scpu-${s.id}" style="color:${s.cpu>70?'#f87171':s.cpu>50?'#fbbf24':'#4ade80'}">${s.status==='maintenance'?'—':s.cpu+'%'}</div></div>
+      <div class="srv-metric"><div class="srv-metric-lbl">RAM</div><div class="srv-metric-val" id="sram-${s.id}" style="color:${s.ram>70?'#f87171':s.ram>50?'#fbbf24':'#4ade80'}">${s.status==='maintenance'?'—':s.ram+'%'}</div></div>
+      <div class="srv-metric"><div class="srv-metric-lbl">Ping</div><div class="srv-metric-val" id="sping-${s.id}" style="color:${s.ping>80?'#f87171':s.ping>40?'#fbbf24':'#4ade80'}">${s.status==='maintenance'?'—':s.ping+'ms'}</div></div>
+    </div>
+    <div class="srv-ping-bar">
+      <div class="srv-ping-lbl"><span>Load</span><span id="sload-${s.id}">${s.status==='maintenance'?'Maintenance':s.load+'%'}</span></div>
+      <div class="srv-ping-bg"><div class="srv-ping-fill ${loadColor}" id="sbar-${s.id}" style="width:${s.status==='maintenance'?0:s.load}%"></div></div>
+    </div>
+    <div style="margin-top:10px;font-size:.68rem;color:var(--g6)">Uptime: <b style="color:var(--g2)">${esc(s.uptime)}</b></div>
+  </div>`;
+}
+
+function renderLoadBars(){
+  const el=document.getElementById('srv-load-bars');
+  if(!el)return;
+  const zones=[
+    {label:'Europe (LON + AMS + FRA)',id:'zone-eu',val:58,color:'linear-gradient(90deg,#4ade80,#22d3ee)'},
+    {label:'Americas (NYC + SAO)',id:'zone-am',val:42,color:'linear-gradient(90deg,#f59e0b,#ef4444)'},
+    {label:'Asia-Pacific (SGP + TOK + SYD)',id:'zone-ap',val:26,color:'linear-gradient(90deg,#4ade80,#22d3ee)'},
+    {label:'Middle East (DXB)',id:'zone-me',val:31,color:'linear-gradient(90deg,#4ade80,#22d3ee)'},
+  ];
+  el.innerHTML=zones.map(z=>`
+    <div class="srv-load-bar-row">
+      <div class="srv-load-bar-lbl"><span>${esc(z.label)}</span><span id="${z.id}">—</span></div>
+      <div class="srv-load-bar-bg"><div class="srv-load-bar-fill" id="${z.id}-bar" style="width:0;background:${z.color}"></div></div>
+    </div>`).join('');
+  // Animate in
+  setTimeout(()=>{zones.forEach(z=>{const el2=document.getElementById(z.id+'-bar');if(el2)el2.style.width=z.val+'%';const lbl=document.getElementById(z.id);if(lbl)lbl.textContent=z.val+'%';});},200);
+}
+
+function updateSrvHeader(){
+  const r=document.getElementById('srv-resp');
+  const req=document.getElementById('srv-req');
+  const bw=document.getElementById('srv-bw');
+  if(r)r.textContent=Math.floor(8+Math.random()*12)+'ms';
+  if(req)req.textContent=Math.floor(180+Math.random()*120)+'/s';
+  if(bw)bw.textContent=(1.2+Math.random()*0.8).toFixed(2)+' GB/s';
+}
+
+function startSrvLive(){
+  srvIntervals.forEach(clearInterval);srvIntervals=[];
+  // Drift server metrics
+  const drifts={};
+  SERVERS.forEach(s=>{drifts[s.id]={cpu:s.cpu,ram:s.ram,ping:s.ping,load:s.load};});
+  const iv=setInterval(()=>{
+    SERVERS.forEach(s=>{
+      if(s.status==='maintenance'||s.status==='offline')return;
+      const d=drifts[s.id];
+      d.cpu=Math.max(5,Math.min(95,d.cpu+(Math.random()>0.5?1:-1)*Math.floor(Math.random()*4)));
+      d.ram=Math.max(10,Math.min(90,d.ram+(Math.random()>0.5?1:-1)*Math.floor(Math.random()*3)));
+      d.ping=Math.max(4,Math.min(120,d.ping+(Math.random()>0.5?1:-1)*Math.floor(Math.random()*5)));
+      d.load=Math.round((d.cpu+d.ram)/2);
+      const cpuEl=document.getElementById('scpu-'+s.id);
+      const ramEl=document.getElementById('sram-'+s.id);
+      const pingEl=document.getElementById('sping-'+s.id);
+      const loadEl=document.getElementById('sload-'+s.id);
+      const barEl=document.getElementById('sbar-'+s.id);
+      if(cpuEl){cpuEl.textContent=d.cpu+'%';cpuEl.style.color=d.cpu>70?'#f87171':d.cpu>50?'#fbbf24':'#4ade80';}
+      if(ramEl){ramEl.textContent=d.ram+'%';ramEl.style.color=d.ram>70?'#f87171':d.ram>50?'#fbbf24':'#4ade80';}
+      if(pingEl){pingEl.textContent=d.ping+'ms';pingEl.style.color=d.ping>80?'#f87171':d.ping>40?'#fbbf24':'#4ade80';}
+      if(loadEl)loadEl.textContent=d.load+'%';
+      if(barEl)barEl.style.width=d.load+'%';
+    });
+    updateSrvHeader();
+  },3000);
+  srvIntervals.push(iv);
+}
 </script>
 </body>
 </html>
