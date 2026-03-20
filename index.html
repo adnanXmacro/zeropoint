@@ -41,7 +41,7 @@ a{color:inherit;text-decoration:none}
 @keyframes lp{from{width:0}to{width:100%}}
 .ldr-txt{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--g4)}
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(7,7,14,.75);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--glb)}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(7,7,14,.8);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid rgba(255,255,255,.06)}
 .nlogo{font-family:var(--fd);font-size:1.2rem;font-weight:800;letter-spacing:-.02em;color:var(--w);cursor:pointer;display:flex;align-items:center;gap:2px}
 .nlogo b{color:var(--red)}
 .nlinks{display:flex;align-items:center;gap:32px;list-style:none}
@@ -109,12 +109,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;display:flex;al
 /* SHARED */
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
 .sec{padding:90px 0}
-.slbl{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:10px;display:block}
+.slbl{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:10px;display:block;opacity:.85}
 .sttl{font-family:var(--fd);font-size:clamp(1.9rem,3.8vw,2.9rem);font-weight:700;line-height:1.15;letter-spacing:-.025em;margin-bottom:14px}
 .ssub{color:var(--g4);font-size:1rem;line-height:1.7;font-weight:300;max-width:500px}
 .shd{margin-bottom:56px}
-.gc{background:var(--gl);border:1px solid var(--glb);border-radius:16px;padding:32px;backdrop-filter:blur(14px);transition:background .3s,border-color .3s,transform .3s,box-shadow .3s;position:relative;overflow:hidden}
-.gc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+.gc{background:var(--gl);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:28px;transition:background .3s,border-color .3s,transform .3s,box-shadow .3s;position:relative;overflow:hidden}
 .gc:hover{background:var(--glh);border-color:rgba(229,9,20,.3);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 28px rgba(229,9,20,.1)}
 .btnp{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;padding:13px 26px;border-radius:8px;font-weight:600;font-size:.9rem;border:none;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 0 24px var(--glow);font-family:var(--fb)}
 .btnp:hover{background:var(--rd);transform:translateY(-2px);box-shadow:0 0 45px var(--glow)}
@@ -127,11 +126,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;display:flex;al
 .rev.vis{opacity:1;transform:none}
 /* HERO */
 .hero{min-height:100vh;display:flex;align-items:center;padding-top:68px;position:relative;overflow:hidden}
-.hbadge{display:inline-flex;align-items:center;gap:8px;background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.28);color:var(--red);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:26px;animation:fiu .6s ease forwards;opacity:0}
-.hbadge::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;animation:pulse 2s infinite}
-h1.hh{font-family:var(--fd);font-size:clamp(2.8rem,6.5vw,5.6rem);font-weight:800;line-height:1.0;letter-spacing:-.03em;margin-bottom:22px;animation:fiu .6s ease .1s forwards;opacity:0}
+
+h1.hh{font-family:var(--fd);font-size:clamp(2.6rem,6vw,5.2rem);font-weight:800;line-height:1.06;letter-spacing:-.035em;margin-bottom:20px;animation:fiu .6s ease .05s forwards;opacity:0}
 h1.hh em{font-style:normal;color:var(--red)}
-.hsub{font-size:1.1rem;color:var(--g4);line-height:1.7;max-width:500px;margin-bottom:38px;font-weight:300;animation:fiu .6s ease .2s forwards;opacity:0}
+.hsub{font-size:1rem;color:var(--g4);line-height:1.75;max-width:460px;margin-bottom:36px;font-weight:300;animation:fiu .6s ease .15s forwards;opacity:0}
 .hbtns{display:flex;gap:14px;flex-wrap:wrap;animation:fiu .6s ease .3s forwards;opacity:0}
 .fshp{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(229,9,20,.13),transparent 70%);animation:flt 7s ease-in-out infinite;pointer-events:none}
 @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
@@ -142,22 +140,26 @@ h1.hh em{font-style:normal;color:var(--red)}
 .sln{width:1px;height:38px;background:linear-gradient(to bottom,var(--red),transparent);animation:sline 1.6s ease-in-out infinite}
 @keyframes sline{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 /* HERO STATS */
-.hero-stats{display:flex;gap:48px;margin-top:52px;animation:fiu .6s ease .4s forwards;opacity:0}
+.hero-stats{display:flex;align-items:center;gap:36px;margin-top:52px;animation:fiu .6s ease .4s forwards;opacity:0;padding-top:32px;border-top:1px solid var(--glb)}
 .hstat-n{font-family:var(--fd);font-size:2.2rem;font-weight:800;letter-spacing:-.03em;display:block}
 .hstat-n span{color:var(--red)}
-.hstat-l{color:var(--g4);font-size:.8rem;font-weight:300;margin-top:2px;display:block}
+.hstat-l{color:var(--g4);font-size:.78rem;font-weight:300;margin-top:2px;display:block;letter-spacing:.02em}
+.hstat-div{width:1px;height:36px;background:var(--glb);flex-shrink:0}
 /* FEATURES with SVG icons */
-.fgg{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
-.ficard{display:flex;gap:16px;background:var(--gl);border:1px solid var(--glb);border-radius:14px;padding:24px;transition:background .3s,border-color .3s,transform .3s}
-.ficard:hover{background:var(--glh);border-color:rgba(229,9,20,.22);transform:translateY(-3px)}
-.fiico{width:44px;height:44px;background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.2);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.fiico svg{width:20px;height:20px;stroke:var(--red);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.fittl{font-family:var(--fd);font-weight:700;margin-bottom:5px;font-size:.95rem}
+.fgg{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.ficard{display:flex;gap:18px;background:none;border:none;border-radius:0;padding:22px 24px 22px 0;border-bottom:1px solid rgba(255,255,255,.06);transition:opacity .2s}
+.ficard:nth-child(odd){border-right:1px solid rgba(255,255,255,.06);padding-right:32px}
+.ficard:nth-child(even){padding-left:32px;padding-right:0}
+.ficard:last-child,.ficard:nth-last-child(2):nth-child(odd){border-bottom:none}
+.ficard:hover{opacity:.75}
+.fiico{width:40px;height:40px;background:none;border:none;border-radius:0;display:flex;align-items:flex-start;justify-content:center;flex-shrink:0;padding-top:2px}
+.fiico svg{width:18px;height:18px;stroke:var(--red);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fittl{font-family:var(--fd);font-weight:700;margin-bottom:4px;font-size:.9rem;letter-spacing:-.01em}
 .fidsc{color:var(--g4);font-size:.84rem;line-height:1.6;font-weight:300}
 /* TESTIMONIALS */
 .tslid{overflow:hidden}
 .ttrk{display:flex;gap:22px;transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
-.tc{min-width:calc(50% - 11px);background:var(--gl);border:1px solid var(--glb);border-radius:16px;padding:32px;backdrop-filter:blur(12px);flex-shrink:0}
+.tc{min-width:calc(50% - 11px);background:none;border:1px solid var(--glb);border-radius:16px;padding:28px;flex-shrink:0}
 .tcst{color:#FFB800;font-size:.85rem;margin-bottom:14px}
 .tctx{color:var(--g2);font-size:.95rem;line-height:1.75;font-weight:300;margin-bottom:22px;font-style:italic}
 .tcau{display:flex;align-items:center;gap:11px}
@@ -168,7 +170,7 @@ h1.hh em{font-style:normal;color:var(--red)}
 .slbtn{width:42px;height:42px;border-radius:50%;border:1px solid var(--glb);background:var(--gl);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,border-color .2s;font-size:.95rem}
 .slbtn:hover{background:var(--red);border-color:var(--red)}
 /* CTA */
-.ctaban{background:linear-gradient(135deg,var(--red) 0%,#900510 100%);border-radius:20px;padding:76px 56px;text-align:center;position:relative;overflow:hidden}
+.ctaban{background:linear-gradient(135deg,rgba(229,9,20,.9) 0%,#7a030d 100%);border-radius:18px;padding:64px 52px;text-align:center;position:relative;overflow:hidden;border:1px solid rgba(229,9,20,.25)}
 .ctaban::before{content:'';position:absolute;top:-60%;left:-60%;width:220%;height:220%;background:radial-gradient(circle,rgba(255,255,255,.07),transparent 50%)}
 .ctaban h2{font-family:var(--fd);font-size:clamp(1.8rem,3.8vw,2.8rem);font-weight:800;letter-spacing:-.025em;margin-bottom:14px;position:relative}
 .ctaban p{font-size:1.05rem;opacity:.82;margin-bottom:32px;font-weight:300;position:relative}
@@ -178,7 +180,7 @@ h1.hh em{font-style:normal;color:var(--red)}
 .ph p{color:var(--g4);font-size:1.05rem;font-weight:300}
 /* SERVICES PAGE */
 .sdg{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:26px}
-.sdc{background:var(--gl);border:1px solid var(--glb);border-radius:20px;padding:36px;backdrop-filter:blur(14px);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;cursor:pointer}
+.sdc{background:var(--gl);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:32px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;cursor:pointer}
 .sdc::after{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(circle at 75% 20%,rgba(229,9,20,.07),transparent 60%);opacity:0;transition:opacity .3s}
 .sdc:hover{transform:translateY(-8px);box-shadow:0 30px 80px rgba(0,0,0,.4),0 0 40px rgba(229,9,20,.1);border-color:rgba(229,9,20,.38)}
 .sdc:hover::after{opacity:1}
@@ -197,10 +199,10 @@ h1.hh em{font-style:normal;color:var(--red)}
 .ptab.on{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 0 20px var(--glow)}
 .ppnl{display:none}.ppnl.on{display:block}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:22px}
-.pcard{background:var(--gl);border:1px solid var(--glb);border-radius:20px;padding:36px 32px;backdrop-filter:blur(14px);position:relative;transition:transform .3s,box-shadow .3s}
+.pcard{background:var(--gl);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:32px 28px;position:relative;transition:transform .3s,box-shadow .3s}
 .pcard:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.4)}
 .pcard.feat{border-color:var(--red);box-shadow:0 0 40px rgba(229,9,20,.18);animation:fglo 3s ease-in-out infinite}
-@keyframes fglo{0%,100%{box-shadow:0 0 40px rgba(229,9,20,.18)}50%{box-shadow:0 0 60px rgba(229,9,20,.32)}}
+@keyframes fglo{0%,100%{box-shadow:0 0 28px rgba(229,9,20,.12)}50%{box-shadow:0 0 44px rgba(229,9,20,.22)}}
 .pbadge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 13px;border-radius:100px;white-space:nowrap}
 .ptier{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:7px}
 .pprice{font-family:var(--fd);font-size:2.8rem;font-weight:800;letter-spacing:-.03em;margin-bottom:3px}
@@ -440,41 +442,41 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
   .hero-stats{flex-wrap:wrap;gap:20px}
 }
 /* CART MODAL */
-#cart-overlay{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.82);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+#cart-overlay{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.88);backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 #cart-overlay.open{opacity:1;visibility:visible}
-.cart-modal{background:var(--dk2);border:1.5px solid var(--glb);border-radius:22px;width:100%;max-width:460px;overflow:hidden;position:relative}
-.cart-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),#ff6b35,transparent)}
-.cart-hd{padding:26px 28px 20px;border-bottom:1px solid var(--glb)}
-.cart-hd-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.cart-hd-ttl{font-family:var(--fd);font-size:1.2rem;font-weight:800}
-.cart-close{background:none;border:none;color:var(--g4);cursor:pointer;font-size:1.2rem;transition:color .2s;padding:4px;line-height:1}
-.cart-close:hover{color:#fff}
-.cart-item{background:rgba(255,255,255,.04);border:1px solid var(--glb);border-radius:12px;padding:16px;display:flex;justify-content:space-between;align-items:center}
-.cart-item-name{font-weight:700;font-size:.95rem;font-family:var(--fd);margin-bottom:3px}
-.cart-item-sub{font-size:.75rem;color:var(--g4);font-weight:300}
-.cart-item-price{font-family:var(--fd);font-size:1.4rem;font-weight:800;color:var(--red)}
-.cart-body{padding:22px 28px}
-.cart-section-lbl{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g4);margin-bottom:12px}
-.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.pay-opt{background:rgba(255,255,255,.04);border:1.5px solid var(--glb);border-radius:12px;padding:14px;cursor:pointer;transition:all .22s;text-align:center}
-.pay-opt:hover{border-color:rgba(229,9,20,.3);background:rgba(229,9,20,.04)}
-.pay-opt.pay-sel{border-color:var(--red);background:rgba(229,9,20,.08);box-shadow:0 0 16px rgba(229,9,20,.12)}
-.pay-opt-ico{font-size:1.5rem;margin-bottom:6px}
-.pay-opt-name{font-weight:700;font-size:.84rem;font-family:var(--fd)}
-.pay-opt-sub{font-size:.68rem;color:var(--g4);margin-top:2px;font-weight:300}
-.cart-note{border-radius:10px;padding:12px 14px;font-size:.78rem;line-height:1.6;margin-bottom:18px;display:none}
-.cart-note.crypto-note{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.22);color:var(--yellow)}
-.cart-note.usd-note{background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.22);color:var(--blue)}
-.cart-total-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid var(--glb);margin-bottom:16px}
-.cart-total-lbl{font-size:.84rem;color:var(--g4)}
-.cart-total-val{font-family:var(--fd);font-size:1.8rem;font-weight:800}
-.cart-pay-btn{width:100%;padding:15px;background:var(--red);border:none;border-radius:11px;color:#fff;font-family:var(--fd);font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 0 24px var(--glow);display:flex;align-items:center;justify-content:center;gap:9px}
-.cart-pay-btn:hover{background:var(--rd);transform:translateY(-2px);box-shadow:0 0 40px var(--glow)}
-.cart-pay-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.cart-secure{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;color:var(--g6);font-size:.68rem}
-.cart-powered{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:8px;color:var(--g6);font-size:.65rem}
-.cart-powered b{color:var(--g4)}
-@media(max-width:480px){.cart-modal{border-radius:18px 18px 0 0}.cart-hd,.cart-body{padding-left:20px;padding-right:20px}.pay-methods{grid-template-columns:1fr 1fr}}
+.cart-modal{background:#0d0d1a;border:1px solid rgba(255,255,255,.09);border-radius:20px;width:100%;max-width:440px;overflow:hidden;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.cart-modal::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+.cart-hd{padding:24px 26px 18px;border-bottom:1px solid rgba(255,255,255,.06)}
+.cart-hd-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cart-hd-ttl{font-family:var(--fd);font-size:1rem;font-weight:700;letter-spacing:-.01em;color:var(--g2)}
+.cart-close{background:rgba(255,255,255,.06);border:none;color:var(--g4);cursor:pointer;font-size:.9rem;transition:all .2s;padding:0;line-height:1;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.cart-close:hover{background:rgba(255,255,255,.1);color:#fff}
+.cart-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.cart-item-name{font-weight:700;font-size:.9rem;font-family:var(--fd);margin-bottom:2px;letter-spacing:-.01em}
+.cart-item-sub{font-size:.7rem;color:var(--g6);font-weight:300}
+.cart-item-price{font-family:var(--fd);font-size:1.3rem;font-weight:800;color:#fff;white-space:nowrap}
+.cart-body{padding:18px 26px 22px}
+.cart-section-lbl{font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--g6);margin-bottom:10px;display:block}
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.pay-opt{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;text-align:center}
+.pay-opt:hover{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.05)}
+.pay-opt.pay-sel{border-color:rgba(229,9,20,.5);background:rgba(229,9,20,.06)}
+.pay-opt-ico{font-size:1.3rem;margin-bottom:5px;display:block}
+.pay-opt-name{font-weight:700;font-size:.8rem;font-family:var(--fd);color:#fff}
+.pay-opt-sub{font-size:.62rem;color:var(--g6);margin-top:2px;font-weight:300}
+.cart-note{border-radius:8px;padding:10px 12px;font-size:.75rem;line-height:1.6;margin-bottom:14px;display:none}
+.cart-note.crypto-note{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.15);color:rgba(251,191,36,.9)}
+.cart-note.usd-note{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);color:var(--g4)}
+.cart-total-row{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-top:1px solid rgba(255,255,255,.06);margin-bottom:14px}
+.cart-total-lbl{font-size:.75rem;color:var(--g4);letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+.cart-total-val{font-family:var(--fd);font-size:2rem;font-weight:800;letter-spacing:-.03em}
+.cart-pay-btn{width:100%;padding:14px;background:var(--red);border:none;border-radius:10px;color:#fff;font-family:var(--fd);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .22s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.01em}
+.cart-pay-btn:hover{background:var(--rd);transform:translateY(-1px);box-shadow:0 8px 32px rgba(229,9,20,.3)}
+.cart-pay-btn:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.cart-secure{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:10px;color:var(--g6);font-size:.65rem;letter-spacing:.02em}
+.cart-powered{display:flex;align-items:center;justify-content:center;gap:4px;margin-top:5px;color:rgba(255,255,255,.18);font-size:.62rem}
+.cart-powered b{color:rgba(255,255,255,.28)}
+@media(max-width:480px){.cart-modal{border-radius:16px 16px 0 0;position:fixed;bottom:0;left:0;right:0;max-width:100%}#cart-overlay{align-items:flex-end;padding:0}.cart-hd,.cart-body{padding-left:20px;padding-right:20px}}
 /* PAY INSTRUCTIONS MODAL */
 #pay-inst-overlay{position:fixed;inset:0;z-index:9600;background:rgba(0,0,0,.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 #pay-inst-overlay.open{opacity:1;visibility:visible}
@@ -499,7 +501,7 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
 </head>
 <body>
 <div id="cur"></div><div id="curR"></div>
-<div id="ldr"><div class="ldr-logo">Zero<b>Point</b> LTD</div><div class="ldr-bar-w"><div class="ldr-bar"></div></div><div class="ldr-txt">Initialising systems...</div></div>
+<div id="ldr"><div class="ldr-logo">Zero<b>Point</b> LTD</div><div class="ldr-bar-w"><div class="ldr-bar"></div></div><div class="ldr-txt">Loading...</div></div>
 <canvas id="bgc"></canvas>
 <div class="toast" id="toast"><div id="t-ico" style="font-size:1.2rem"></div><div><div class="toasttxt" id="t-txt"></div><div class="toastsub" id="t-sub"></div></div></div>
 
@@ -557,31 +559,33 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
 <div class="page active" id="page-home">
   <section class="hero">
     <div class="wrap">
-      <div class="hbadge">Premium Digital Agency</div>
-      <h1 class="hh">Engineering<br><em>Digital Growth</em></h1>
-      <p class="hsub">We craft high-performance websites, data-driven SEO, and bold social campaigns that transform your digital presence — measurably.</p>
+      <h1 class="hh">We Engineer<br><em>Digital Growth</em></h1>
+      <p class="hsub">High-performance websites, data-driven SEO, and bold social campaigns — built to deliver measurable growth.</p>
       <div class="hbtns">
         <button class="btnp" onclick="openAuth()">Get Started &#8594;</button>
         <button class="btno" onclick="nav('services')">Our Services</button>
       </div>
       <div class="hero-stats">
         <div><span class="hstat-n"><span class="cnt" data-t="200">0</span><span>+</span></span><span class="hstat-l">Projects Delivered</span></div>
+        <div class="hstat-div"></div>
         <div><span class="hstat-n"><span class="cnt" data-t="150">0</span><span>+</span></span><span class="hstat-l">Clients Worldwide</span></div>
+        <div class="hstat-div"></div>
         <div><span class="hstat-n"><span class="cnt" data-t="99">0</span><span>%</span></span><span class="hstat-l">Satisfaction Rate</span></div>
       </div>
     </div>
     <div class="fshp" style="width:480px;height:480px;right:-180px;top:60px;animation-duration:8s"></div>
     <div class="fshp" style="width:280px;height:280px;left:-80px;bottom:80px;animation-duration:10s;animation-delay:-4s;opacity:.6"></div>
-    <div class="scrl"><div class="sln"></div>Scroll</div>
   </section>
 
   <!-- WHY US — SVG icons only -->
   <section class="sec">
     <div class="wrap">
-      <div class="shd rev">
-        <div class="slbl">Why ZeroPoint</div>
-        <h2 class="sttl">Built Different. Built Better.</h2>
-        <p class="ssub">We don't just deliver projects — we forge long-term partnerships anchored in performance and transparency.</p>
+      <div class="shd rev" style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap">
+        <div>
+          <div class="slbl">Why ZeroPoint</div>
+          <h2 class="sttl" style="margin-bottom:0">Built Different.<br>Built Better.</h2>
+        </div>
+        <p class="ssub" style="max-width:360px;margin-bottom:0;font-size:.9rem">We don't just deliver projects — we forge long-term partnerships anchored in performance and radical transparency.</p>
       </div>
       <div class="fgg">
         <div class="ficard rev">
@@ -1579,102 +1583,132 @@ document.getElementById('chatinp').addEventListener('input',function(){this.styl
 function getBotReply(txt){
   const q=txt.toLowerCase().trim();
   const has=(...words)=>words.some(w=>q.includes(w));
+  const hasAll=(...words)=>words.every(w=>q.includes(w));
+  const isQ=q.includes('?')||has('what','where','when','who','how','which','why','is','are','do','can','does');
 
-  // Pricing — specific services
-  if(has('website','web design','web dev','site')){
+  // ── GREETINGS (must be short messages, not part of longer questions) ──
+  if(q.length<25&&has('hello','hi','hey','yo','sup','hiya','howdy')){
+    const nm=CU?.user_metadata?.full_name?.split(' ')[0]||'there';
+    return `Hey ${nm}! 👋 Great to have you here.\n\nI'm **ZeroBot**, ZeroPoint's assistant. I can help you with:\n\n• Our services & pricing\n• How to get started\n• Company info\n• Support questions\n\nWhat would you like to know?`;
+  }
+
+  // ── HOW ARE YOU ──
+  if(has('how are you','how r you','you good','you okay')){
+    return `I'm doing great, thanks for asking! 😊 Always ready to help.\n\nWhat can I do for you today?`;
+  }
+
+  // ── LOCATION / WHERE ──
+  if(has('situated','located','where are','where is','location','country','city','based','headquarters','office','uk','london','england')){
+    return `ZeroPoint LTD is headquartered at **1 Canada Square, Canary Wharf, London, E14 5AB** in the United Kingdom. 🇬🇧\n\nWe also have team members across Amsterdam and Dubai, allowing us to serve clients globally across different time zones.\n\n**Office hours:** Mon–Fri, 9:00–18:00 GMT`;
+  }
+
+  // ── WHICH PLAN / RECOMMEND ──
+  if(has('which plan','which is better','which should','recommend','best plan','best for','right plan','suit','suitable','fits','good for me')){
+    return `Great question! The best plan really depends on your goals. Let me ask a few quick things:\n\n• Are you looking for a **website**, **SEO**, **social media**, or a **mix of services**?\n• What's your rough **monthly budget** — under $500, $500–$1,500, or $1,500+?\n• Are you a startup, small business, or established company?\n\nTell me a bit more and I'll point you to the perfect plan! 🎯`;
+  }
+
+  // ── SPECIFIC SERVICE PRICING ──
+  if(has('website','web design','web dev','site') && !has('social','seo')){
     const plans=CATALOGUE.products.filter(p=>p.service_key==='web');
     if(plans.length){
-      const list=plans.map(p=>`**${p.name}** — $${Number(p.price).toLocaleString()} (${p.billing})`).join('\n');
-      return `Our **Website Design & Development** plans:\n\n${list}\n\nAll include mobile-responsive design, SEO setup, and post-launch support. Want to know more about a specific plan?`;
+      const list=plans.map(p=>`**${p.name}** — $${Number(p.price).toLocaleString()} ${p.billing==='one-time'?'one-time':'/mo'}`).join('\n');
+      return `Our **Website Design & Development** plans:\n\n${list}\n\nAll plans include mobile-responsive design and post-launch support. The **Business** plan is our most popular. Want details on any specific tier?`;
     }
-    return `We offer **Website Design & Development** starting from $499 for a Starter site up to $3,999 for a full Enterprise build. Head to our Pricing page to see all options!`;
+    return `Our websites start from **$499** (Starter) up to **$3,999** (Enterprise). Head to the Pricing page or tell me your requirements and I'll suggest the right one!`;
   }
-  if(has('seo','search engine','ranking','keyword','organic')){
+
+  if(has('seo','search engine','ranking','keyword','organic traffic','google') && !has('social')){
     const plans=CATALOGUE.products.filter(p=>p.service_key==='seo');
     if(plans.length){
       const list=plans.map(p=>`**${p.name}** — $${Number(p.price).toLocaleString()}/mo`).join('\n');
-      return `Our **SEO Management** plans:\n\n${list}\n\nAll plans include keyword tracking, on-page optimisation, and monthly reporting. Most clients see measurable results within 90 days. Interested in a specific tier?`;
+      return `Our **SEO Management** plans:\n\n${list}\n\nMost clients see measurable ranking improvements within 90 days. The **Growth** plan is the sweet spot for most businesses. Want to know what's included in each?`;
     }
-    return `Our **SEO Management** starts at $299/mo for the Basic plan and goes up to $1,299/mo for our Pro tier with dedicated management. Want the full breakdown?`;
+    return `SEO starts at **$299/mo** (Basic) up to **$1,299/mo** (Pro with dedicated manager). Most clients see results within 90 days!`;
   }
-  if(has('social','instagram','tiktok','facebook','twitter','content','post')){
+
+  if(has('social','instagram','tiktok','facebook','twitter','linkedin','social media','content','posting')){
     const plans=CATALOGUE.products.filter(p=>p.service_key==='social');
     if(plans.length){
       const list=plans.map(p=>`**${p.name}** — $${Number(p.price).toLocaleString()}/mo`).join('\n');
-      return `Our **Social Media Marketing** plans:\n\n${list}\n\nWe handle content creation, scheduling, paid ads, and community management so you can focus on running your business. Which platform are you most focused on?`;
+      return `Our **Social Media Marketing** plans:\n\n${list}\n\nWe handle content creation, scheduling, paid ads, and community management. Which platform is most important for your business?`;
     }
-    return `Our **Social Media** plans start at $399/mo (Starter) up to $1,799/mo (Premium with influencer campaigns). Want details?`;
+    return `Social Media plans start from **$399/mo** (Starter) up to **$1,799/mo** (Premium). We cover all major platforms!`;
   }
-  if(has('data','database','analytics','pipeline','etl','dashboard')){
+
+  if(has('data','database','etl','pipeline','analytics','bi dashboard','data management')){
     const plans=CATALOGUE.products.filter(p=>p.service_key==='data');
     if(plans.length){
       const list=plans.map(p=>`**${p.name}** — $${Number(p.price).toLocaleString()}/mo`).join('\n');
-      return `Our **Data Management** plans:\n\n${list}\n\nFrom database architecture to full BI dashboards — we build the infrastructure your business needs to scale. What's your current data challenge?`;
+      return `Our **Data Management** plans:\n\n${list}\n\nFrom database architecture to full BI dashboards. What's your current data challenge?`;
     }
-    return `Our **Data Management** plans run from $599/mo to $2,499/mo. We handle everything from database setup to custom analytics dashboards.`;
+    return `Data Management plans run from **$599/mo** to **$2,499/mo**. We handle databases, ETL pipelines, and analytics dashboards!`;
   }
 
-  // General pricing
-  if(has('price','pricing','cost','how much','fee','charge','plan','package')){
+  // ── GENERAL PRICING (no specific service mentioned) ──
+  if(has('price','pricing','cost','how much','fee','charge','rates','expensive','cheap','affordable')){
     const cats=[...new Set(CATALOGUE.products.map(p=>p.service_key))];
     if(cats.length){
       const summary=cats.map(k=>{
         const ps=CATALOGUE.products.filter(p=>p.service_key===k);
         const min=Math.min(...ps.map(p=>p.price));
-        const max=Math.max(...ps.map(p=>p.price));
         const billing=ps[0]?.billing==='monthly'?'/mo':' one-time';
-        return `**${ps[0]?.service_name||k}**: from $${min.toLocaleString()}${billing}`;
+        return `**${k.charAt(0).toUpperCase()+k.slice(1)}**: from $${min.toLocaleString()}${billing}`;
       }).join('\n');
-      return `Here's a quick pricing summary:\n\n${summary}\n\nWe also offer a **10% discount** when you bundle multiple services together. Head to our **Pricing** page for full details, or ask me about a specific service!`;
+      return `Here's a quick overview of our starting prices:\n\n${summary}\n\n💡 Bundle multiple services and get **10% off**. Which service are you most interested in?`;
     }
-    return `Our pricing starts from **$299/mo** for SEO, **$399/mo** for Social Media, **$499** one-time for a Starter website, and **$599/mo** for Data Management. We also offer **10% off** on multi-service bundles!`;
+    return `Our services start from **$299/mo** for SEO, **$399/mo** for Social Media, **$499** one-time for a website, and **$599/mo** for Data Management.\n\n💡 Combine services for a **10% bundle discount**!`;
   }
 
-  // Bundle
-  if(has('bundle','combine','multiple','package','discount')){
-    return `Great question! Our **Custom Bundle** lets you combine any of our services — Website, SEO, Social Media, and Data Management — and you automatically get a **10% discount** on the total.\n\nHead to our **Pricing** page and click the **Custom Bundle** tab to build yours. Or tell me which services you're interested in and I'll give you an estimate!`;
+  // ── BUNDLE / COMBINE ──
+  if(has('bundle','combine','multiple service','package deal','discount','save money','cheaper together')){
+    return `Smart thinking! 💡 Our **Custom Bundle** lets you mix and match any of our services:\n\n• Website Design & Development\n• SEO Management\n• Social Media Marketing\n• Data Management\n\nWhen you add **2 or more services**, you automatically get a **10% discount** on the total.\n\nGo to **Pricing → Custom Bundle** to build yours, or tell me which services you want and I'll estimate the cost!`;
   }
 
-  // Services overview
-  if(has('service','what do you','what can you','offer','do you do','help with')){
-    return `ZeroPoint offers **4 core services**:\n\n**Website Design & Development** — from landing pages to full e-commerce\n**SEO Management** — get to page 1 on Google\n**Social Media Marketing** — grow your audience and brand\n**Data Management** — databases, pipelines & BI dashboards\n\nWhich one interests you most?`;
+  // ── PAYMENT ──
+  if(has('pay','payment','crypto','bitcoin','card','usd','invoice','checkout','how to pay','currency')){
+    return `We accept two payment methods:\n\n💳 **USD / Card** — via Redotpay (all major cards accepted)\n₿ **Crypto** — BTC, ETH, USDT, USDC and more via Redotpay\n\nFor crypto, the USD equivalent is calculated at the **live market rate within a 24-hour window**.\n\nTo pay, just click **Get Started** on any plan — a checkout modal will walk you through it!`;
   }
 
-  // Get started / contact
-  if(has('get started','start','begin','sign up','register','create account','join')){
-    return `Getting started is simple! Just hit the **Get Started** button in the top navigation to create your free account.\n\nOnce you're in, you can explore all our services, request a plan, or build a custom bundle. Want me to walk you through anything specific?`;
-  }
-  if(has('contact','email','phone','call','speak','talk','reach','office','location','address')){
-    return `You can reach our team through the **Contact** page — just fill in the form and we'll get back to you within 24 hours.\n\n**Email:** hello\u0040zeropoint.ltd\n**Phone:** +44 20 7946 0321\n**Office:** Canary Wharf, London\n\nOr if you're already a client, use the **Support** panel in your dashboard to open a ticket.`;
+  // ── SERVICES OVERVIEW ──
+  if(has('service','what do you','what can you','offer','do you do','help with','what you')){
+    return `ZeroPoint offers **4 core digital services**:\n\n🌐 **Website Design & Development** — stunning, high-converting websites\n📈 **SEO Management** — dominate Google rankings\n📱 **Social Media Marketing** — grow your brand online\n📊 **Data Management** — databases, pipelines & BI dashboards\n\nAll services come with dedicated account management and transparent reporting. Which area interests you most?`;
   }
 
-  // About company
-  if(has('about','company','who are','founded','team','agency','london','history')){
-    return `**ZeroPoint LTD** was founded in 2019 in London with one mission — to make enterprise-level digital strategy accessible to ambitious businesses.\n\nWe've grown to 40+ specialists, delivered 200+ projects, and maintained a **99% client satisfaction rate**. Our team includes designers, developers, SEO experts, and data engineers.\n\nAnything specific you'd like to know about us?`;
+  // ── ABOUT / COMPANY ──
+  if(has('about','company','who are you','who is','founded','when','team','agency','history','how long','years')){
+    return `**ZeroPoint LTD** was founded in **2019** in London with one mission — to make enterprise-level digital strategy accessible to ambitious businesses.\n\n📍 Based in Canary Wharf, London\n👥 40+ digital specialists\n✅ 200+ projects delivered\n😊 99% client satisfaction rate\n\nOur team includes designers, developers, SEO experts, social media strategists, and data engineers. Anything specific you'd like to know?`;
   }
 
-  // Time / weather / off-topic
-  if(has('time','date','weather','news','joke','hello','hi','hey','how are')){
-    const greetings=["Hey! Great to hear from you 👋","Hello! Happy to help 😊","Hi there! What can I help with?"];
-    if(has('hello','hi','hey','how are')) return greetings[Math.floor(Math.random()*greetings.length)]+"\n\nI'm ZeroBot — ZeroPoint's assistant. Ask me about our services, pricing, or how to get started!";
-    return `I'm best at answering questions about ZeroPoint's services and pricing! For anything else, feel free to reach out to our team at **hello\u0040zeropoint.ltd** 😊`;
+  // ── CONTACT / REACH US ──
+  if(has('contact','email','phone','call','speak','talk','reach','get in touch','human','person','agent','support')){
+    return `You can reach ZeroPoint in several ways:\n\n📧 **Email:** hello@zeropoint.ltd\n📞 **Phone:** +44 20 7946 0321\n📍 **Office:** Canary Wharf, London\n⏰ **Hours:** Mon–Fri, 9:00–18:00 GMT\n\nOr fill in the **Contact form** on our Contact page — we respond within 24 hours. For existing clients, use the **Support** panel in your dashboard to open a ticket.`;
   }
 
-  // Dashboard / login
-  if(has('dashboard','account','login','sign in','password','profile')){
-    return `To access your **client dashboard**, click **Get Started** in the top nav to sign in or create an account.\n\nYour dashboard gives you access to project updates, SEO reports, social media analytics, invoices, and support tickets — all in one place!`;
+  // ── GET STARTED ──
+  if(has('get started','start','begin','sign up','register','create account','join','onboard')){
+    return `Getting started with ZeroPoint is simple! 🚀\n\n1. Click **Get Started** in the top navigation\n2. Create your free client account\n3. Browse our plans on the **Pricing** page\n4. Select a plan or build a custom bundle\n5. Complete checkout — we'll be in touch within 24 hours!\n\nWant me to recommend the best plan for your needs?`;
   }
 
-  // Support
-  if(has('support','help','issue','problem','bug','ticket')){
-    return `For support, the fastest way is to log into your account and open a **Support Ticket** from the dashboard — we respond within 4 business hours.\n\nYou can also email us directly at **hello\u0040zeropoint.ltd** or call **+44 20 7946 0321**. How can I help you today?`;
+  // ── DASHBOARD / LOGIN ──
+  if(has('dashboard','login','sign in','my account','account','password','profile')){
+    return `Your **client dashboard** gives you access to:\n\n• Your orders & their status\n• Support ticket history\n• Account settings\n\nClick **Get Started** in the top nav to sign in or create a free account. Already a client? Just sign in and your dashboard will be ready!`;
   }
 
-  // Fallback
+  // ── SUPPORT ──
+  if(has('help','support','issue','problem','bug','broken','not working','ticket')){
+    return `I'm sorry to hear you're having an issue! Here's how to get help:\n\n🎫 **Open a Support Ticket** — log into your dashboard and use the Support section (fastest, 4-hour response)\n📧 **Email us** — hello@zeropoint.ltd\n📞 **Call us** — +44 20 7946 0321 (Mon–Fri, 9–18 GMT)\n\nWhat's the issue you're facing? I might be able to help right now!`;
+  }
+
+  // ── TIMELINE / HOW LONG ──
+  if(has('how long','timeline','deadline','delivery','turnaround','when will','duration','time to')){
+    return `Great question! Here are typical timelines:\n\n🌐 **Website (Starter)** — 2–3 weeks\n🌐 **Website (Business/Enterprise)** — 4–8 weeks\n📈 **SEO** — Ongoing monthly service, first results in 60–90 days\n📱 **Social Media** — Live within 1 week of onboarding\n📊 **Data Management** — 2–6 weeks depending on complexity\n\nAll projects are managed to agreed deadlines. Need a specific timeline for your project?`;
+  }
+
+  // ── FALLBACK — genuinely unknown ──
   const fallbacks=[
-    `That's a great question! For detailed answers, our team is best placed to help — reach out at **hello\u0040zeropoint.ltd** or use the Contact page.\n\nIs there anything about our **services or pricing** I can help you with right now?`,
-    `I want to make sure you get the best answer! For that specific question, I'd recommend reaching out to our team directly via the **Contact** page.\n\nIn the meantime, can I tell you about our services or pricing?`,
-    `I'm best at answering questions about ZeroPoint's services and pricing. For anything more specific, our team at **hello\u0040zeropoint.ltd** will give you a proper answer within 24 hours!\n\nWhat else can I help you with?`
+    `I want to give you the most accurate answer, so I'd recommend reaching out to our team directly at **hello@zeropoint.ltd** for this one.\n\nIs there anything about our **services, pricing, or company** I can help with right now?`,
+    `That's a bit outside what I can answer confidently! Our team at **hello@zeropoint.ltd** will have the perfect answer for you within 24 hours.\n\nMeanwhile, can I tell you about our services or pricing?`,
+    `Good question — let me point you to the right place. For detailed queries like this, our team is best reached via the **Contact page** or at **hello@zeropoint.ltd**.\n\nAnything else I can help with?`
   ];
   return fallbacks[Math.floor(Math.random()*fallbacks.length)];
 }
