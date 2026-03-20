@@ -475,6 +475,26 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
 .cart-powered{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:8px;color:var(--g6);font-size:.65rem}
 .cart-powered b{color:var(--g4)}
 @media(max-width:480px){.cart-modal{border-radius:18px 18px 0 0}.cart-hd,.cart-body{padding-left:20px;padding-right:20px}.pay-methods{grid-template-columns:1fr 1fr}}
+/* PAY INSTRUCTIONS MODAL */
+#pay-inst-overlay{position:fixed;inset:0;z-index:9600;background:rgba(0,0,0,.85);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+#pay-inst-overlay.open{opacity:1;visibility:visible}
+.pay-inst-modal{background:var(--dk2);border:1.5px solid var(--glb);border-radius:22px;width:100%;max-width:460px;overflow:hidden;position:relative}
+.pay-inst-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#4ade80,#22d3ee)}
+.pay-inst-hd{padding:24px 26px 18px;border-bottom:1px solid var(--glb);display:flex;align-items:center;justify-content:space-between}
+.pay-inst-ttl{font-family:var(--fd);font-size:1.15rem;font-weight:800}
+.pay-inst-close{background:none;border:none;color:var(--g4);cursor:pointer;font-size:1.2rem;transition:color .2s;line-height:1}
+.pay-inst-close:hover{color:#fff}
+.pay-inst-summary{display:flex;gap:10px;margin:0 26px 0;padding:14px 0;border-bottom:1px solid var(--glb)}
+.pay-inst-sum-item{flex:1;text-align:center;padding:10px;background:rgba(255,255,255,.03);border-radius:10px}
+.pay-inst-sum-lbl{font-size:.62rem;color:var(--g4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;font-weight:700}
+.pay-inst-sum-val{font-size:.9rem;font-weight:700;font-family:var(--fd)}
+.pay-inst-body{padding:18px 26px 24px}
+.pay-inst-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--glb);gap:12px}
+.pay-inst-row:last-of-type{border-bottom:none}
+.pay-inst-row>span:first-child{font-size:.75rem;color:var(--g4);font-weight:600;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
+.pay-inst-val{font-size:.875rem;font-weight:700;font-family:var(--fd);text-align:right;word-break:break-all}
+.pay-inst-done{width:100%;padding:13px;background:linear-gradient(135deg,#4ade80,#22d3ee);border:none;border-radius:10px;color:#000;font-family:var(--fd);font-size:.95rem;font-weight:800;cursor:pointer;margin-top:16px;transition:opacity .2s}
+.pay-inst-done:hover{opacity:.9}
 </style>
 </head>
 <body>
@@ -867,6 +887,26 @@ footer{background:var(--dk2);border-top:1px solid var(--glb);padding:72px 0 28px
         256-bit SSL encrypted &middot; Safe &amp; secure
       </div>
       <div class="cart-powered">Powered by <b>Redotpay</b> &middot; ID: 1899721816</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT INSTRUCTIONS MODAL -->
+<div id="pay-inst-overlay" onclick="if(event.target.id==='pay-inst-overlay')closePayInst()">
+  <div class="pay-inst-modal">
+    <div class="pay-inst-hd">
+      <div class="pay-inst-ttl">&#10003; Order Submitted — Pay Now</div>
+      <button class="pay-inst-close" onclick="closePayInst()">&#10005;</button>
+    </div>
+    <div class="pay-inst-summary">
+      <div class="pay-inst-sum-item"><div class="pay-inst-sum-lbl">Amount</div><div class="pay-inst-sum-val" id="pay-inst-amount">$0</div></div>
+      <div class="pay-inst-sum-item"><div class="pay-inst-sum-lbl">Method</div><div class="pay-inst-sum-val" id="pay-inst-method">USD</div></div>
+      <div class="pay-inst-sum-item"><div class="pay-inst-sum-lbl">Reference</div><div class="pay-inst-sum-val" id="pay-inst-ref" style="font-size:.72rem"></div></div>
+    </div>
+    <div class="pay-inst-body" id="pay-inst-body"></div>
+    <div style="padding:0 26px 22px">
+      <button class="pay-inst-done" onclick="closePayInst()">&#10003; I've Sent the Payment</button>
+      <div style="text-align:center;margin-top:10px;font-size:.68rem;color:var(--g6)">We'll verify and activate your service within 24 hours after payment is confirmed.</div>
     </div>
   </div>
 </div>
@@ -1301,18 +1341,12 @@ function selectPayment(method){
 }
 async function confirmPayment(){
   if(!window._cartItem)return;
-  const {name,price,billing,serviceKey} = window._cartItem;
+  const {name,price,billing} = window._cartItem;
   const method = window._cartPayment||'usd';
   const btn = document.getElementById('cart-pay-btn');
   btn.disabled=true; btn.textContent='Processing...';
-  if(method==='usd'){
-    // Redirect to Redotpay
-    window.open('https://pay.redotpay.com/pay/1899721816?amount='+price+'&currency=USD&note='+encodeURIComponent(name),'_blank');
-  } else {
-    // Crypto via Redotpay
-    window.open('https://pay.redotpay.com/pay/1899721816?amount='+price+'&currency=USDT&note='+encodeURIComponent(name),'_blank');
-  }
-  // Save order to Supabase
+
+  // Save order to Supabase first
   await sb.from('orders').insert({
     user_id:CU.id,
     customer_email:CU.email,
@@ -1323,9 +1357,41 @@ async function confirmPayment(){
     status:'pending',
     created_at:new Date().toISOString()
   });
+
+  // Show payment instructions modal
+  showPayInstructions(name, price, method);
   btn.disabled=false;
   closeCart();
-  showToast('&#127881;','Order Placed!','Complete payment in the new tab. We\'ll activate your service within 24hrs.');
+}
+
+function showPayInstructions(name, price, method){
+  const isUSD = method==='usd';
+  const currency = isUSD ? 'USD' : 'USDT (or any crypto)';
+  const note = `ZeroPoint - ${name}`;
+  document.getElementById('pay-inst-overlay').classList.add('open');
+  document.getElementById('pay-inst-amount').textContent = '$'+Number(price).toLocaleString()+' '+( isUSD?'USD':'(USDT equiv.)');
+  document.getElementById('pay-inst-method').textContent = isUSD ? 'USD / Card Transfer' : 'Crypto Payment';
+  document.getElementById('pay-inst-ref').textContent = note;
+  document.getElementById('pay-inst-body').innerHTML = isUSD ?
+    `<div style="margin-bottom:14px;font-size:.875rem;color:var(--g2);line-height:1.7">Send payment to our <b>Redotpay account</b> using the details below:</div>
+    <div class="pay-inst-row"><span>Redotpay ID</span><span class="pay-inst-val" onclick="copyText('1899721816')">1899721816 <span style="color:var(--red);cursor:pointer;font-size:.72rem">&#128203; Copy</span></span></div>
+    <div class="pay-inst-row"><span>Amount</span><span class="pay-inst-val">$${Number(price).toLocaleString()} USD</span></div>
+    <div class="pay-inst-row"><span>Reference / Note</span><span class="pay-inst-val" onclick="copyText('${note.replace(/'/g,'\\\'')}')">${note} <span style="color:var(--red);cursor:pointer;font-size:.72rem">&#128203; Copy</span></span></div>
+    <div style="margin-top:16px;background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.2);border-radius:10px;padding:12px 14px;font-size:.78rem;color:#93c5fd;line-height:1.6">
+      &#8505; Open your <b>Redotpay app</b> &rarr; Send &rarr; Search ID <b>1899721816</b> &rarr; Enter amount &rarr; Add reference note &rarr; Confirm.
+    </div>` :
+    `<div style="margin-bottom:14px;font-size:.875rem;color:var(--g2);line-height:1.7">Send crypto to our <b>Redotpay account</b>. The USD equivalent will be calculated at the <b>live market rate within 24 hours</b>.</div>
+    <div class="pay-inst-row"><span>Redotpay ID</span><span class="pay-inst-val" onclick="copyText('1899721816')">1899721816 <span style="color:var(--red);cursor:pointer;font-size:.72rem">&#128203; Copy</span></span></div>
+    <div class="pay-inst-row"><span>Amount (USD equiv.)</span><span class="pay-inst-val">$${Number(price).toLocaleString()}</span></div>
+    <div class="pay-inst-row"><span>Reference / Note</span><span class="pay-inst-val" onclick="copyText('${note.replace(/'/g,'\\\'')}')">${note} <span style="color:var(--red);cursor:pointer;font-size:.72rem">&#128203; Copy</span></span></div>
+    <div style="margin-top:16px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.22);border-radius:10px;padding:12px 14px;font-size:.78rem;color:#fcd34d;line-height:1.6">
+      &#9888; <b>Crypto price note:</b> The exact crypto amount will be based on the live market rate at time of payment (within a 24hr window). You can send BTC, ETH, USDT, USDC or any supported coin.<br><br>&#8505; Open <b>Redotpay app</b> &rarr; Send &rarr; Search ID <b>1899721816</b> &rarr; Choose crypto &rarr; Enter USD amount &rarr; Add note &rarr; Confirm.
+    </div>`;
+  showToast('&#127881;','Order Submitted!','Follow the payment instructions to complete your purchase.');
+}
+function closePayInst(){document.getElementById('pay-inst-overlay').classList.remove('open');}
+function copyText(t){navigator.clipboard?.writeText(t).then(()=>showToast('&#128203;','Copied!',''));
+
 }
 
 // ── BUY PLAN ─────────────────────────────────────────
